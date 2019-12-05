@@ -1,0 +1,13 @@
+{
+  "name": "game-recommend",
+  "version": "1.0.0",
+  "description": "게임 추천 사이트 데모",
+  "main": "index.js",
+  "repository": "git@github.com:KGodSin/game-recommend.git",
+  "author": "kimhyuk",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "mysql": "^2.17.1"
+  }
+}

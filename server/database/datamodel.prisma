@@ -1,0 +1,8 @@
+type User {
+  id: ID! @id
+  name: String!
+}
+type Message {
+  id: ID! @id
+  description: String!
+}
