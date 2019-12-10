@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { MessagesModule } from './messages/messages.module';
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { PrismaModule } from './prisma/prisma.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 import { GraphqlOptions } from './graphql.options';
+
 
 @Module({
   imports: [
     GraphQLModule.forRootAsync({
       useClass: GraphqlOptions,
     }),
-    MessagesModule,
-
+    UserModule,
+    AuthModule
   ],
 })
 export class AppModule { }

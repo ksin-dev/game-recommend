@@ -1,0 +1,22 @@
+
+input SignupInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+scalar token
+
+type userInfo {
+  token: String!
+}
+
+
+type Query {
+  login(email: String!, password: String!): userInfo
+}
+
+type Mutation {
+  signup(signupInput: SignupInput!): userInfo
+}
+

@@ -1,8 +1,24 @@
 type User {
   id: ID! @id
-  name: String!
+  username: String!
+  email: String! @unique
+  hash: String!
+  salt: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
+
+
+type File {
+  id: ID! @id
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  path: String
+}
+
 type Message {
   id: ID! @id
   description: String!
 }
+

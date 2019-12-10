@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        // root 폴더 설정
+        "root": ".",
+        "alias": {
+          "~": "./src"
+        }
+      }
+    ]
+  ]
+}

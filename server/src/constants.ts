@@ -1,0 +1,7 @@
+
+
+export const ERROR_CODE = {
+  DUPLICATE: "DUPLICATE",
+  NO_EXIST: "NO_EXIST",
+  INVALID: "INVALID"
+}

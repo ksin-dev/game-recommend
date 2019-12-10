@@ -6,16 +6,12 @@ import { join } from 'path';
 export class GraphqlOptions implements GqlOptionsFactory {
   createGqlOptions(): Promise<GqlModuleOptions> | GqlModuleOptions {
     return {
-      typePaths: ['./**/*.graphql'],
+      typePaths: ['./**/*.graphql', './**/*.gql'],
       path: '/',
       installSubscriptionHandlers: true,
       resolverValidationOptions: {
         requireResolversForResolveType: false,
-      },
-      definitions: {
-        path: join(process.cwd(), 'src/prisma-client/index.ts'),
-        outputAs: 'class',
-      },
+      }
     };
   }
 }
