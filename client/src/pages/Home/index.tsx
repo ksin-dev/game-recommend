@@ -1,17 +1,14 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import ButtonBar from '~/components/buttons/ButtonBar';
-import { Grid, Paper, Theme, Typography, Card, CardContent, Container, TextField, InputAdornment, IconButton, InputBase, AppBar } from '@material-ui/core';
-import Sample from '../sample';
+import { Grid, Theme, Typography, Card, CardContent, Container, } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/styles'
 import grey from '@material-ui/core/colors/grey'
-import SearchIcon from '@material-ui/icons/Search';
-import PlaystationIcon from '../../images/playstation-icon.png';
-import SteamIcon from '../../images/steam-icon.png';
-import XboxIcon from '../../images/Xbox-icon.png';
+import PlaystationIcon from '~/images/playstation-icon.png';
+import SteamIcon from '~/images/steam-icon.png';
+import XboxIcon from '~/images/Xbox-icon.png';
 import Toolbar from '~/components/toolbars/HomeToolbar';
-import BackGroundImage from '../../images/background.jpg'
+import SearchForm from '~/components/forms/SearchForm'
+import BackGroundImage from '~/images/background.jpg'
 
 
 const LOGIN = gql`
@@ -51,18 +48,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     widht: "640px",
     marginTop: "20px"
   },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  paper: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: "-24px"
-  },
-  iconButton: {
-    padding: 10,
-  },
+
   divider: {
     height: 28,
     margin: 4,
@@ -70,6 +56,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   commendText: {
     textAlign: "center",
     marginTop: "20px"
+  },
+  search: {
+    marginTop: "-24px"
   }
 }));
 
@@ -102,16 +91,7 @@ export default () => {
         </Grid>
         <Grid item container justify="center" alignItems="flex-start" className={classes.container}>
           <Container maxWidth="sm">
-            <Paper component="form" className={classes.paper}>
-              <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                <SearchIcon />
-              </IconButton>
-              <InputBase
-                className={classes.input}
-                placeholder="게임을 검색 해 보세요"
-                inputProps={{ 'aria-label': 'search google maps' }}
-              />
-            </Paper>
+            <SearchForm half={true} />
             <Card className={classes.card}>
               <CardContent>
                 <Grid container spacing={1} justify="center"
