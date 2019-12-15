@@ -1,0 +1,80 @@
+import DefaultToolbar from "~/components/toolbars/DefaultToolbar";
+import React, { useState } from "react";
+import { makeStyles, createStyles } from "@material-ui/styles";
+import {
+	Theme,
+	Container,
+	Card,
+	CardContent,
+	CardHeader,
+	Grid,
+	Paper,
+	Fab
+} from "@material-ui/core";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ReviewCategoryDialog from "~/components/dialogs/ReviewCategoryDialog";
+import ReviewList from "~/components/lists/ReviewList";
+import clsx from "clsx";
+
+const useStyles = makeStyles((theme: Theme) =>
+	createStyles({
+		root: {
+			position: "fixed",
+			width: "100%"
+		},
+		text: {
+			color: "#ffffff"
+		},
+		card: {
+			minWidth: "100%"
+		},
+		toolbar: theme.mixins.toolbar,
+		cardHeader: {
+			textAlign: "center"
+		},
+		container: {
+			marginTop: "20px"
+		},
+		paper: {
+			borderRadius: "0px"
+		},
+		extendedIcon: {
+			marginRight: theme.spacing(1)
+		}
+	})
+);
+
+export default function Review() {
+	const classes = useStyles();
+	const [dialog, setDialog] = useState(false);
+
+	return (
+		<div>
+			<DefaultToolbar />
+			<ReviewCategoryDialog open={dialog} onClose={() => setDialog(false)} />
+			<div className={classes.toolbar}></div>
+			<Container maxWidth="sm" className={classes.container}>
+				<Card className={classes.card}>
+					<CardHeader
+						className={classes.cardHeader}
+						title="303"
+						subheader={`"어디에서, 어떻게, 누구와 보는가가 영화의 완성이다." - 왕가위`}
+					></CardHeader>
+					<Paper className={clsx(classes.paper, "MuiCardHeader-root")}>
+						<Grid container>
+							<Grid item>
+								<Fab variant="extended" onClick={() => setDialog(true)}>
+									<ArrowDropDownIcon className={classes.extendedIcon} />
+									랜덤영화
+								</Fab>
+							</Grid>
+						</Grid>
+					</Paper>
+					<CardContent>
+						<ReviewList />
+					</CardContent>
+				</Card>
+			</Container>
+		</div>
+	);
+}
