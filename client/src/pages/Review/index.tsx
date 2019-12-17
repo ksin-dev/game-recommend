@@ -15,6 +15,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ReviewCategoryDialog from "~/components/dialogs/ReviewCategoryDialog";
 import ReviewList from "~/components/lists/ReviewList";
 import clsx from "clsx";
+import Header from "~/components/Header";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -50,9 +51,8 @@ export default function Review() {
 
 	return (
 		<div>
-			<DefaultToolbar />
+			<Header />
 			<ReviewCategoryDialog open={dialog} onClose={() => setDialog(false)} />
-			<div className={classes.toolbar}></div>
 			<Container maxWidth="sm" className={classes.container}>
 				<Card className={classes.card}>
 					<CardHeader
