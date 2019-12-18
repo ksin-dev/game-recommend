@@ -6,8 +6,20 @@
   "repository": "git@github.com:KGodSin/game-recommend.git",
   "author": "kimhyuk",
   "license": "MIT",
-  "private": false,
+  "private": true,
   "dependencies": {
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^0.20.0",
     "mysql": "^2.17.1"
-  }
+  },
+  "scripts": {
+    "start": "yarn server:start & node index.js &",
+    "client:build": "yarn workspace client build",
+    "server:build": "yarn workspace server build",
+    "server:start": "yarn workspace server start:prod"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ]
 }
