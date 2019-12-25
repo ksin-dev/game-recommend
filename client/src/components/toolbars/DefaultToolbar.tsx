@@ -39,7 +39,12 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-export default function HomeToolbar() {
+type IProps = {
+	opacitivility?: boolean
+
+}
+
+export default function HomeToolbar(props: IProps) {
 	const classes = useStyles();
 	const [loginDialog, setLoginDialog] = useState(false);
 	const [isLogin, setIsLogin] = useState(false);
@@ -64,8 +69,8 @@ export default function HomeToolbar() {
 
 	return (
 		<>
-			<AppBar position="fixed" color="dark">
-				<Toolbar className={classes.searchToolbar}>
+			<AppBar position="fixed" color="dark" style={{ backgroundColor: "transparent" }} >
+				<Toolbar className={classes.searchToolbar} style={{ backgroundColor: "transparent" }}>
 					<Container maxWidth="sm" className={classes.container}>
 						<SearchForm />
 					</Container>

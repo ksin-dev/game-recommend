@@ -8,12 +8,19 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-export default function Header() {
+type IProps = {
+	opacitivility?: boolean
+
+}
+
+export default function Header(props: IProps) {
 	const classes = useStyles();
 	return (
 		<>
-			<DefaultToolbar />
-			<div className={classes.toolbar} />
+			<DefaultToolbar opacitivility={props.opacitivility} />
+			{!props.opacitivility &&
+				<div className={classes.toolbar} />
+			}
 		</>
 	);
 }

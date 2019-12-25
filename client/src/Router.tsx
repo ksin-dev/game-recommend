@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import Review from "~/pages/Review";
 import UserMyPage from "~/pages/Users/_id";
+import ContentPage from '~/pages/Contents/_id';
 
 export default class Router extends React.Component {
 	render() {
@@ -12,6 +13,7 @@ export default class Router extends React.Component {
 					<Route exact path="/" component={Home} />
 					<Route path="/review" component={Review} />
 					<Route path="/users/:id" component={UserMyPage} />
+					<Route path="/content/:id" component={ContentPage} />
 				</Switch>
 			</BrowserRouter>
 		);
