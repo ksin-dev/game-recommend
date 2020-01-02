@@ -1,10 +1,10 @@
-import { UserResolver } from './user.resolver';
+import { GenreResolver } from './genre.resolver';
 import { PrismaModule } from '../prisma/prisma.module';
 import { Module } from '@nestjs/common';
 
 @Module({
   imports: [PrismaModule],
-  providers: [UserResolver],
-  exports: [UserResolver]
+  providers: [GenreResolver],
+  exports: [GenreResolver]
 })
-export class UserModule { }
+export class GenreModule { }

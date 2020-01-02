@@ -6,7 +6,15 @@ export const typeDefs = /* GraphQL */ `type AggregateFile {
   count: Int!
 }
 
-type AggregateMessage {
+type AggregateGameContent {
+  count: Int!
+}
+
+type AggregateGenre {
+  count: Int!
+}
+
+type AggregateNation {
   count: Int!
 }
 
@@ -25,7 +33,8 @@ type File {
   filename: String!
   mimetype: String!
   encoding: String!
-  path: String
+  originalFilename: String!
+  path: String!
 }
 
 type FileConnection {
@@ -39,7 +48,8 @@ input FileCreateInput {
   filename: String!
   mimetype: String!
   encoding: String!
-  path: String
+  originalFilename: String!
+  path: String!
 }
 
 type FileEdge {
@@ -56,6 +66,8 @@ enum FileOrderByInput {
   mimetype_DESC
   encoding_ASC
   encoding_DESC
+  originalFilename_ASC
+  originalFilename_DESC
   path_ASC
   path_DESC
 }
@@ -65,7 +77,8 @@ type FilePreviousValues {
   filename: String!
   mimetype: String!
   encoding: String!
-  path: String
+  originalFilename: String!
+  path: String!
 }
 
 type FileSubscriptionPayload {
@@ -90,6 +103,7 @@ input FileUpdateInput {
   filename: String
   mimetype: String
   encoding: String
+  originalFilename: String
   path: String
 }
 
@@ -97,6 +111,7 @@ input FileUpdateManyMutationInput {
   filename: String
   mimetype: String
   encoding: String
+  originalFilename: String
   path: String
 }
 
@@ -157,6 +172,20 @@ input FileWhereInput {
   encoding_not_starts_with: String
   encoding_ends_with: String
   encoding_not_ends_with: String
+  originalFilename: String
+  originalFilename_not: String
+  originalFilename_in: [String!]
+  originalFilename_not_in: [String!]
+  originalFilename_lt: String
+  originalFilename_lte: String
+  originalFilename_gt: String
+  originalFilename_gte: String
+  originalFilename_contains: String
+  originalFilename_not_contains: String
+  originalFilename_starts_with: String
+  originalFilename_not_starts_with: String
+  originalFilename_ends_with: String
+  originalFilename_not_ends_with: String
   path: String
   path_not: String
   path_in: [String!]
@@ -180,68 +209,94 @@ input FileWhereUniqueInput {
   id: ID
 }
 
-scalar Long
-
-type Message {
+type GameContent {
   id: ID!
-  description: String!
+  genres(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre!]
+  title: String!
+  content: String!
+  productionYear: Int!
+  ProductionNation: Nation
+  mainImage: String
+  subImage: String
 }
 
-type MessageConnection {
+type GameContentConnection {
   pageInfo: PageInfo!
-  edges: [MessageEdge]!
-  aggregate: AggregateMessage!
+  edges: [GameContentEdge]!
+  aggregate: AggregateGameContent!
 }
 
-input MessageCreateInput {
+input GameContentCreateInput {
   id: ID
-  description: String!
+  genres: GenreCreateManyWithoutGameContentsInput
+  title: String!
+  content: String!
+  productionYear: Int!
+  ProductionNation: NationCreateOneWithoutGameContentInput
+  mainImage: String
+  subImage: String
 }
 
-type MessageEdge {
-  node: Message!
+input GameContentCreateManyWithoutGenresInput {
+  create: [GameContentCreateWithoutGenresInput!]
+  connect: [GameContentWhereUniqueInput!]
+}
+
+input GameContentCreateOneWithoutProductionNationInput {
+  create: GameContentCreateWithoutProductionNationInput
+  connect: GameContentWhereUniqueInput
+}
+
+input GameContentCreateWithoutGenresInput {
+  id: ID
+  title: String!
+  content: String!
+  productionYear: Int!
+  ProductionNation: NationCreateOneWithoutGameContentInput
+  mainImage: String
+  subImage: String
+}
+
+input GameContentCreateWithoutProductionNationInput {
+  id: ID
+  genres: GenreCreateManyWithoutGameContentsInput
+  title: String!
+  content: String!
+  productionYear: Int!
+  mainImage: String
+  subImage: String
+}
+
+type GameContentEdge {
+  node: GameContent!
   cursor: String!
 }
 
-enum MessageOrderByInput {
+enum GameContentOrderByInput {
   id_ASC
   id_DESC
-  description_ASC
-  description_DESC
+  title_ASC
+  title_DESC
+  content_ASC
+  content_DESC
+  productionYear_ASC
+  productionYear_DESC
+  mainImage_ASC
+  mainImage_DESC
+  subImage_ASC
+  subImage_DESC
 }
 
-type MessagePreviousValues {
+type GameContentPreviousValues {
   id: ID!
-  description: String!
+  title: String!
+  content: String!
+  productionYear: Int!
+  mainImage: String
+  subImage: String
 }
 
-type MessageSubscriptionPayload {
-  mutation: MutationType!
-  node: Message
-  updatedFields: [String!]
-  previousValues: MessagePreviousValues
-}
-
-input MessageSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: MessageWhereInput
-  AND: [MessageSubscriptionWhereInput!]
-  OR: [MessageSubscriptionWhereInput!]
-  NOT: [MessageSubscriptionWhereInput!]
-}
-
-input MessageUpdateInput {
-  description: String
-}
-
-input MessageUpdateManyMutationInput {
-  description: String
-}
-
-input MessageWhereInput {
+input GameContentScalarWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -256,28 +311,455 @@ input MessageWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  description: String
-  description_not: String
-  description_in: [String!]
-  description_not_in: [String!]
-  description_lt: String
-  description_lte: String
-  description_gt: String
-  description_gte: String
-  description_contains: String
-  description_not_contains: String
-  description_starts_with: String
-  description_not_starts_with: String
-  description_ends_with: String
-  description_not_ends_with: String
-  AND: [MessageWhereInput!]
-  OR: [MessageWhereInput!]
-  NOT: [MessageWhereInput!]
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  productionYear: Int
+  productionYear_not: Int
+  productionYear_in: [Int!]
+  productionYear_not_in: [Int!]
+  productionYear_lt: Int
+  productionYear_lte: Int
+  productionYear_gt: Int
+  productionYear_gte: Int
+  mainImage: String
+  mainImage_not: String
+  mainImage_in: [String!]
+  mainImage_not_in: [String!]
+  mainImage_lt: String
+  mainImage_lte: String
+  mainImage_gt: String
+  mainImage_gte: String
+  mainImage_contains: String
+  mainImage_not_contains: String
+  mainImage_starts_with: String
+  mainImage_not_starts_with: String
+  mainImage_ends_with: String
+  mainImage_not_ends_with: String
+  subImage: String
+  subImage_not: String
+  subImage_in: [String!]
+  subImage_not_in: [String!]
+  subImage_lt: String
+  subImage_lte: String
+  subImage_gt: String
+  subImage_gte: String
+  subImage_contains: String
+  subImage_not_contains: String
+  subImage_starts_with: String
+  subImage_not_starts_with: String
+  subImage_ends_with: String
+  subImage_not_ends_with: String
+  AND: [GameContentScalarWhereInput!]
+  OR: [GameContentScalarWhereInput!]
+  NOT: [GameContentScalarWhereInput!]
 }
 
-input MessageWhereUniqueInput {
+type GameContentSubscriptionPayload {
+  mutation: MutationType!
+  node: GameContent
+  updatedFields: [String!]
+  previousValues: GameContentPreviousValues
+}
+
+input GameContentSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: GameContentWhereInput
+  AND: [GameContentSubscriptionWhereInput!]
+  OR: [GameContentSubscriptionWhereInput!]
+  NOT: [GameContentSubscriptionWhereInput!]
+}
+
+input GameContentUpdateInput {
+  genres: GenreUpdateManyWithoutGameContentsInput
+  title: String
+  content: String
+  productionYear: Int
+  ProductionNation: NationUpdateOneWithoutGameContentInput
+  mainImage: String
+  subImage: String
+}
+
+input GameContentUpdateManyDataInput {
+  title: String
+  content: String
+  productionYear: Int
+  mainImage: String
+  subImage: String
+}
+
+input GameContentUpdateManyMutationInput {
+  title: String
+  content: String
+  productionYear: Int
+  mainImage: String
+  subImage: String
+}
+
+input GameContentUpdateManyWithoutGenresInput {
+  create: [GameContentCreateWithoutGenresInput!]
+  delete: [GameContentWhereUniqueInput!]
+  connect: [GameContentWhereUniqueInput!]
+  set: [GameContentWhereUniqueInput!]
+  disconnect: [GameContentWhereUniqueInput!]
+  update: [GameContentUpdateWithWhereUniqueWithoutGenresInput!]
+  upsert: [GameContentUpsertWithWhereUniqueWithoutGenresInput!]
+  deleteMany: [GameContentScalarWhereInput!]
+  updateMany: [GameContentUpdateManyWithWhereNestedInput!]
+}
+
+input GameContentUpdateManyWithWhereNestedInput {
+  where: GameContentScalarWhereInput!
+  data: GameContentUpdateManyDataInput!
+}
+
+input GameContentUpdateOneWithoutProductionNationInput {
+  create: GameContentCreateWithoutProductionNationInput
+  update: GameContentUpdateWithoutProductionNationDataInput
+  upsert: GameContentUpsertWithoutProductionNationInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: GameContentWhereUniqueInput
+}
+
+input GameContentUpdateWithoutGenresDataInput {
+  title: String
+  content: String
+  productionYear: Int
+  ProductionNation: NationUpdateOneWithoutGameContentInput
+  mainImage: String
+  subImage: String
+}
+
+input GameContentUpdateWithoutProductionNationDataInput {
+  genres: GenreUpdateManyWithoutGameContentsInput
+  title: String
+  content: String
+  productionYear: Int
+  mainImage: String
+  subImage: String
+}
+
+input GameContentUpdateWithWhereUniqueWithoutGenresInput {
+  where: GameContentWhereUniqueInput!
+  data: GameContentUpdateWithoutGenresDataInput!
+}
+
+input GameContentUpsertWithoutProductionNationInput {
+  update: GameContentUpdateWithoutProductionNationDataInput!
+  create: GameContentCreateWithoutProductionNationInput!
+}
+
+input GameContentUpsertWithWhereUniqueWithoutGenresInput {
+  where: GameContentWhereUniqueInput!
+  update: GameContentUpdateWithoutGenresDataInput!
+  create: GameContentCreateWithoutGenresInput!
+}
+
+input GameContentWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  genres_every: GenreWhereInput
+  genres_some: GenreWhereInput
+  genres_none: GenreWhereInput
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  productionYear: Int
+  productionYear_not: Int
+  productionYear_in: [Int!]
+  productionYear_not_in: [Int!]
+  productionYear_lt: Int
+  productionYear_lte: Int
+  productionYear_gt: Int
+  productionYear_gte: Int
+  ProductionNation: NationWhereInput
+  mainImage: String
+  mainImage_not: String
+  mainImage_in: [String!]
+  mainImage_not_in: [String!]
+  mainImage_lt: String
+  mainImage_lte: String
+  mainImage_gt: String
+  mainImage_gte: String
+  mainImage_contains: String
+  mainImage_not_contains: String
+  mainImage_starts_with: String
+  mainImage_not_starts_with: String
+  mainImage_ends_with: String
+  mainImage_not_ends_with: String
+  subImage: String
+  subImage_not: String
+  subImage_in: [String!]
+  subImage_not_in: [String!]
+  subImage_lt: String
+  subImage_lte: String
+  subImage_gt: String
+  subImage_gte: String
+  subImage_contains: String
+  subImage_not_contains: String
+  subImage_starts_with: String
+  subImage_not_starts_with: String
+  subImage_ends_with: String
+  subImage_not_ends_with: String
+  AND: [GameContentWhereInput!]
+  OR: [GameContentWhereInput!]
+  NOT: [GameContentWhereInput!]
+}
+
+input GameContentWhereUniqueInput {
   id: ID
 }
+
+type Genre {
+  id: ID!
+  name: String!
+  gameContents(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GameContent!]
+}
+
+type GenreConnection {
+  pageInfo: PageInfo!
+  edges: [GenreEdge]!
+  aggregate: AggregateGenre!
+}
+
+input GenreCreateInput {
+  id: ID
+  name: String!
+  gameContents: GameContentCreateManyWithoutGenresInput
+}
+
+input GenreCreateManyWithoutGameContentsInput {
+  create: [GenreCreateWithoutGameContentsInput!]
+  connect: [GenreWhereUniqueInput!]
+}
+
+input GenreCreateWithoutGameContentsInput {
+  id: ID
+  name: String!
+}
+
+type GenreEdge {
+  node: Genre!
+  cursor: String!
+}
+
+enum GenreOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type GenrePreviousValues {
+  id: ID!
+  name: String!
+}
+
+input GenreScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [GenreScalarWhereInput!]
+  OR: [GenreScalarWhereInput!]
+  NOT: [GenreScalarWhereInput!]
+}
+
+type GenreSubscriptionPayload {
+  mutation: MutationType!
+  node: Genre
+  updatedFields: [String!]
+  previousValues: GenrePreviousValues
+}
+
+input GenreSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: GenreWhereInput
+  AND: [GenreSubscriptionWhereInput!]
+  OR: [GenreSubscriptionWhereInput!]
+  NOT: [GenreSubscriptionWhereInput!]
+}
+
+input GenreUpdateInput {
+  name: String
+  gameContents: GameContentUpdateManyWithoutGenresInput
+}
+
+input GenreUpdateManyDataInput {
+  name: String
+}
+
+input GenreUpdateManyMutationInput {
+  name: String
+}
+
+input GenreUpdateManyWithoutGameContentsInput {
+  create: [GenreCreateWithoutGameContentsInput!]
+  delete: [GenreWhereUniqueInput!]
+  connect: [GenreWhereUniqueInput!]
+  set: [GenreWhereUniqueInput!]
+  disconnect: [GenreWhereUniqueInput!]
+  update: [GenreUpdateWithWhereUniqueWithoutGameContentsInput!]
+  upsert: [GenreUpsertWithWhereUniqueWithoutGameContentsInput!]
+  deleteMany: [GenreScalarWhereInput!]
+  updateMany: [GenreUpdateManyWithWhereNestedInput!]
+}
+
+input GenreUpdateManyWithWhereNestedInput {
+  where: GenreScalarWhereInput!
+  data: GenreUpdateManyDataInput!
+}
+
+input GenreUpdateWithoutGameContentsDataInput {
+  name: String
+}
+
+input GenreUpdateWithWhereUniqueWithoutGameContentsInput {
+  where: GenreWhereUniqueInput!
+  data: GenreUpdateWithoutGameContentsDataInput!
+}
+
+input GenreUpsertWithWhereUniqueWithoutGameContentsInput {
+  where: GenreWhereUniqueInput!
+  update: GenreUpdateWithoutGameContentsDataInput!
+  create: GenreCreateWithoutGameContentsInput!
+}
+
+input GenreWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  gameContents_every: GameContentWhereInput
+  gameContents_some: GameContentWhereInput
+  gameContents_none: GameContentWhereInput
+  AND: [GenreWhereInput!]
+  OR: [GenreWhereInput!]
+  NOT: [GenreWhereInput!]
+}
+
+input GenreWhereUniqueInput {
+  id: ID
+}
+
+scalar Long
 
 type Mutation {
   createFile(data: FileCreateInput!): File!
@@ -286,12 +768,24 @@ type Mutation {
   upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
   deleteFile(where: FileWhereUniqueInput!): File
   deleteManyFiles(where: FileWhereInput): BatchPayload!
-  createMessage(data: MessageCreateInput!): Message!
-  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
-  updateManyMessages(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): BatchPayload!
-  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
-  deleteMessage(where: MessageWhereUniqueInput!): Message
-  deleteManyMessages(where: MessageWhereInput): BatchPayload!
+  createGameContent(data: GameContentCreateInput!): GameContent!
+  updateGameContent(data: GameContentUpdateInput!, where: GameContentWhereUniqueInput!): GameContent
+  updateManyGameContents(data: GameContentUpdateManyMutationInput!, where: GameContentWhereInput): BatchPayload!
+  upsertGameContent(where: GameContentWhereUniqueInput!, create: GameContentCreateInput!, update: GameContentUpdateInput!): GameContent!
+  deleteGameContent(where: GameContentWhereUniqueInput!): GameContent
+  deleteManyGameContents(where: GameContentWhereInput): BatchPayload!
+  createGenre(data: GenreCreateInput!): Genre!
+  updateGenre(data: GenreUpdateInput!, where: GenreWhereUniqueInput!): Genre
+  updateManyGenres(data: GenreUpdateManyMutationInput!, where: GenreWhereInput): BatchPayload!
+  upsertGenre(where: GenreWhereUniqueInput!, create: GenreCreateInput!, update: GenreUpdateInput!): Genre!
+  deleteGenre(where: GenreWhereUniqueInput!): Genre
+  deleteManyGenres(where: GenreWhereInput): BatchPayload!
+  createNation(data: NationCreateInput!): Nation!
+  updateNation(data: NationUpdateInput!, where: NationWhereUniqueInput!): Nation
+  updateManyNations(data: NationUpdateManyMutationInput!, where: NationWhereInput): BatchPayload!
+  upsertNation(where: NationWhereUniqueInput!, create: NationCreateInput!, update: NationUpdateInput!): Nation!
+  deleteNation(where: NationWhereUniqueInput!): Nation
+  deleteManyNations(where: NationWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -304,6 +798,135 @@ enum MutationType {
   CREATED
   UPDATED
   DELETED
+}
+
+type Nation {
+  id: ID!
+  name: String!
+  gameContent: GameContent
+}
+
+type NationConnection {
+  pageInfo: PageInfo!
+  edges: [NationEdge]!
+  aggregate: AggregateNation!
+}
+
+input NationCreateInput {
+  id: ID
+  name: String!
+  gameContent: GameContentCreateOneWithoutProductionNationInput
+}
+
+input NationCreateOneWithoutGameContentInput {
+  create: NationCreateWithoutGameContentInput
+  connect: NationWhereUniqueInput
+}
+
+input NationCreateWithoutGameContentInput {
+  id: ID
+  name: String!
+}
+
+type NationEdge {
+  node: Nation!
+  cursor: String!
+}
+
+enum NationOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type NationPreviousValues {
+  id: ID!
+  name: String!
+}
+
+type NationSubscriptionPayload {
+  mutation: MutationType!
+  node: Nation
+  updatedFields: [String!]
+  previousValues: NationPreviousValues
+}
+
+input NationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: NationWhereInput
+  AND: [NationSubscriptionWhereInput!]
+  OR: [NationSubscriptionWhereInput!]
+  NOT: [NationSubscriptionWhereInput!]
+}
+
+input NationUpdateInput {
+  name: String
+  gameContent: GameContentUpdateOneWithoutProductionNationInput
+}
+
+input NationUpdateManyMutationInput {
+  name: String
+}
+
+input NationUpdateOneWithoutGameContentInput {
+  create: NationCreateWithoutGameContentInput
+  update: NationUpdateWithoutGameContentDataInput
+  upsert: NationUpsertWithoutGameContentInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: NationWhereUniqueInput
+}
+
+input NationUpdateWithoutGameContentDataInput {
+  name: String
+}
+
+input NationUpsertWithoutGameContentInput {
+  update: NationUpdateWithoutGameContentDataInput!
+  create: NationCreateWithoutGameContentInput!
+}
+
+input NationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  gameContent: GameContentWhereInput
+  AND: [NationWhereInput!]
+  OR: [NationWhereInput!]
+  NOT: [NationWhereInput!]
+}
+
+input NationWhereUniqueInput {
+  id: ID
 }
 
 interface Node {
@@ -321,9 +944,15 @@ type Query {
   file(where: FileWhereUniqueInput!): File
   files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
   filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
-  message(where: MessageWhereUniqueInput!): Message
-  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
-  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
+  gameContent(where: GameContentWhereUniqueInput!): GameContent
+  gameContents(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GameContent]!
+  gameContentsConnection(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GameContentConnection!
+  genre(where: GenreWhereUniqueInput!): Genre
+  genres(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre]!
+  genresConnection(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GenreConnection!
+  nation(where: NationWhereUniqueInput!): Nation
+  nations(where: NationWhereInput, orderBy: NationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nation]!
+  nationsConnection(where: NationWhereInput, orderBy: NationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NationConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -332,7 +961,9 @@ type Query {
 
 type Subscription {
   file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
-  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
+  gameContent(where: GameContentSubscriptionWhereInput): GameContentSubscriptionPayload
+  genre(where: GenreSubscriptionWhereInput): GenreSubscriptionPayload
+  nation(where: NationSubscriptionWhereInput): NationSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

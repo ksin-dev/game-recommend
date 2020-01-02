@@ -7,7 +7,7 @@ app.use(
   "/graphql",
   proxy({ target: "http://127.0.0.1:3000", changeOrigin: true })
 );
-
+app.use("/public", express.static("./server/public"));
 app.use(express.static("./client/dist"));
 app.use("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/dist/index.html"));

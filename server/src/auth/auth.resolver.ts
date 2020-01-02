@@ -6,7 +6,7 @@ import {
   Resolver,
   Subscription,
 } from '@nestjs/graphql'; import { PrismaService } from '../prisma/prisma.service';
-import { Message, BatchPayload } from '../prisma/prisma.binding';
+import { BatchPayload } from '../prisma/prisma.binding';
 import { UserSignupType, UserInfo } from './auth.type';
 import { AuthService } from 'src/auth/auth.service';
 

@@ -1,3 +1,4 @@
+
 type User {
   id: ID! @id
   username: String!
@@ -14,11 +15,29 @@ type File {
   filename: String!
   mimetype: String!
   encoding: String!
-  path: String
+  originalFilename: String!
+  path: String!
 }
 
-type Message {
+type Genre {
   id: ID! @id
-  description: String!
+  name: String!
+  gameContents: [GameContent!]!
 }
 
+
+type Nation {
+  id: ID! @id
+  name: String!
+  gameContent: GameContent
+}
+type GameContent {
+  id: ID! @id
+  genres: [Genre] @relation(link: TABLE)
+  title: String!
+  content: String!
+  productionYear: Int!
+  ProductionNation: Nation @relation(link:INLINE)
+  mainImage: String
+  subImage: String
+}

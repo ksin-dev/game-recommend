@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -7,7 +7,24 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks';
 
+
+const MUTATION = gql`
+  mutation($file:Upload!) {
+    uploadFile(file:$file) {
+      id
+      filename
+      mimetype
+      encoding
+      originalFilename
+      path
+    }
+      
+    
+  }
+ `
 const useStyles = makeStyles({
   card: {
     width: "100%",
@@ -20,34 +37,16 @@ const useStyles = makeStyles({
 });
 
 export default function MediaCard() {
+  const [mutate] = useMutation(MUTATION);
   const classes = useStyles();
+  const onChange = ({
+    target
+  }) => mutate({ variables: { file: target.files[0] } })
+
 
   return (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
+    <Button component="label" variant="contained" >
+      <input type="file" required onChange={onChange} />
+    </Button>
   );
 }

@@ -14,9 +14,12 @@
   },
   "scripts": {
     "start": "yarn server:start & node index.js &",
+    "start:dev": "yarn server:dev && node client:dev",
     "client:build": "yarn workspace client build",
     "server:build": "yarn workspace server build",
-    "server:start": "yarn workspace server start:prod"
+    "server:start": "yarn workspace server start:prod",
+    "server:dev": "yarn workspace server start:dev",
+    "client:dev": "yarn workspace client start"
   },
   "workspaces": [
     "server",
