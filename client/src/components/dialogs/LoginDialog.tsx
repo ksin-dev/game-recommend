@@ -1,17 +1,32 @@
 import React, { useState, useEffect, SetStateAction } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Typography, Grid, Container, Box, Link,
+  Theme
+} from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/styles'
-import { Typography, Grid, Container, Box, Link } from '@material-ui/core';
-import { BrowserRouter as Router, Route, Link as RouterLink } from 'react-router-dom'
-
+import _ from 'lodash'
 import Logo from '~/images/Logo.png'
+import { gql } from 'apollo-boost';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
+const LOGIN = gql`
+  query login($email:String!,$password:String!) {
+    login(email:$email,password:$password) {
+      token
+    }
+  }
+`
+
+const LOCAL_LOGIN = gql`
+  query login {
+    login @client
+  }
+`
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   title: {
@@ -32,6 +47,8 @@ interface LoginDialogProps {
 }
 
 function LoginDialog(props: LoginDialogProps) {
+  const { data } = useQuery(LOCAL_LOGIN);
+  const [loginQuery, loginResult] = useLazyQuery(LOGIN);
   const classes = useStyles();
   const [isLogin, setIsLogin] = useState(props.login);
   const [text, setText] = useState("");
@@ -53,12 +70,27 @@ function LoginDialog(props: LoginDialogProps) {
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     let target = event.target as HTMLInputElement;
-    console.log(target.id);
     if (!target.id) return;
     let obj = {
       [target.id]: target.value
     };
     setUser({ ...user, ...obj });
+  }
+
+  function doAction(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+    if (isLogin) {
+      login();
+    } else {
+      signup();
+    }
+  }
+
+  function login() {
+    loginQuery({ variables: _.omit(user, ["username"]) })
+  }
+
+  function signup() {
+
   }
   return (
     <Dialog open={true} onClose={props.closeDialog} >
@@ -68,7 +100,7 @@ function LoginDialog(props: LoginDialogProps) {
             <img src={Logo}></img>
           </Grid>
         </Grid>
-
+        {JSON.stringify(data)}
       </DialogTitle>
       <Typography className={classes.title} variant="h5" color="primary"  >{text}</Typography>
 
@@ -116,7 +148,7 @@ function LoginDialog(props: LoginDialogProps) {
 
 
           <Box mt={2}>
-            <Button fullWidth color="primary" variant="contained" >
+            <Button fullWidth color="primary" variant="contained" onClick={doAction} >
               {text}
             </Button>
           </Box>
@@ -147,8 +179,8 @@ function LoginDialog(props: LoginDialogProps) {
               </Box>
             </>
           }
+          {JSON.stringify(loginResult.data)}
         </Container>
-
 
       </DialogContent>
     </Dialog>

@@ -3,11 +3,11 @@ import { render } from "react-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { gql } from "apollo-boost";
+import { gql, from } from "apollo-boost";
 import { ApolloClient } from 'apollo-client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createUploadLink } from "apollo-upload-client"
 import Router from "./Router";
+import State from './apollo/states';
 import "./index.scss";
 
 import {
@@ -41,8 +41,8 @@ const theme = createMuiTheme({
 
 const link = createUploadLink({ uri: "http://52.231.65.42/graphql" });
 const client = new ApolloClient({
-	cache: new InMemoryCache(),
-	link
+	cache: State.cache,
+	link: from([State.stateLink, link])
 });
 
 class App extends React.Component {
