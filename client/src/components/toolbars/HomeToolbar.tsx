@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { makeStyles, createStyles } from '@material-ui/styles'
 import LoginDialog from '~/components/dialogs/LoginDialog'
 import { Theme, Grid, Typography, Toolbar, Button } from '@material-ui/core'
-
+import { useQuery } from '@apollo/react-hooks';
+import { queries } from '~/apollo/states/Auth'
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 
 export default function HomeToolbar() {
+  const { data } = useQuery(queries.IS_LOCAL_LOGIN)
   const classes = useStyles();
   const [loginDialog, setLoginDialog] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
@@ -48,15 +50,30 @@ export default function HomeToolbar() {
           <LoginDialog onDialog={onLoginDialog} closeDialog={closeLoginDialog} login={isLogin} />
         }
         <Grid container justify="flex-end" alignItems="center" color="dark" spacing={1}>
-          <Grid item>
-            <Typography className={classes.text} component={Button} onClick={onLogin}>로그인</Typography>
+          {data ?
+            <>
+              <Grid item>
 
-          </Grid>
-          <Grid item>
-            <Button variant="contained" color="primary" onClick={onLogout}>
-              회원가입
+                <Typography className={classes.text} component={Button} onClick={onLogin}>로그인</Typography>
+
+              </Grid>
+              <Grid item>
+                <Button variant="contained" color="primary" onClick={onLogout}>
+                  회원가입
             </Button>
-          </Grid>
+              </Grid>
+            </>
+            :
+            <>
+              <Grid item>
+
+              </Grid>
+              <Grid item>
+
+              </Grid>
+            </>
+          }
+
         </Grid>
       </Toolbar>
     </div>

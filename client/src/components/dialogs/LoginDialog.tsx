@@ -22,11 +22,7 @@ const LOGIN = gql`
   }
 `
 
-const LOCAL_LOGIN = gql`
-  query login {
-    login @client
-  }
-`
+
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   title: {
@@ -47,7 +43,6 @@ interface LoginDialogProps {
 }
 
 function LoginDialog(props: LoginDialogProps) {
-  const { data } = useQuery(LOCAL_LOGIN);
   const [loginQuery, loginResult] = useLazyQuery(LOGIN);
   const classes = useStyles();
   const [isLogin, setIsLogin] = useState(props.login);
@@ -100,7 +95,6 @@ function LoginDialog(props: LoginDialogProps) {
             <img src={Logo}></img>
           </Grid>
         </Grid>
-        {JSON.stringify(data)}
       </DialogTitle>
       <Typography className={classes.title} variant="h5" color="primary"  >{text}</Typography>
 

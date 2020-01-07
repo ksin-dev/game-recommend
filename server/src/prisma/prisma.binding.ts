@@ -526,9 +526,9 @@ input GameContentCreateManyWithoutGenresInput {
   connect: [GameContentWhereUniqueInput!]
 }
 
-input GameContentCreateOneWithoutProductionNationInput {
-  create: GameContentCreateWithoutProductionNationInput
-  connect: GameContentWhereUniqueInput
+input GameContentCreateManyWithoutProductionNationInput {
+  create: [GameContentCreateWithoutProductionNationInput!]
+  connect: [GameContentWhereUniqueInput!]
 }
 
 input GameContentCreateWithoutGenresInput {
@@ -892,18 +892,21 @@ input GameContentUpdateManyWithoutGenresInput {
   upsert: [GameContentUpsertWithWhereUniqueWithoutGenresInput!]
 }
 
+input GameContentUpdateManyWithoutProductionNationInput {
+  create: [GameContentCreateWithoutProductionNationInput!]
+  connect: [GameContentWhereUniqueInput!]
+  set: [GameContentWhereUniqueInput!]
+  disconnect: [GameContentWhereUniqueInput!]
+  delete: [GameContentWhereUniqueInput!]
+  update: [GameContentUpdateWithWhereUniqueWithoutProductionNationInput!]
+  updateMany: [GameContentUpdateManyWithWhereNestedInput!]
+  deleteMany: [GameContentScalarWhereInput!]
+  upsert: [GameContentUpsertWithWhereUniqueWithoutProductionNationInput!]
+}
+
 input GameContentUpdateManyWithWhereNestedInput {
   where: GameContentScalarWhereInput!
   data: GameContentUpdateManyDataInput!
-}
-
-input GameContentUpdateOneWithoutProductionNationInput {
-  create: GameContentCreateWithoutProductionNationInput
-  connect: GameContentWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: GameContentUpdateWithoutProductionNationDataInput
-  upsert: GameContentUpsertWithoutProductionNationInput
 }
 
 input GameContentUpdateWithoutGenresDataInput {
@@ -929,15 +932,21 @@ input GameContentUpdateWithWhereUniqueWithoutGenresInput {
   data: GameContentUpdateWithoutGenresDataInput!
 }
 
-input GameContentUpsertWithoutProductionNationInput {
-  update: GameContentUpdateWithoutProductionNationDataInput!
-  create: GameContentCreateWithoutProductionNationInput!
+input GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput!
+  data: GameContentUpdateWithoutProductionNationDataInput!
 }
 
 input GameContentUpsertWithWhereUniqueWithoutGenresInput {
   where: GameContentWhereUniqueInput!
   update: GameContentUpdateWithoutGenresDataInput!
   create: GameContentCreateWithoutGenresInput!
+}
+
+input GameContentUpsertWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput!
+  update: GameContentUpdateWithoutProductionNationDataInput!
+  create: GameContentCreateWithoutProductionNationInput!
 }
 
 input GameContentWhereInput {
@@ -1553,7 +1562,7 @@ enum MutationType {
 type Nation implements Node {
   id: ID!
   name: String!
-  gameContent: GameContent
+  gameContent(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GameContent!]
 }
 
 """A connection to a list of items."""
@@ -1569,7 +1578,7 @@ type NationConnection {
 input NationCreateInput {
   id: ID
   name: String!
-  gameContent: GameContentCreateOneWithoutProductionNationInput
+  gameContent: GameContentCreateManyWithoutProductionNationInput
 }
 
 input NationCreateOneWithoutGameContentInput {
@@ -1642,7 +1651,7 @@ input NationSubscriptionWhereInput {
 
 input NationUpdateInput {
   name: String
-  gameContent: GameContentUpdateOneWithoutProductionNationInput
+  gameContent: GameContentUpdateManyWithoutProductionNationInput
 }
 
 input NationUpdateManyMutationInput {
@@ -1756,7 +1765,9 @@ input NationWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
-  gameContent: GameContentWhereInput
+  gameContent_every: GameContentWhereInput
+  gameContent_some: GameContentWhereInput
+  gameContent_none: GameContentWhereInput
 }
 
 input NationWhereUniqueInput {
@@ -2399,9 +2410,9 @@ export interface GameContentCreateManyWithoutGenresInput {
   connect?: GameContentWhereUniqueInput[] | GameContentWhereUniqueInput | null
 }
 
-export interface GameContentCreateOneWithoutProductionNationInput {
-  create?: GameContentCreateWithoutProductionNationInput | null
-  connect?: GameContentWhereUniqueInput | null
+export interface GameContentCreateManyWithoutProductionNationInput {
+  create?: GameContentCreateWithoutProductionNationInput[] | GameContentCreateWithoutProductionNationInput | null
+  connect?: GameContentWhereUniqueInput[] | GameContentWhereUniqueInput | null
 }
 
 export interface GameContentCreateWithoutGenresInput {
@@ -2557,18 +2568,21 @@ export interface GameContentUpdateManyWithoutGenresInput {
   upsert?: GameContentUpsertWithWhereUniqueWithoutGenresInput[] | GameContentUpsertWithWhereUniqueWithoutGenresInput | null
 }
 
+export interface GameContentUpdateManyWithoutProductionNationInput {
+  create?: GameContentCreateWithoutProductionNationInput[] | GameContentCreateWithoutProductionNationInput | null
+  connect?: GameContentWhereUniqueInput[] | GameContentWhereUniqueInput | null
+  set?: GameContentWhereUniqueInput[] | GameContentWhereUniqueInput | null
+  disconnect?: GameContentWhereUniqueInput[] | GameContentWhereUniqueInput | null
+  delete?: GameContentWhereUniqueInput[] | GameContentWhereUniqueInput | null
+  update?: GameContentUpdateWithWhereUniqueWithoutProductionNationInput[] | GameContentUpdateWithWhereUniqueWithoutProductionNationInput | null
+  updateMany?: GameContentUpdateManyWithWhereNestedInput[] | GameContentUpdateManyWithWhereNestedInput | null
+  deleteMany?: GameContentScalarWhereInput[] | GameContentScalarWhereInput | null
+  upsert?: GameContentUpsertWithWhereUniqueWithoutProductionNationInput[] | GameContentUpsertWithWhereUniqueWithoutProductionNationInput | null
+}
+
 export interface GameContentUpdateManyWithWhereNestedInput {
   where: GameContentScalarWhereInput
   data: GameContentUpdateManyDataInput
-}
-
-export interface GameContentUpdateOneWithoutProductionNationInput {
-  create?: GameContentCreateWithoutProductionNationInput | null
-  connect?: GameContentWhereUniqueInput | null
-  disconnect?: Boolean | null
-  delete?: Boolean | null
-  update?: GameContentUpdateWithoutProductionNationDataInput | null
-  upsert?: GameContentUpsertWithoutProductionNationInput | null
 }
 
 export interface GameContentUpdateWithoutGenresDataInput {
@@ -2594,15 +2608,21 @@ export interface GameContentUpdateWithWhereUniqueWithoutGenresInput {
   data: GameContentUpdateWithoutGenresDataInput
 }
 
-export interface GameContentUpsertWithoutProductionNationInput {
-  update: GameContentUpdateWithoutProductionNationDataInput
-  create: GameContentCreateWithoutProductionNationInput
+export interface GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput
+  data: GameContentUpdateWithoutProductionNationDataInput
 }
 
 export interface GameContentUpsertWithWhereUniqueWithoutGenresInput {
   where: GameContentWhereUniqueInput
   update: GameContentUpdateWithoutGenresDataInput
   create: GameContentCreateWithoutGenresInput
+}
+
+export interface GameContentUpsertWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput
+  update: GameContentUpdateWithoutProductionNationDataInput
+  create: GameContentCreateWithoutProductionNationInput
 }
 
 export interface GameContentWhereInput {
@@ -2847,7 +2867,7 @@ export interface GenreWhereUniqueInput {
 export interface NationCreateInput {
   id?: ID_Input | null
   name: String
-  gameContent?: GameContentCreateOneWithoutProductionNationInput | null
+  gameContent?: GameContentCreateManyWithoutProductionNationInput | null
 }
 
 export interface NationCreateOneWithoutGameContentInput {
@@ -2873,7 +2893,7 @@ export interface NationSubscriptionWhereInput {
 
 export interface NationUpdateInput {
   name?: String | null
-  gameContent?: GameContentUpdateOneWithoutProductionNationInput | null
+  gameContent?: GameContentUpdateManyWithoutProductionNationInput | null
 }
 
 export interface NationUpdateManyMutationInput {
@@ -2930,7 +2950,9 @@ export interface NationWhereInput {
   name_not_starts_with?: String | null
   name_ends_with?: String | null
   name_not_ends_with?: String | null
-  gameContent?: GameContentWhereInput | null
+  gameContent_every?: GameContentWhereInput | null
+  gameContent_some?: GameContentWhereInput | null
+  gameContent_none?: GameContentWhereInput | null
 }
 
 export interface NationWhereUniqueInput {
@@ -3229,7 +3251,7 @@ export interface GenreSubscriptionPayload {
 export interface Nation extends Node {
   id: ID_Output
   name: String
-  gameContent?: GameContent | null
+  gameContent?: Array<GameContent> | null
 }
 
 /*

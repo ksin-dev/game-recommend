@@ -5,7 +5,7 @@ import * as uuidv4 from 'uuid/v4';
 import { createWriteStream, mkdirSync, existsSync } from 'fs';
 import { PUBLIC_PATH } from '../constants';
 import * as path from 'path';
-import { File, FileCreateInput } from '../prisma/prisma.binding';
+import { File, FileCreateInput } from '../prisma/prisma-client';
 
 @Injectable()
 export class FileService {
@@ -21,9 +21,9 @@ export class FileService {
     const w = createWriteStream(path.join(PUBLIC_PATH, file.filename));
     file.createReadStream().pipe(w);
 
-    return this.prisma.mutation.createFile({
-      data: _.omit(file, ["createReadStream"]) as FileCreateInput
-    })
+    return this.prisma.client.createFile(
+      _.omit(file, ["createReadStream"]) as FileCreateInput
+    )
   }
 
 

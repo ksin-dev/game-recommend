@@ -8,15 +8,16 @@ import { FileModule } from './file/file.module';
 import { GenreModule } from './genre/genre.module';
 import { NationModule } from './nation/nation.module';
 import { GameContentModule } from './game-content/game-content.module';
+
+
 @Module({
-  imports: [
-    GraphQLModule.forRootAsync({
-      useClass: GraphqlOptions,
-      uploads: {
-        maxFileSize: 1000000000,
-        maxfiles: 5
-      },
-    } as GqlModuleAsyncOptions),
+  imports: [GraphQLModule.forRootAsync({
+    useClass: GraphqlOptions,
+    uploads: {
+      maxFileSize: 1000000000,
+      maxfiles: 5
+    },
+  } as GqlModuleAsyncOptions),
     UserModule,
     AuthModule,
     FileModule,

@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prisma": "cd ./database && prisma deploy && cd ../",
+    "prisma": "cd ./database && prisma  deploy --force && cd ../",
     "graphql": "yarn prisma && graphql get-schema --project && graphql codegen --project",
     "types": "graphql-to-typescript ./src/schema.graphql ./src/types/graph.d.ts"
   },

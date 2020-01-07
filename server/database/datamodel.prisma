@@ -29,7 +29,7 @@ type Genre {
 type Nation {
   id: ID! @id
   name: String!
-  gameContent: GameContent
+  gameContent: [GameContent]
 }
 type GameContent {
   id: ID! @id

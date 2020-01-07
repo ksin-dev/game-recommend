@@ -6,7 +6,7 @@ import {
   Resolver,
   Subscription,
 } from '@nestjs/graphql'; import { PrismaService } from '../prisma/prisma.service';
-import { BatchPayload, NationCreateInput, NationWhereInput } from '../prisma/prisma.binding';
+import { BatchPayload, NationCreateInput, NationWhereInput } from '../prisma/prisma-client';
 
 
 @Resolver()
@@ -15,11 +15,11 @@ export class NationResolver {
 
   @Mutation("createNation")
   async CreateCameContent(@Args("data") nationInput: NationCreateInput) {
-    return this.prisma.mutation.createNation({ data: nationInput });
+    return this.prisma.client.createNation(nationInput);
   }
 
   @Query("nations")
   async nations(@Args("where") where: NationWhereInput) {
-    return this.prisma.query.nations({ where });
+    return this.prisma.client.nations({ where });
   }
 }

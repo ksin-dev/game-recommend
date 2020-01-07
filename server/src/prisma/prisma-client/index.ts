@@ -315,9 +315,14 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface NationCreateWithoutGameContentInput {
-  id?: Maybe<ID_Input>;
-  name: String;
+export interface GameContentUpdateInput {
+  genres?: Maybe<GenreUpdateManyWithoutGameContentsInput>;
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
 }
 
 export type FileWhereUniqueInput = AtLeastOne<{
@@ -329,11 +334,14 @@ export interface GameContentUpdateManyWithWhereNestedInput {
   data: GameContentUpdateManyDataInput;
 }
 
-export interface GameContentCreateManyWithoutGenresInput {
-  create?: Maybe<
-    GameContentCreateWithoutGenresInput[] | GameContentCreateWithoutGenresInput
-  >;
-  connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+export interface GameContentCreateWithoutGenresInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  content: String;
+  productionYear: Int;
+  ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
 }
 
 export interface GameContentScalarWhereInput {
@@ -420,8 +428,10 @@ export interface GameContentScalarWhereInput {
   NOT?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
 }
 
-export interface GenreUpdateWithoutGameContentsDataInput {
-  name?: Maybe<String>;
+export interface GenreUpsertWithWhereUniqueWithoutGameContentsInput {
+  where: GenreWhereUniqueInput;
+  update: GenreUpdateWithoutGameContentsDataInput;
+  create: GenreCreateWithoutGameContentsInput;
 }
 
 export interface GameContentUpsertWithWhereUniqueWithoutGenresInput {
@@ -439,15 +449,6 @@ export interface NationSubscriptionWhereInput {
   AND?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
   OR?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
   NOT?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
-}
-
-export interface GameContentUpdateWithoutGenresDataInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
 }
 
 export interface GenreSubscriptionWhereInput {
@@ -549,6 +550,15 @@ export interface GameContentWhereInput {
   NOT?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
 }
 
+export interface FileCreateInput {
+  id?: Maybe<ID_Input>;
+  filename: String;
+  mimetype: String;
+  encoding: String;
+  originalFilename: String;
+  path: String;
+}
+
 export interface GameContentSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -566,13 +576,12 @@ export interface GameContentSubscriptionWhereInput {
   >;
 }
 
-export interface FileCreateInput {
-  id?: Maybe<ID_Input>;
-  filename: String;
-  mimetype: String;
-  encoding: String;
-  originalFilename: String;
-  path: String;
+export interface FileUpdateInput {
+  filename?: Maybe<String>;
+  mimetype?: Maybe<String>;
+  encoding?: Maybe<String>;
+  originalFilename?: Maybe<String>;
+  path?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -582,7 +591,7 @@ export interface UserUpdateManyMutationInput {
   salt?: Maybe<String>;
 }
 
-export interface FileUpdateInput {
+export interface FileUpdateManyMutationInput {
   filename?: Maybe<String>;
   mimetype?: Maybe<String>;
   encoding?: Maybe<String>;
@@ -598,15 +607,17 @@ export interface UserCreateInput {
   salt: String;
 }
 
-export interface FileUpdateManyMutationInput {
-  filename?: Maybe<String>;
-  mimetype?: Maybe<String>;
-  encoding?: Maybe<String>;
-  originalFilename?: Maybe<String>;
-  path?: Maybe<String>;
+export interface GameContentUpdateWithoutGenresDataInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
 }
 
-export interface GameContentUpsertWithoutProductionNationInput {
+export interface GameContentUpsertWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput;
   update: GameContentUpdateWithoutProductionNationDataInput;
   create: GameContentCreateWithoutProductionNationInput;
 }
@@ -625,9 +636,21 @@ export interface GameContentUpdateWithoutProductionNationDataInput {
   subImage?: Maybe<String>;
 }
 
-export interface GameContentUpdateManyWithoutGenresInput {
+export interface GameContentCreateInput {
+  id?: Maybe<ID_Input>;
+  genres?: Maybe<GenreCreateManyWithoutGameContentsInput>;
+  title: String;
+  content: String;
+  productionYear: Int;
+  ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
+}
+
+export interface GameContentUpdateManyWithoutProductionNationInput {
   create?: Maybe<
-    GameContentCreateWithoutGenresInput[] | GameContentCreateWithoutGenresInput
+    | GameContentCreateWithoutProductionNationInput[]
+    | GameContentCreateWithoutProductionNationInput
   >;
   delete?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
   connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
@@ -636,12 +659,12 @@ export interface GameContentUpdateManyWithoutGenresInput {
     GameContentWhereUniqueInput[] | GameContentWhereUniqueInput
   >;
   update?: Maybe<
-    | GameContentUpdateWithWhereUniqueWithoutGenresInput[]
-    | GameContentUpdateWithWhereUniqueWithoutGenresInput
+    | GameContentUpdateWithWhereUniqueWithoutProductionNationInput[]
+    | GameContentUpdateWithWhereUniqueWithoutProductionNationInput
   >;
   upsert?: Maybe<
-    | GameContentUpsertWithWhereUniqueWithoutGenresInput[]
-    | GameContentUpsertWithWhereUniqueWithoutGenresInput
+    | GameContentUpsertWithWhereUniqueWithoutProductionNationInput[]
+    | GameContentUpsertWithWhereUniqueWithoutProductionNationInput
   >;
   deleteMany?: Maybe<
     GameContentScalarWhereInput[] | GameContentScalarWhereInput
@@ -652,20 +675,11 @@ export interface GameContentUpdateManyWithoutGenresInput {
   >;
 }
 
-export interface NationUpdateInput {
-  name?: Maybe<String>;
-  gameContent?: Maybe<GameContentUpdateOneWithoutProductionNationInput>;
-}
-
-export interface GameContentCreateInput {
-  id?: Maybe<ID_Input>;
-  genres?: Maybe<GenreCreateManyWithoutGameContentsInput>;
-  title: String;
-  content: String;
-  productionYear: Int;
-  ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
+export interface GenreCreateManyWithoutGameContentsInput {
+  create?: Maybe<
+    GenreCreateWithoutGameContentsInput[] | GenreCreateWithoutGameContentsInput
+  >;
+  connect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
 }
 
 export interface FileWhereInput {
@@ -758,21 +772,24 @@ export interface FileWhereInput {
   NOT?: Maybe<FileWhereInput[] | FileWhereInput>;
 }
 
-export interface GenreCreateManyWithoutGameContentsInput {
-  create?: Maybe<
-    GenreCreateWithoutGameContentsInput[] | GenreCreateWithoutGameContentsInput
-  >;
-  connect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-}
-
-export interface GameContentCreateOneWithoutProductionNationInput {
-  create?: Maybe<GameContentCreateWithoutProductionNationInput>;
-  connect?: Maybe<GameContentWhereUniqueInput>;
-}
-
 export interface GenreCreateWithoutGameContentsInput {
   id?: Maybe<ID_Input>;
   name: String;
+}
+
+export interface GameContentCreateWithoutProductionNationInput {
+  id?: Maybe<ID_Input>;
+  genres?: Maybe<GenreCreateManyWithoutGameContentsInput>;
+  title: String;
+  content: String;
+  productionYear: Int;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
+}
+
+export interface NationCreateOneWithoutGameContentInput {
+  create?: Maybe<NationCreateWithoutGameContentInput>;
+  connect?: Maybe<NationWhereUniqueInput>;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
@@ -780,9 +797,40 @@ export type UserWhereUniqueInput = AtLeastOne<{
   email?: Maybe<String>;
 }>;
 
-export interface NationCreateOneWithoutGameContentInput {
-  create?: Maybe<NationCreateWithoutGameContentInput>;
-  connect?: Maybe<NationWhereUniqueInput>;
+export interface NationCreateWithoutGameContentInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+}
+
+export interface GenreUpdateManyMutationInput {
+  name?: Maybe<String>;
+}
+
+export interface GameContentUpdateManyWithoutGenresInput {
+  create?: Maybe<
+    GameContentCreateWithoutGenresInput[] | GameContentCreateWithoutGenresInput
+  >;
+  delete?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+  connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+  set?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+  disconnect?: Maybe<
+    GameContentWhereUniqueInput[] | GameContentWhereUniqueInput
+  >;
+  update?: Maybe<
+    | GameContentUpdateWithWhereUniqueWithoutGenresInput[]
+    | GameContentUpdateWithWhereUniqueWithoutGenresInput
+  >;
+  upsert?: Maybe<
+    | GameContentUpsertWithWhereUniqueWithoutGenresInput[]
+    | GameContentUpsertWithWhereUniqueWithoutGenresInput
+  >;
+  deleteMany?: Maybe<
+    GameContentScalarWhereInput[] | GameContentScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | GameContentUpdateManyWithWhereNestedInput[]
+    | GameContentUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface GameContentUpdateManyDataInput {
@@ -793,33 +841,38 @@ export interface GameContentUpdateManyDataInput {
   subImage?: Maybe<String>;
 }
 
-export interface GenreUpdateInput {
-  name?: Maybe<String>;
-  gameContents?: Maybe<GameContentUpdateManyWithoutGenresInput>;
+export interface GenreUpdateManyWithoutGameContentsInput {
+  create?: Maybe<
+    GenreCreateWithoutGameContentsInput[] | GenreCreateWithoutGameContentsInput
+  >;
+  delete?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+  connect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+  set?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+  disconnect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+  update?: Maybe<
+    | GenreUpdateWithWhereUniqueWithoutGameContentsInput[]
+    | GenreUpdateWithWhereUniqueWithoutGameContentsInput
+  >;
+  upsert?: Maybe<
+    | GenreUpsertWithWhereUniqueWithoutGameContentsInput[]
+    | GenreUpsertWithWhereUniqueWithoutGameContentsInput
+  >;
+  deleteMany?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
+  updateMany?: Maybe<
+    GenreUpdateManyWithWhereNestedInput[] | GenreUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+export type GameContentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface GenreUpdateWithWhereUniqueWithoutGameContentsInput {
+  where: GenreWhereUniqueInput;
+  data: GenreUpdateWithoutGameContentsDataInput;
 }
 
-export interface GameContentUpdateInput {
-  genres?: Maybe<GenreUpdateManyWithoutGameContentsInput>;
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
-
-export interface GenreWhereInput {
+export interface NationWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -848,90 +901,33 @@ export interface GenreWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  gameContents_every?: Maybe<GameContentWhereInput>;
-  gameContents_some?: Maybe<GameContentWhereInput>;
-  gameContents_none?: Maybe<GameContentWhereInput>;
-  AND?: Maybe<GenreWhereInput[] | GenreWhereInput>;
-  OR?: Maybe<GenreWhereInput[] | GenreWhereInput>;
-  NOT?: Maybe<GenreWhereInput[] | GenreWhereInput>;
+  gameContent_every?: Maybe<GameContentWhereInput>;
+  gameContent_some?: Maybe<GameContentWhereInput>;
+  gameContent_none?: Maybe<GameContentWhereInput>;
+  AND?: Maybe<NationWhereInput[] | NationWhereInput>;
+  OR?: Maybe<NationWhereInput[] | NationWhereInput>;
+  NOT?: Maybe<NationWhereInput[] | NationWhereInput>;
 }
 
-export interface GenreUpdateManyWithoutGameContentsInput {
-  create?: Maybe<
-    GenreCreateWithoutGameContentsInput[] | GenreCreateWithoutGameContentsInput
-  >;
-  delete?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-  connect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-  set?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-  disconnect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-  update?: Maybe<
-    | GenreUpdateWithWhereUniqueWithoutGameContentsInput[]
-    | GenreUpdateWithWhereUniqueWithoutGameContentsInput
-  >;
-  upsert?: Maybe<
-    | GenreUpsertWithWhereUniqueWithoutGameContentsInput[]
-    | GenreUpsertWithWhereUniqueWithoutGameContentsInput
-  >;
-  deleteMany?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
-  updateMany?: Maybe<
-    GenreUpdateManyWithWhereNestedInput[] | GenreUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface FileSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<FileWhereInput>;
-  AND?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
-  OR?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
-  NOT?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
-}
-
-export interface GenreUpdateWithWhereUniqueWithoutGameContentsInput {
-  where: GenreWhereUniqueInput;
-  data: GenreUpdateWithoutGameContentsDataInput;
-}
-
-export interface NationUpdateManyMutationInput {
+export interface GenreUpdateWithoutGameContentsDataInput {
   name?: Maybe<String>;
 }
 
-export interface GameContentCreateWithoutGenresInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  content: String;
-  productionYear: Int;
-  ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
+export interface UserUpdateInput {
+  username?: Maybe<String>;
+  email?: Maybe<String>;
+  hash?: Maybe<String>;
+  salt?: Maybe<String>;
 }
 
-export interface GameContentUpdateOneWithoutProductionNationInput {
-  create?: Maybe<GameContentCreateWithoutProductionNationInput>;
-  update?: Maybe<GameContentUpdateWithoutProductionNationDataInput>;
-  upsert?: Maybe<GameContentUpsertWithoutProductionNationInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<GameContentWhereUniqueInput>;
+export interface GenreUpdateInput {
+  name?: Maybe<String>;
+  gameContents?: Maybe<GameContentUpdateManyWithoutGenresInput>;
 }
 
-export interface GenreUpsertWithWhereUniqueWithoutGameContentsInput {
-  where: GenreWhereUniqueInput;
-  update: GenreUpdateWithoutGameContentsDataInput;
-  create: GenreCreateWithoutGameContentsInput;
-}
-
-export interface GameContentCreateWithoutProductionNationInput {
-  id?: Maybe<ID_Input>;
-  genres?: Maybe<GenreCreateManyWithoutGameContentsInput>;
-  title: String;
-  content: String;
-  productionYear: Int;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
+export type GenreWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface GenreScalarWhereInput {
   id?: Maybe<ID_Input>;
@@ -967,109 +963,25 @@ export interface GenreScalarWhereInput {
   NOT?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
 }
 
-export interface GenreUpdateManyMutationInput {
-  name?: Maybe<String>;
-}
+export type NationWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface GenreUpdateManyWithWhereNestedInput {
   where: GenreScalarWhereInput;
   data: GenreUpdateManyDataInput;
 }
 
-export type GameContentWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface GameContentCreateManyWithoutProductionNationInput {
+  create?: Maybe<
+    | GameContentCreateWithoutProductionNationInput[]
+    | GameContentCreateWithoutProductionNationInput
+  >;
+  connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+}
 
 export interface GenreUpdateManyDataInput {
   name?: Maybe<String>;
-}
-
-export interface UserUpdateInput {
-  username?: Maybe<String>;
-  email?: Maybe<String>;
-  hash?: Maybe<String>;
-  salt?: Maybe<String>;
-}
-
-export interface NationUpdateOneWithoutGameContentInput {
-  create?: Maybe<NationCreateWithoutGameContentInput>;
-  update?: Maybe<NationUpdateWithoutGameContentDataInput>;
-  upsert?: Maybe<NationUpsertWithoutGameContentInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<NationWhereUniqueInput>;
-}
-
-export type NationWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface GenreCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  gameContents?: Maybe<GameContentCreateManyWithoutGenresInput>;
-}
-
-export interface GameContentUpdateManyMutationInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
-
-export interface NationUpsertWithoutGameContentInput {
-  update: NationUpdateWithoutGameContentDataInput;
-  create: NationCreateWithoutGameContentInput;
-}
-
-export interface NationUpdateWithoutGameContentDataInput {
-  name?: Maybe<String>;
-}
-
-export interface NationCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  gameContent?: Maybe<GameContentCreateOneWithoutProductionNationInput>;
-}
-
-export type GenreWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface NationWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  gameContent?: Maybe<GameContentWhereInput>;
-  AND?: Maybe<NationWhereInput[] | NationWhereInput>;
-  OR?: Maybe<NationWhereInput[] | NationWhereInput>;
-  NOT?: Maybe<NationWhereInput[] | NationWhereInput>;
 }
 
 export interface UserWhereInput {
@@ -1162,6 +1074,124 @@ export interface UserWhereInput {
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+}
+
+export interface NationUpdateOneWithoutGameContentInput {
+  create?: Maybe<NationCreateWithoutGameContentInput>;
+  update?: Maybe<NationUpdateWithoutGameContentDataInput>;
+  upsert?: Maybe<NationUpsertWithoutGameContentInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<NationWhereUniqueInput>;
+}
+
+export interface GenreWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  gameContents_every?: Maybe<GameContentWhereInput>;
+  gameContents_some?: Maybe<GameContentWhereInput>;
+  gameContents_none?: Maybe<GameContentWhereInput>;
+  AND?: Maybe<GenreWhereInput[] | GenreWhereInput>;
+  OR?: Maybe<GenreWhereInput[] | GenreWhereInput>;
+  NOT?: Maybe<GenreWhereInput[] | GenreWhereInput>;
+}
+
+export interface NationUpdateWithoutGameContentDataInput {
+  name?: Maybe<String>;
+}
+
+export interface NationUpdateManyMutationInput {
+  name?: Maybe<String>;
+}
+
+export interface GameContentCreateManyWithoutGenresInput {
+  create?: Maybe<
+    GameContentCreateWithoutGenresInput[] | GameContentCreateWithoutGenresInput
+  >;
+  connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+}
+
+export interface GenreCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  gameContents?: Maybe<GameContentCreateManyWithoutGenresInput>;
+}
+
+export interface GameContentUpdateManyMutationInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
+}
+
+export interface NationUpsertWithoutGameContentInput {
+  update: NationUpdateWithoutGameContentDataInput;
+  create: NationCreateWithoutGameContentInput;
+}
+
+export interface GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput;
+  data: GameContentUpdateWithoutProductionNationDataInput;
+}
+
+export interface FileSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<FileWhereInput>;
+  AND?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
+  OR?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
+  NOT?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface NationCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  gameContent?: Maybe<GameContentCreateManyWithoutProductionNationInput>;
+}
+
+export interface NationUpdateInput {
+  name?: Maybe<String>;
+  gameContent?: Maybe<GameContentUpdateManyWithoutProductionNationInput>;
 }
 
 export interface NodeNode {
@@ -1308,7 +1338,15 @@ export interface Nation {
 export interface NationPromise extends Promise<Nation>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  gameContent: <T = GameContentPromise>() => T;
+  gameContent: <T = FragmentableArray<GameContent>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface NationSubscription
@@ -1316,7 +1354,15 @@ export interface NationSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  gameContent: <T = GameContentSubscription>() => T;
+  gameContent: <T = Promise<AsyncIterator<GameContentSubscription>>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface NationNullablePromise
@@ -1324,7 +1370,15 @@ export interface NationNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  gameContent: <T = GameContentPromise>() => T;
+  gameContent: <T = FragmentableArray<GameContent>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface BatchPayload {

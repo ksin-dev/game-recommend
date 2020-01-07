@@ -6,7 +6,7 @@ import {
   Resolver,
   Subscription,
 } from '@nestjs/graphql'; import { PrismaService } from '../prisma/prisma.service';
-import { BatchPayload, File } from '../prisma/prisma.binding';
+import { BatchPayload, File } from '../prisma/prisma-client';
 import { FileService } from './file.service'
 import { Writable } from 'stream';
 
@@ -19,7 +19,7 @@ export class FileResolver {
   }
 
   @Mutation("uploadFile")
-  async uploadFile(@Args("file") file): Promise<File> {
+  async uploadfile(@Args("file") file): Promise<File> {
     return this.fileService.createFile(file);
   }
 

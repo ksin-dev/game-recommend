@@ -11,22 +11,6 @@ import SearchForm from '~/components/forms/SearchForm'
 import BackGroundImage from '~/images/background.jpg'
 
 
-const LOGIN = gql`
-  {
-    login(email:"ss",password:"123") {
-      token
-    }
-  }
-`;
-
-const LOCAL_LOGIN = gql`
-  {
-    UserInfo @client {
-      token
-    }
-  }
-`;
-
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     backgroundImage: `url(${BackGroundImage})`,

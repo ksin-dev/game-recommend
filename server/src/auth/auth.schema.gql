@@ -7,16 +7,16 @@ input SignupInput {
 
 scalar token
 
-type userInfo {
+type UserInfo {
   token: String!
 }
 
 
 type Query {
-  login(email: String!, password: String!): userInfo
+  login(email: String!, password: String!): UserInfo
 }
 
 type Mutation {
-  signup(signupInput: SignupInput!): userInfo
+  signup(signupInput: SignupInput!): UserInfo
 }
 

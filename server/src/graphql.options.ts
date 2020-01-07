@@ -6,12 +6,18 @@ import { join } from 'path';
 export class GraphqlOptions implements GqlOptionsFactory {
   createGqlOptions(): Promise<GqlModuleOptions> | GqlModuleOptions {
     return {
-      typePaths: ['./**/*.graphql', './**/*.gql'],
+      typePaths: ['./**/*.gql', './**/*.graphql'],
       path: '/',
       installSubscriptionHandlers: true,
       resolverValidationOptions: {
         requireResolversForResolveType: false,
-      }
+      },
+      definitions: {
+        path: join(process.cwd(), "src/graphql.schema.generated.ts"),
+        outputAs: "class"
+      },
+      introspection: true,
+      context: ({ req, res }) => ({ req, res }),
     };
   }
 }

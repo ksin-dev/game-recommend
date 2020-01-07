@@ -242,9 +242,9 @@ input GameContentCreateManyWithoutGenresInput {
   connect: [GameContentWhereUniqueInput!]
 }
 
-input GameContentCreateOneWithoutProductionNationInput {
-  create: GameContentCreateWithoutProductionNationInput
-  connect: GameContentWhereUniqueInput
+input GameContentCreateManyWithoutProductionNationInput {
+  create: [GameContentCreateWithoutProductionNationInput!]
+  connect: [GameContentWhereUniqueInput!]
 }
 
 input GameContentCreateWithoutGenresInput {
@@ -436,18 +436,21 @@ input GameContentUpdateManyWithoutGenresInput {
   updateMany: [GameContentUpdateManyWithWhereNestedInput!]
 }
 
+input GameContentUpdateManyWithoutProductionNationInput {
+  create: [GameContentCreateWithoutProductionNationInput!]
+  delete: [GameContentWhereUniqueInput!]
+  connect: [GameContentWhereUniqueInput!]
+  set: [GameContentWhereUniqueInput!]
+  disconnect: [GameContentWhereUniqueInput!]
+  update: [GameContentUpdateWithWhereUniqueWithoutProductionNationInput!]
+  upsert: [GameContentUpsertWithWhereUniqueWithoutProductionNationInput!]
+  deleteMany: [GameContentScalarWhereInput!]
+  updateMany: [GameContentUpdateManyWithWhereNestedInput!]
+}
+
 input GameContentUpdateManyWithWhereNestedInput {
   where: GameContentScalarWhereInput!
   data: GameContentUpdateManyDataInput!
-}
-
-input GameContentUpdateOneWithoutProductionNationInput {
-  create: GameContentCreateWithoutProductionNationInput
-  update: GameContentUpdateWithoutProductionNationDataInput
-  upsert: GameContentUpsertWithoutProductionNationInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: GameContentWhereUniqueInput
 }
 
 input GameContentUpdateWithoutGenresDataInput {
@@ -473,15 +476,21 @@ input GameContentUpdateWithWhereUniqueWithoutGenresInput {
   data: GameContentUpdateWithoutGenresDataInput!
 }
 
-input GameContentUpsertWithoutProductionNationInput {
-  update: GameContentUpdateWithoutProductionNationDataInput!
-  create: GameContentCreateWithoutProductionNationInput!
+input GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput!
+  data: GameContentUpdateWithoutProductionNationDataInput!
 }
 
 input GameContentUpsertWithWhereUniqueWithoutGenresInput {
   where: GameContentWhereUniqueInput!
   update: GameContentUpdateWithoutGenresDataInput!
   create: GameContentCreateWithoutGenresInput!
+}
+
+input GameContentUpsertWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput!
+  update: GameContentUpdateWithoutProductionNationDataInput!
+  create: GameContentCreateWithoutProductionNationInput!
 }
 
 input GameContentWhereInput {
@@ -803,7 +812,7 @@ enum MutationType {
 type Nation {
   id: ID!
   name: String!
-  gameContent: GameContent
+  gameContent(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GameContent!]
 }
 
 type NationConnection {
@@ -815,7 +824,7 @@ type NationConnection {
 input NationCreateInput {
   id: ID
   name: String!
-  gameContent: GameContentCreateOneWithoutProductionNationInput
+  gameContent: GameContentCreateManyWithoutProductionNationInput
 }
 
 input NationCreateOneWithoutGameContentInput {
@@ -865,7 +874,7 @@ input NationSubscriptionWhereInput {
 
 input NationUpdateInput {
   name: String
-  gameContent: GameContentUpdateOneWithoutProductionNationInput
+  gameContent: GameContentUpdateManyWithoutProductionNationInput
 }
 
 input NationUpdateManyMutationInput {
@@ -919,7 +928,9 @@ input NationWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  gameContent: GameContentWhereInput
+  gameContent_every: GameContentWhereInput
+  gameContent_some: GameContentWhereInput
+  gameContent_none: GameContentWhereInput
   AND: [NationWhereInput!]
   OR: [NationWhereInput!]
   NOT: [NationWhereInput!]

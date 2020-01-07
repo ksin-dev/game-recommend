@@ -1,3 +1,5 @@
+import { User } from "src/prisma/prisma.binding"
+
 export type UserSignupType = {
   username: string;
   email: string;
@@ -10,5 +12,5 @@ export type GeneratedHash = {
 }
 
 export type UserInfo = {
-  token: string;
+  jwt: string;
 }
