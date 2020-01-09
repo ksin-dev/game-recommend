@@ -1,0 +1,8 @@
+type Query {
+	userRatingsByUser(userId: ID!): [UserRating]
+	userRatingsByGameContent(gameContentId: ID!): [UserRating]
+}
+
+type Mutation {
+	editUserRating(gameContentId: ID!, rating: Int!): UserRating!
+}
