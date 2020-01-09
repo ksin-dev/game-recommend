@@ -6,6 +6,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { gql, from } from "apollo-boost";
 import { ApolloClient } from 'apollo-client'
 import { createUploadLink } from "apollo-upload-client"
+import { setContext } from 'apollo-link-context';
 import Router from "./Router";
 import State from './apollo/states';
 import "./index.scss";
@@ -39,6 +40,15 @@ const theme = createMuiTheme({
 	}
 });
 
+const authLink = setContext((_, { headers }) => {
+	const jwt = localStorage.getItem("jwt");
+	return {
+		headers: {
+			...headers,
+			authorization: jwt ? `Bearer ${jwt}` : ''
+		}
+	}
+})
 const link = createUploadLink({ uri: "http://52.231.65.42/graphql" });
 const client = new ApolloClient({
 	cache: State.cache,

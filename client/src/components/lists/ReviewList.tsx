@@ -35,11 +35,16 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-export default function ReviewList() {
+type IProps = {
+	items: any[]
+}
+
+export default function ReviewList(props: IProps) {
+	const { items } = props;
 	const classes = useStyles();
 	return (
 		<List>
-			{[1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 10].map(() => {
+			{items.map((item) => {
 				return (
 					<>
 						<ListItem className={classes.listItem}>
@@ -47,15 +52,15 @@ export default function ReviewList() {
 								<img
 									className={classes.img}
 									alt="Travis Howard"
-									src="https://static.metacritic.com/images/products/games/6/2478450bf23c6bbe3c9b7aaeaab47571-98.jpg"
+									src={item.subImage}
 								/>
 							</Grid>
 							<Grid container className={classes.container} direction="column">
 								<Grid item className={classes.title}>
 									<Typography variant="body1" color="textPrimary">
-										레드데드 리뎀션
+										{item.title}
 									</Typography>
-									<Typography variant="caption">2010 미국</Typography>
+									<Typography variant="caption">{item.productionYear} {item.ProductionNation.name}</Typography>
 								</Grid>
 								<Grid item>
 									<Rating name="size-large" value={2} size="large" />

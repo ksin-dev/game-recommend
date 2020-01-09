@@ -22,6 +22,10 @@ type AggregateUser {
   count: Int!
 }
 
+type AggregateUserRating {
+  count: Int!
+}
+
 type BatchPayload {
   count: Long!
 }
@@ -247,6 +251,11 @@ input GameContentCreateManyWithoutProductionNationInput {
   connect: [GameContentWhereUniqueInput!]
 }
 
+input GameContentCreateOneInput {
+  create: GameContentCreateInput
+  connect: GameContentWhereUniqueInput
+}
+
 input GameContentCreateWithoutGenresInput {
   id: ID
   title: String!
@@ -398,6 +407,16 @@ input GameContentSubscriptionWhereInput {
   NOT: [GameContentSubscriptionWhereInput!]
 }
 
+input GameContentUpdateDataInput {
+  genres: GenreUpdateManyWithoutGameContentsInput
+  title: String
+  content: String
+  productionYear: Int
+  ProductionNation: NationUpdateOneWithoutGameContentInput
+  mainImage: String
+  subImage: String
+}
+
 input GameContentUpdateInput {
   genres: GenreUpdateManyWithoutGameContentsInput
   title: String
@@ -453,6 +472,13 @@ input GameContentUpdateManyWithWhereNestedInput {
   data: GameContentUpdateManyDataInput!
 }
 
+input GameContentUpdateOneRequiredInput {
+  create: GameContentCreateInput
+  update: GameContentUpdateDataInput
+  upsert: GameContentUpsertNestedInput
+  connect: GameContentWhereUniqueInput
+}
+
 input GameContentUpdateWithoutGenresDataInput {
   title: String
   content: String
@@ -479,6 +505,11 @@ input GameContentUpdateWithWhereUniqueWithoutGenresInput {
 input GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
   where: GameContentWhereUniqueInput!
   data: GameContentUpdateWithoutProductionNationDataInput!
+}
+
+input GameContentUpsertNestedInput {
+  update: GameContentUpdateDataInput!
+  create: GameContentCreateInput!
 }
 
 input GameContentUpsertWithWhereUniqueWithoutGenresInput {
@@ -801,6 +832,12 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createUserRating(data: UserRatingCreateInput!): UserRating!
+  updateUserRating(data: UserRatingUpdateInput!, where: UserRatingWhereUniqueInput!): UserRating
+  updateManyUserRatings(data: UserRatingUpdateManyMutationInput!, where: UserRatingWhereInput): BatchPayload!
+  upsertUserRating(where: UserRatingWhereUniqueInput!, create: UserRatingCreateInput!, update: UserRatingUpdateInput!): UserRating!
+  deleteUserRating(where: UserRatingWhereUniqueInput!): UserRating
+  deleteManyUserRatings(where: UserRatingWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -967,6 +1004,9 @@ type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  userRating(where: UserRatingWhereUniqueInput!): UserRating
+  userRatings(where: UserRatingWhereInput, orderBy: UserRatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserRating]!
+  userRatingsConnection(where: UserRatingWhereInput, orderBy: UserRatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserRatingConnection!
   node(id: ID!): Node
 }
 
@@ -976,6 +1016,7 @@ type Subscription {
   genre(where: GenreSubscriptionWhereInput): GenreSubscriptionPayload
   nation(where: NationSubscriptionWhereInput): NationSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  userRating(where: UserRatingSubscriptionWhereInput): UserRatingSubscriptionPayload
 }
 
 type User {
@@ -1000,6 +1041,11 @@ input UserCreateInput {
   email: String!
   hash: String!
   salt: String!
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type UserEdge {
@@ -1034,6 +1080,129 @@ type UserPreviousValues {
   updatedAt: DateTime!
 }
 
+type UserRating {
+  id: ID!
+  user: User!
+  gameContent: GameContent!
+  rating: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type UserRatingConnection {
+  pageInfo: PageInfo!
+  edges: [UserRatingEdge]!
+  aggregate: AggregateUserRating!
+}
+
+input UserRatingCreateInput {
+  id: ID
+  user: UserCreateOneInput!
+  gameContent: GameContentCreateOneInput!
+  rating: Int!
+}
+
+type UserRatingEdge {
+  node: UserRating!
+  cursor: String!
+}
+
+enum UserRatingOrderByInput {
+  id_ASC
+  id_DESC
+  rating_ASC
+  rating_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type UserRatingPreviousValues {
+  id: ID!
+  rating: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type UserRatingSubscriptionPayload {
+  mutation: MutationType!
+  node: UserRating
+  updatedFields: [String!]
+  previousValues: UserRatingPreviousValues
+}
+
+input UserRatingSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: UserRatingWhereInput
+  AND: [UserRatingSubscriptionWhereInput!]
+  OR: [UserRatingSubscriptionWhereInput!]
+  NOT: [UserRatingSubscriptionWhereInput!]
+}
+
+input UserRatingUpdateInput {
+  user: UserUpdateOneRequiredInput
+  gameContent: GameContentUpdateOneRequiredInput
+  rating: Int
+}
+
+input UserRatingUpdateManyMutationInput {
+  rating: Int
+}
+
+input UserRatingWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  user: UserWhereInput
+  gameContent: GameContentWhereInput
+  rating: Int
+  rating_not: Int
+  rating_in: [Int!]
+  rating_not_in: [Int!]
+  rating_lt: Int
+  rating_lte: Int
+  rating_gt: Int
+  rating_gte: Int
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [UserRatingWhereInput!]
+  OR: [UserRatingWhereInput!]
+  NOT: [UserRatingWhereInput!]
+}
+
+input UserRatingWhereUniqueInput {
+  id: ID
+}
+
 type UserSubscriptionPayload {
   mutation: MutationType!
   node: User
@@ -1052,6 +1221,13 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  username: String
+  email: String
+  hash: String
+  salt: String
+}
+
 input UserUpdateInput {
   username: String
   email: String
@@ -1064,6 +1240,18 @@ input UserUpdateManyMutationInput {
   email: String
   hash: String
   salt: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {

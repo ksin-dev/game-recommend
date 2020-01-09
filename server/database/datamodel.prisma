@@ -41,3 +41,12 @@ type GameContent {
   mainImage: String
   subImage: String
 }
+
+type UserRating {
+  id: ID! @id
+  user: User!
+  gameContent: GameContent!
+  rating: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

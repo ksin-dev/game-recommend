@@ -16,6 +16,8 @@ import ReviewCategoryDialog from "~/components/dialogs/ReviewCategoryDialog";
 import ReviewList from "~/components/lists/ReviewList";
 import clsx from "clsx";
 import Header from "~/components/Header";
+import { GET_GAMECONTENT, GET_GAME_CONTENTS } from '~/constants';
+import { useQuery } from "@apollo/react-hooks";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -45,10 +47,14 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
+
+
 export default function Review() {
 	const classes = useStyles();
 	const [dialog, setDialog] = useState(false);
+	const { data, loading, error } = useQuery(GET_GAME_CONTENTS)
 
+	if (loading) return <div>Loading...</div>
 	return (
 		<div>
 			<Header />
@@ -71,7 +77,7 @@ export default function Review() {
 						</Grid>
 					</Paper>
 					<CardContent>
-						<ReviewList />
+						<ReviewList items={data.gameContents} />
 					</CardContent>
 				</Card>
 			</Container>

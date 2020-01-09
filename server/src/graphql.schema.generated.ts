@@ -72,6 +72,17 @@ export enum UserOrderByInput {
     updatedAt_DESC = "updatedAt_DESC"
 }
 
+export enum UserRatingOrderByInput {
+    id_ASC = "id_ASC",
+    id_DESC = "id_DESC",
+    rating_ASC = "rating_ASC",
+    rating_DESC = "rating_DESC",
+    createdAt_ASC = "createdAt_ASC",
+    createdAt_DESC = "createdAt_DESC",
+    updatedAt_ASC = "updatedAt_ASC",
+    updatedAt_DESC = "updatedAt_DESC"
+}
+
 export class FileCreateInput {
     id?: string;
     filename: string;
@@ -223,6 +234,11 @@ export class GameContentCreateManyWithoutProductionNationInput {
     connect?: GameContentWhereUniqueInput[];
 }
 
+export class GameContentCreateOneInput {
+    create?: GameContentCreateInput;
+    connect?: GameContentWhereUniqueInput;
+}
+
 export class GameContentCreateWithoutGenresInput {
     id?: string;
     title: string;
@@ -338,6 +354,16 @@ export class GameContentSubscriptionWhereInput {
     node?: GameContentWhereInput;
 }
 
+export class GameContentUpdateDataInput {
+    title?: string;
+    content?: string;
+    productionYear?: number;
+    mainImage?: string;
+    subImage?: string;
+    genres?: GenreUpdateManyWithoutGameContentsInput;
+    ProductionNation?: NationUpdateOneWithoutGameContentInput;
+}
+
 export class GameContentUpdateInput {
     title?: string;
     content?: string;
@@ -393,6 +419,13 @@ export class GameContentUpdateManyWithWhereNestedInput {
     data: GameContentUpdateManyDataInput;
 }
 
+export class GameContentUpdateOneRequiredInput {
+    create?: GameContentCreateInput;
+    connect?: GameContentWhereUniqueInput;
+    update?: GameContentUpdateDataInput;
+    upsert?: GameContentUpsertNestedInput;
+}
+
 export class GameContentUpdateWithoutGenresDataInput {
     title?: string;
     content?: string;
@@ -419,6 +452,11 @@ export class GameContentUpdateWithWhereUniqueWithoutGenresInput {
 export class GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
     where: GameContentWhereUniqueInput;
     data: GameContentUpdateWithoutProductionNationDataInput;
+}
+
+export class GameContentUpsertNestedInput {
+    update: GameContentUpdateDataInput;
+    create: GameContentCreateInput;
 }
 
 export class GameContentUpsertWithWhereUniqueWithoutGenresInput {
@@ -781,6 +819,89 @@ export class UserCreateInput {
     salt: string;
 }
 
+export class UserCreateOneInput {
+    create?: UserCreateInput;
+    connect?: UserWhereUniqueInput;
+}
+
+export class UserRatingCreateInput {
+    id?: string;
+    rating: number;
+    user: UserCreateOneInput;
+    gameContent: GameContentCreateOneInput;
+}
+
+export class UserRatingSubscriptionWhereInput {
+    AND?: UserRatingSubscriptionWhereInput[];
+    OR?: UserRatingSubscriptionWhereInput[];
+    NOT?: UserRatingSubscriptionWhereInput[];
+    mutation_in?: MutationType[];
+    updatedFields_contains?: string;
+    updatedFields_contains_every?: string[];
+    updatedFields_contains_some?: string[];
+    node?: UserRatingWhereInput;
+}
+
+export class UserRatingUpdateInput {
+    rating?: number;
+    user?: UserUpdateOneRequiredInput;
+    gameContent?: GameContentUpdateOneRequiredInput;
+}
+
+export class UserRatingUpdateManyMutationInput {
+    rating?: number;
+}
+
+export class UserRatingWhereInput {
+    AND?: UserRatingWhereInput[];
+    OR?: UserRatingWhereInput[];
+    NOT?: UserRatingWhereInput[];
+    id?: string;
+    id_not?: string;
+    id_in?: string[];
+    id_not_in?: string[];
+    id_lt?: string;
+    id_lte?: string;
+    id_gt?: string;
+    id_gte?: string;
+    id_contains?: string;
+    id_not_contains?: string;
+    id_starts_with?: string;
+    id_not_starts_with?: string;
+    id_ends_with?: string;
+    id_not_ends_with?: string;
+    rating?: number;
+    rating_not?: number;
+    rating_in?: number[];
+    rating_not_in?: number[];
+    rating_lt?: number;
+    rating_lte?: number;
+    rating_gt?: number;
+    rating_gte?: number;
+    createdAt?: DateTime;
+    createdAt_not?: DateTime;
+    createdAt_in?: DateTime[];
+    createdAt_not_in?: DateTime[];
+    createdAt_lt?: DateTime;
+    createdAt_lte?: DateTime;
+    createdAt_gt?: DateTime;
+    createdAt_gte?: DateTime;
+    updatedAt?: DateTime;
+    updatedAt_not?: DateTime;
+    updatedAt_in?: DateTime[];
+    updatedAt_not_in?: DateTime[];
+    updatedAt_lt?: DateTime;
+    updatedAt_lte?: DateTime;
+    updatedAt_gt?: DateTime;
+    updatedAt_gte?: DateTime;
+    user?: UserWhereInput;
+    gameContent?: GameContentWhereInput;
+}
+
+export class UserRatingWhereUniqueInput {
+    id?: string;
+}
+
 export class UserSubscriptionWhereInput {
     AND?: UserSubscriptionWhereInput[];
     OR?: UserSubscriptionWhereInput[];
@@ -790,6 +911,13 @@ export class UserSubscriptionWhereInput {
     updatedFields_contains_every?: string[];
     updatedFields_contains_some?: string[];
     node?: UserWhereInput;
+}
+
+export class UserUpdateDataInput {
+    username?: string;
+    email?: string;
+    hash?: string;
+    salt?: string;
 }
 
 export class UserUpdateInput {
@@ -804,6 +932,18 @@ export class UserUpdateManyMutationInput {
     email?: string;
     hash?: string;
     salt?: string;
+}
+
+export class UserUpdateOneRequiredInput {
+    create?: UserCreateInput;
+    connect?: UserWhereUniqueInput;
+    update?: UserUpdateDataInput;
+    upsert?: UserUpsertNestedInput;
+}
+
+export class UserUpsertNestedInput {
+    update: UserUpdateDataInput;
+    create: UserCreateInput;
 }
 
 export class UserWhereInput {
@@ -927,6 +1067,10 @@ export class AggregateUser {
     count: number;
 }
 
+export class AggregateUserRating {
+    count: number;
+}
+
 export class BatchPayload {
     count: Long;
 }
@@ -1039,17 +1183,17 @@ export abstract class IMutation {
 
     abstract uploadFile(file?: Upload): File | Promise<File>;
 
-    abstract createUser(data: UserCreateInput): User | Promise<User>;
-
     abstract createFile(data: FileCreateInput): File | Promise<File>;
 
     abstract createGenre(data: GenreCreateInput): Genre | Promise<Genre>;
 
     abstract createNation(data: NationCreateInput): Nation | Promise<Nation>;
 
-    abstract createGameContent(data: GameContentCreateInput): GameContent | Promise<GameContent>;
+    abstract createUserRating(data: UserRatingCreateInput): UserRating | Promise<UserRating>;
 
-    abstract updateUser(data: UserUpdateInput, where: UserWhereUniqueInput): User | Promise<User>;
+    abstract createUser(data: UserCreateInput): User | Promise<User>;
+
+    abstract createGameContent(data: GameContentCreateInput): GameContent | Promise<GameContent>;
 
     abstract updateFile(data: FileUpdateInput, where: FileWhereUniqueInput): File | Promise<File>;
 
@@ -1057,9 +1201,11 @@ export abstract class IMutation {
 
     abstract updateNation(data: NationUpdateInput, where: NationWhereUniqueInput): Nation | Promise<Nation>;
 
-    abstract updateGameContent(data: GameContentUpdateInput, where: GameContentWhereUniqueInput): GameContent | Promise<GameContent>;
+    abstract updateUserRating(data: UserRatingUpdateInput, where: UserRatingWhereUniqueInput): UserRating | Promise<UserRating>;
 
-    abstract deleteUser(where: UserWhereUniqueInput): User | Promise<User>;
+    abstract updateUser(data: UserUpdateInput, where: UserWhereUniqueInput): User | Promise<User>;
+
+    abstract updateGameContent(data: GameContentUpdateInput, where: GameContentWhereUniqueInput): GameContent | Promise<GameContent>;
 
     abstract deleteFile(where: FileWhereUniqueInput): File | Promise<File>;
 
@@ -1067,9 +1213,11 @@ export abstract class IMutation {
 
     abstract deleteNation(where: NationWhereUniqueInput): Nation | Promise<Nation>;
 
-    abstract deleteGameContent(where: GameContentWhereUniqueInput): GameContent | Promise<GameContent>;
+    abstract deleteUserRating(where: UserRatingWhereUniqueInput): UserRating | Promise<UserRating>;
 
-    abstract upsertUser(where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput): User | Promise<User>;
+    abstract deleteUser(where: UserWhereUniqueInput): User | Promise<User>;
+
+    abstract deleteGameContent(where: GameContentWhereUniqueInput): GameContent | Promise<GameContent>;
 
     abstract upsertFile(where: FileWhereUniqueInput, create: FileCreateInput, update: FileUpdateInput): File | Promise<File>;
 
@@ -1077,9 +1225,11 @@ export abstract class IMutation {
 
     abstract upsertNation(where: NationWhereUniqueInput, create: NationCreateInput, update: NationUpdateInput): Nation | Promise<Nation>;
 
-    abstract upsertGameContent(where: GameContentWhereUniqueInput, create: GameContentCreateInput, update: GameContentUpdateInput): GameContent | Promise<GameContent>;
+    abstract upsertUserRating(where: UserRatingWhereUniqueInput, create: UserRatingCreateInput, update: UserRatingUpdateInput): UserRating | Promise<UserRating>;
 
-    abstract updateManyUsers(data: UserUpdateManyMutationInput, where?: UserWhereInput): BatchPayload | Promise<BatchPayload>;
+    abstract upsertUser(where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput): User | Promise<User>;
+
+    abstract upsertGameContent(where: GameContentWhereUniqueInput, create: GameContentCreateInput, update: GameContentUpdateInput): GameContent | Promise<GameContent>;
 
     abstract updateManyFiles(data: FileUpdateManyMutationInput, where?: FileWhereInput): BatchPayload | Promise<BatchPayload>;
 
@@ -1087,9 +1237,11 @@ export abstract class IMutation {
 
     abstract updateManyNations(data: NationUpdateManyMutationInput, where?: NationWhereInput): BatchPayload | Promise<BatchPayload>;
 
-    abstract updateManyGameContents(data: GameContentUpdateManyMutationInput, where?: GameContentWhereInput): BatchPayload | Promise<BatchPayload>;
+    abstract updateManyUserRatings(data: UserRatingUpdateManyMutationInput, where?: UserRatingWhereInput): BatchPayload | Promise<BatchPayload>;
 
-    abstract deleteManyUsers(where?: UserWhereInput): BatchPayload | Promise<BatchPayload>;
+    abstract updateManyUsers(data: UserUpdateManyMutationInput, where?: UserWhereInput): BatchPayload | Promise<BatchPayload>;
+
+    abstract updateManyGameContents(data: GameContentUpdateManyMutationInput, where?: GameContentWhereInput): BatchPayload | Promise<BatchPayload>;
 
     abstract deleteManyFiles(where?: FileWhereInput): BatchPayload | Promise<BatchPayload>;
 
@@ -1097,7 +1249,13 @@ export abstract class IMutation {
 
     abstract deleteManyNations(where?: NationWhereInput): BatchPayload | Promise<BatchPayload>;
 
+    abstract deleteManyUserRatings(where?: UserRatingWhereInput): BatchPayload | Promise<BatchPayload>;
+
+    abstract deleteManyUsers(where?: UserWhereInput): BatchPayload | Promise<BatchPayload>;
+
     abstract deleteManyGameContents(where?: GameContentWhereInput): BatchPayload | Promise<BatchPayload>;
+
+    abstract editUserRating(gameContentId: string, rating: number): UserRating | Promise<UserRating>;
 }
 
 export class Nation implements Node {
@@ -1139,17 +1297,17 @@ export class PageInfo {
 export abstract class IQuery {
     abstract login(email: string, password: string): UserInfo | Promise<UserInfo>;
 
-    abstract users(where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): User[] | Promise<User[]>;
-
     abstract files(where?: FileWhereInput, orderBy?: FileOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): File[] | Promise<File[]>;
 
     abstract genres(where?: GenreWhereInput, orderBy?: GenreOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): Genre[] | Promise<Genre[]>;
 
     abstract nations(where?: NationWhereInput, orderBy?: NationOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): Nation[] | Promise<Nation[]>;
 
-    abstract gameContents(where?: GameContentWhereInput, orderBy?: GameContentOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): GameContent[] | Promise<GameContent[]>;
+    abstract userRatings(where?: UserRatingWhereInput, orderBy?: UserRatingOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): UserRating[] | Promise<UserRating[]>;
 
-    abstract user(where: UserWhereUniqueInput): User | Promise<User>;
+    abstract users(where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): User[] | Promise<User[]>;
+
+    abstract gameContents(where?: GameContentWhereInput, orderBy?: GameContentOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): GameContent[] | Promise<GameContent[]>;
 
     abstract file(where: FileWhereUniqueInput): File | Promise<File>;
 
@@ -1157,9 +1315,11 @@ export abstract class IQuery {
 
     abstract nation(where: NationWhereUniqueInput): Nation | Promise<Nation>;
 
-    abstract gameContent(where: GameContentWhereUniqueInput): GameContent | Promise<GameContent>;
+    abstract userRating(where: UserRatingWhereUniqueInput): UserRating | Promise<UserRating>;
 
-    abstract usersConnection(where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): UserConnection | Promise<UserConnection>;
+    abstract user(where: UserWhereUniqueInput): User | Promise<User>;
+
+    abstract gameContent(where: GameContentWhereUniqueInput): GameContent | Promise<GameContent>;
 
     abstract filesConnection(where?: FileWhereInput, orderBy?: FileOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): FileConnection | Promise<FileConnection>;
 
@@ -1167,19 +1327,29 @@ export abstract class IQuery {
 
     abstract nationsConnection(where?: NationWhereInput, orderBy?: NationOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): NationConnection | Promise<NationConnection>;
 
+    abstract userRatingsConnection(where?: UserRatingWhereInput, orderBy?: UserRatingOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): UserRatingConnection | Promise<UserRatingConnection>;
+
+    abstract usersConnection(where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): UserConnection | Promise<UserConnection>;
+
     abstract gameContentsConnection(where?: GameContentWhereInput, orderBy?: GameContentOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): GameContentConnection | Promise<GameContentConnection>;
 
     abstract node(id: string): Node | Promise<Node>;
+
+    abstract userRatingsByUser(userId: string): UserRating[] | Promise<UserRating[]>;
+
+    abstract userRatingsByGameContent(gameContentId: string): UserRating[] | Promise<UserRating[]>;
 }
 
 export abstract class ISubscription {
-    abstract user(where?: UserSubscriptionWhereInput): UserSubscriptionPayload | Promise<UserSubscriptionPayload>;
-
     abstract file(where?: FileSubscriptionWhereInput): FileSubscriptionPayload | Promise<FileSubscriptionPayload>;
 
     abstract genre(where?: GenreSubscriptionWhereInput): GenreSubscriptionPayload | Promise<GenreSubscriptionPayload>;
 
     abstract nation(where?: NationSubscriptionWhereInput): NationSubscriptionPayload | Promise<NationSubscriptionPayload>;
+
+    abstract userRating(where?: UserRatingSubscriptionWhereInput): UserRatingSubscriptionPayload | Promise<UserRatingSubscriptionPayload>;
+
+    abstract user(where?: UserSubscriptionWhereInput): UserSubscriptionPayload | Promise<UserSubscriptionPayload>;
 
     abstract gameContent(where?: GameContentSubscriptionWhereInput): GameContentSubscriptionPayload | Promise<GameContentSubscriptionPayload>;
 }
@@ -1206,7 +1376,7 @@ export class UserEdge {
 }
 
 export class UserInfo {
-    token: string;
+    jwt: string;
 }
 
 export class UserPreviousValues {
@@ -1217,6 +1387,40 @@ export class UserPreviousValues {
     salt: string;
     createdAt: DateTime;
     updatedAt: DateTime;
+}
+
+export class UserRating implements Node {
+    id: string;
+    user: User;
+    gameContent: GameContent;
+    rating: number;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+}
+
+export class UserRatingConnection {
+    pageInfo: PageInfo;
+    edges: UserRatingEdge[];
+    aggregate: AggregateUserRating;
+}
+
+export class UserRatingEdge {
+    node: UserRating;
+    cursor: string;
+}
+
+export class UserRatingPreviousValues {
+    id: string;
+    rating: number;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+}
+
+export class UserRatingSubscriptionPayload {
+    mutation: MutationType;
+    node?: UserRating;
+    updatedFields?: string[];
+    previousValues?: UserRatingPreviousValues;
 }
 
 export class UserSubscriptionPayload {

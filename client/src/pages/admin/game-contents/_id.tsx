@@ -1,96 +1,9 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import { makeStyles, createStyles, Theme, TextField, Container, Grid, Select, MenuItem, InputLabel, Checkbox, ListItemText, Button } from '@material-ui/core'
 import { useParams, useHistory } from 'react-router';
-import gql from 'graphql-tag';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import _ from 'lodash';
-
-const FILE_UPLOAD_MUTATION = gql`
-  mutation($file:Upload!) {
-    uploadFile(file:$file) {
-      id
-      filename
-      mimetype
-      encoding
-      originalFilename
-      path
-    }
-  }
- `
-
-const GET_GERNRES_AND_NATIONS = gql`
-  query getGeresAndNations {
-    genres {
-      id
-      name
-    }
-    nations {
-      id
-      name
-    }
-  }
-`
-const GET_GAMECONTENT = gql`
-  query gameContent($id:ID!){
-    gameContent(where:{id:$id}) {
-        id
-    genres {
-      id
-      name
-    }
-    title
-    content
-    productionYear
-    ProductionNation {
-      id
-      name
-    }
-    mainImage
-    subImage
-    }
-  }
-`
-const CREATE_GAME_CONTENT = gql`
-  mutation createGameContent($data:GameContentCreateInput!){
-    createGameContent(data: $data) {
-      id
-      genres {
-        id
-        name
-      }
-      title
-      content
-      productionYear
-      ProductionNation {
-        id
-        name
-      }
-      mainImage
-      subImage
-    }
-  }
-`
-
-const UPDATE_GAME_CONTENT = gql`
-  mutation updateGameContent($id:ID!,$data:GameContentUpdateInput!) {
-    updateGameContent(where:{id:$id},data: $data) {
-      id
-      genres {
-        id
-        name
-      }
-      title
-      content
-      productionYear
-      ProductionNation {
-        id
-        name
-      }
-      mainImage
-      subImage
-    }
-  }
-`
+import { CREATE_GAME_CONTENT, FILE_UPLOAD_MUTATION, GET_GAMECONTENT, GET_GERNRES_AND_NATIONS, UPDATE_GAME_CONTENT } from '~/constants';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
 

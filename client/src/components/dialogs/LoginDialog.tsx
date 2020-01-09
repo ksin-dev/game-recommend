@@ -13,16 +13,20 @@ import _ from 'lodash'
 import Logo from '~/images/Logo.png'
 import { gql } from 'apollo-boost';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { UserLoginType, UserSignupType } from '~/classes/User';
 
 const LOGIN = gql`
   query login($email:String!,$password:String!) {
     login(email:$email,password:$password) {
-      token
+      jwt
     }
   }
 `
 
+type IProps = {
 
+  onSubmit: (userInfo: UserSignupType | UserLoginType, type: string) => any;
+}
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   title: {
@@ -42,6 +46,11 @@ interface LoginDialogProps {
   login: boolean
 }
 
+/**
+ * a
+ * TODO:  작업에 필요한 어쩌구
+ * @param props 
+ */
 function LoginDialog(props: LoginDialogProps) {
   const [loginQuery, loginResult] = useLazyQuery(LOGIN);
   const classes = useStyles();
@@ -173,7 +182,6 @@ function LoginDialog(props: LoginDialogProps) {
               </Box>
             </>
           }
-          {JSON.stringify(loginResult.data)}
         </Container>
 
       </DialogContent>

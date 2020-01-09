@@ -4,70 +4,81 @@ import { Options } from 'graphql-binding'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'
 
 export interface Query {
-    users: <T = Array<User | null>>(args: { where?: UserWhereInput | null, orderBy?: UserOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     files: <T = Array<File | null>>(args: { where?: FileWhereInput | null, orderBy?: FileOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     genres: <T = Array<Genre | null>>(args: { where?: GenreWhereInput | null, orderBy?: GenreOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     nations: <T = Array<Nation | null>>(args: { where?: NationWhereInput | null, orderBy?: NationOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    userRatings: <T = Array<UserRating | null>>(args: { where?: UserRatingWhereInput | null, orderBy?: UserRatingOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    users: <T = Array<User | null>>(args: { where?: UserWhereInput | null, orderBy?: UserOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     gameContents: <T = Array<GameContent | null>>(args: { where?: GameContentWhereInput | null, orderBy?: GameContentOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    user: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     file: <T = File | null>(args: { where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     genre: <T = Genre | null>(args: { where: GenreWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     nation: <T = Nation | null>(args: { where: NationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
+    userRating: <T = UserRating | null>(args: { where: UserRatingWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
+    user: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     gameContent: <T = GameContent | null>(args: { where: GameContentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
-    usersConnection: <T = UserConnection>(args: { where?: UserWhereInput | null, orderBy?: UserOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     filesConnection: <T = FileConnection>(args: { where?: FileWhereInput | null, orderBy?: FileOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     genresConnection: <T = GenreConnection>(args: { where?: GenreWhereInput | null, orderBy?: GenreOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     nationsConnection: <T = NationConnection>(args: { where?: NationWhereInput | null, orderBy?: NationOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    userRatingsConnection: <T = UserRatingConnection>(args: { where?: UserRatingWhereInput | null, orderBy?: UserRatingOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    usersConnection: <T = UserConnection>(args: { where?: UserWhereInput | null, orderBy?: UserOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     gameContentsConnection: <T = GameContentConnection>(args: { where?: GameContentWhereInput | null, orderBy?: GameContentOrderByInput | null, skip?: Int | null, after?: String | null, before?: String | null, first?: Int | null, last?: Int | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     node: <T = Node | null>(args: { id: ID_Output }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> 
   }
 
 export interface Mutation {
-    createUser: <T = User>(args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createFile: <T = File>(args: { data: FileCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createGenre: <T = Genre>(args: { data: GenreCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createNation: <T = Nation>(args: { data: NationCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createUserRating: <T = UserRating>(args: { data: UserRatingCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createUser: <T = User>(args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createGameContent: <T = GameContent>(args: { data: GameContentCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    updateUser: <T = User | null>(args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     updateFile: <T = File | null>(args: { data: FileUpdateInput, where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     updateGenre: <T = Genre | null>(args: { data: GenreUpdateInput, where: GenreWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     updateNation: <T = Nation | null>(args: { data: NationUpdateInput, where: NationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
+    updateUserRating: <T = UserRating | null>(args: { data: UserRatingUpdateInput, where: UserRatingWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
+    updateUser: <T = User | null>(args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     updateGameContent: <T = GameContent | null>(args: { data: GameContentUpdateInput, where: GameContentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
-    deleteUser: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     deleteFile: <T = File | null>(args: { where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     deleteGenre: <T = Genre | null>(args: { where: GenreWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     deleteNation: <T = Nation | null>(args: { where: NationWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
+    deleteUserRating: <T = UserRating | null>(args: { where: UserRatingWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
+    deleteUser: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     deleteGameContent: <T = GameContent | null>(args: { where: GameContentWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
-    upsertUser: <T = User>(args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertFile: <T = File>(args: { where: FileWhereUniqueInput, create: FileCreateInput, update: FileUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertGenre: <T = Genre>(args: { where: GenreWhereUniqueInput, create: GenreCreateInput, update: GenreUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertNation: <T = Nation>(args: { where: NationWhereUniqueInput, create: NationCreateInput, update: NationUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertUserRating: <T = UserRating>(args: { where: UserRatingWhereUniqueInput, create: UserRatingCreateInput, update: UserRatingUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertUser: <T = User>(args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertGameContent: <T = GameContent>(args: { where: GameContentWhereUniqueInput, create: GameContentCreateInput, update: GameContentUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    updateManyUsers: <T = BatchPayload>(args: { data: UserUpdateManyMutationInput, where?: UserWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyFiles: <T = BatchPayload>(args: { data: FileUpdateManyMutationInput, where?: FileWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyGenres: <T = BatchPayload>(args: { data: GenreUpdateManyMutationInput, where?: GenreWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyNations: <T = BatchPayload>(args: { data: NationUpdateManyMutationInput, where?: NationWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyUserRatings: <T = BatchPayload>(args: { data: UserRatingUpdateManyMutationInput, where?: UserRatingWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyUsers: <T = BatchPayload>(args: { data: UserUpdateManyMutationInput, where?: UserWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyGameContents: <T = BatchPayload>(args: { data: GameContentUpdateManyMutationInput, where?: GameContentWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    deleteManyUsers: <T = BatchPayload>(args: { where?: UserWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyFiles: <T = BatchPayload>(args: { where?: FileWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyGenres: <T = BatchPayload>(args: { where?: GenreWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyNations: <T = BatchPayload>(args: { where?: NationWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyUserRatings: <T = BatchPayload>(args: { where?: UserRatingWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyUsers: <T = BatchPayload>(args: { where?: UserWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyGameContents: <T = BatchPayload>(args: { where?: GameContentWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
   }
 
 export interface Subscription {
-    user: <T = UserSubscriptionPayload | null>(args: { where?: UserSubscriptionWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T | null>> ,
     file: <T = FileSubscriptionPayload | null>(args: { where?: FileSubscriptionWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T | null>> ,
     genre: <T = GenreSubscriptionPayload | null>(args: { where?: GenreSubscriptionWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T | null>> ,
     nation: <T = NationSubscriptionPayload | null>(args: { where?: NationSubscriptionWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T | null>> ,
+    userRating: <T = UserRatingSubscriptionPayload | null>(args: { where?: UserRatingSubscriptionWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T | null>> ,
+    user: <T = UserSubscriptionPayload | null>(args: { where?: UserSubscriptionWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T | null>> ,
     gameContent: <T = GameContentSubscriptionPayload | null>(args: { where?: GameContentSubscriptionWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T | null>> 
   }
 
 export interface Exists {
-  User: (where?: UserWhereInput) => Promise<boolean>
   File: (where?: FileWhereInput) => Promise<boolean>
   Genre: (where?: GenreWhereInput) => Promise<boolean>
   Nation: (where?: NationWhereInput) => Promise<boolean>
+  UserRating: (where?: UserRatingWhereInput) => Promise<boolean>
+  User: (where?: UserWhereInput) => Promise<boolean>
   GameContent: (where?: GameContentWhereInput) => Promise<boolean>
 }
 
@@ -110,6 +121,10 @@ type AggregateNation {
 }
 
 type AggregateUser {
+  count: Int!
+}
+
+type AggregateUserRating {
   count: Int!
 }
 
@@ -531,6 +546,11 @@ input GameContentCreateManyWithoutProductionNationInput {
   connect: [GameContentWhereUniqueInput!]
 }
 
+input GameContentCreateOneInput {
+  create: GameContentCreateInput
+  connect: GameContentWhereUniqueInput
+}
+
 input GameContentCreateWithoutGenresInput {
   id: ID
   title: String!
@@ -854,6 +874,16 @@ input GameContentSubscriptionWhereInput {
   node: GameContentWhereInput
 }
 
+input GameContentUpdateDataInput {
+  title: String
+  content: String
+  productionYear: Int
+  mainImage: String
+  subImage: String
+  genres: GenreUpdateManyWithoutGameContentsInput
+  ProductionNation: NationUpdateOneWithoutGameContentInput
+}
+
 input GameContentUpdateInput {
   title: String
   content: String
@@ -909,6 +939,13 @@ input GameContentUpdateManyWithWhereNestedInput {
   data: GameContentUpdateManyDataInput!
 }
 
+input GameContentUpdateOneRequiredInput {
+  create: GameContentCreateInput
+  connect: GameContentWhereUniqueInput
+  update: GameContentUpdateDataInput
+  upsert: GameContentUpsertNestedInput
+}
+
 input GameContentUpdateWithoutGenresDataInput {
   title: String
   content: String
@@ -935,6 +972,11 @@ input GameContentUpdateWithWhereUniqueWithoutGenresInput {
 input GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
   where: GameContentWhereUniqueInput!
   data: GameContentUpdateWithoutProductionNationDataInput!
+}
+
+input GameContentUpsertNestedInput {
+  update: GameContentUpdateDataInput!
+  create: GameContentCreateInput!
 }
 
 input GameContentUpsertWithWhereUniqueWithoutGenresInput {
@@ -1521,35 +1563,41 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createFile(data: FileCreateInput!): File!
   createGenre(data: GenreCreateInput!): Genre!
   createNation(data: NationCreateInput!): Nation!
+  createUserRating(data: UserRatingCreateInput!): UserRating!
+  createUser(data: UserCreateInput!): User!
   createGameContent(data: GameContentCreateInput!): GameContent!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
   updateGenre(data: GenreUpdateInput!, where: GenreWhereUniqueInput!): Genre
   updateNation(data: NationUpdateInput!, where: NationWhereUniqueInput!): Nation
+  updateUserRating(data: UserRatingUpdateInput!, where: UserRatingWhereUniqueInput!): UserRating
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateGameContent(data: GameContentUpdateInput!, where: GameContentWhereUniqueInput!): GameContent
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteFile(where: FileWhereUniqueInput!): File
   deleteGenre(where: GenreWhereUniqueInput!): Genre
   deleteNation(where: NationWhereUniqueInput!): Nation
+  deleteUserRating(where: UserRatingWhereUniqueInput!): UserRating
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteGameContent(where: GameContentWhereUniqueInput!): GameContent
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
   upsertGenre(where: GenreWhereUniqueInput!, create: GenreCreateInput!, update: GenreUpdateInput!): Genre!
   upsertNation(where: NationWhereUniqueInput!, create: NationCreateInput!, update: NationUpdateInput!): Nation!
+  upsertUserRating(where: UserRatingWhereUniqueInput!, create: UserRatingCreateInput!, update: UserRatingUpdateInput!): UserRating!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertGameContent(where: GameContentWhereUniqueInput!, create: GameContentCreateInput!, update: GameContentUpdateInput!): GameContent!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyFiles(data: FileUpdateManyMutationInput!, where: FileWhereInput): BatchPayload!
   updateManyGenres(data: GenreUpdateManyMutationInput!, where: GenreWhereInput): BatchPayload!
   updateManyNations(data: NationUpdateManyMutationInput!, where: NationWhereInput): BatchPayload!
+  updateManyUserRatings(data: UserRatingUpdateManyMutationInput!, where: UserRatingWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyGameContents(data: GameContentUpdateManyMutationInput!, where: GameContentWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyFiles(where: FileWhereInput): BatchPayload!
   deleteManyGenres(where: GenreWhereInput): BatchPayload!
   deleteManyNations(where: NationWhereInput): BatchPayload!
+  deleteManyUserRatings(where: UserRatingWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyGameContents(where: GameContentWhereInput): BatchPayload!
 }
 
@@ -1796,20 +1844,23 @@ type PageInfo {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
   genres(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre]!
   nations(where: NationWhereInput, orderBy: NationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nation]!
+  userRatings(where: UserRatingWhereInput, orderBy: UserRatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserRating]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   gameContents(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GameContent]!
-  user(where: UserWhereUniqueInput!): User
   file(where: FileWhereUniqueInput!): File
   genre(where: GenreWhereUniqueInput!): Genre
   nation(where: NationWhereUniqueInput!): Nation
+  userRating(where: UserRatingWhereUniqueInput!): UserRating
+  user(where: UserWhereUniqueInput!): User
   gameContent(where: GameContentWhereUniqueInput!): GameContent
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
   genresConnection(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GenreConnection!
   nationsConnection(where: NationWhereInput, orderBy: NationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NationConnection!
+  userRatingsConnection(where: UserRatingWhereInput, orderBy: UserRatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserRatingConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   gameContentsConnection(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GameContentConnection!
 
   """Fetches an object given its ID"""
@@ -1820,10 +1871,11 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
   genre(where: GenreSubscriptionWhereInput): GenreSubscriptionPayload
   nation(where: NationSubscriptionWhereInput): NationSubscriptionPayload
+  userRating(where: UserRatingSubscriptionWhereInput): UserRatingSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   gameContent(where: GameContentSubscriptionWhereInput): GameContentSubscriptionPayload
 }
 
@@ -1853,6 +1905,11 @@ input UserCreateInput {
   email: String!
   hash: String!
   salt: String!
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -1889,6 +1946,229 @@ type UserPreviousValues {
   salt: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+type UserRating implements Node {
+  id: ID!
+  user: User!
+  gameContent: GameContent!
+  rating: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type UserRatingConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserRatingEdge]!
+  aggregate: AggregateUserRating!
+}
+
+input UserRatingCreateInput {
+  id: ID
+  rating: Int!
+  user: UserCreateOneInput!
+  gameContent: GameContentCreateOneInput!
+}
+
+"""An edge in a connection."""
+type UserRatingEdge {
+  """The item at the end of the edge."""
+  node: UserRating!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserRatingOrderByInput {
+  id_ASC
+  id_DESC
+  rating_ASC
+  rating_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type UserRatingPreviousValues {
+  id: ID!
+  rating: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type UserRatingSubscriptionPayload {
+  mutation: MutationType!
+  node: UserRating
+  updatedFields: [String!]
+  previousValues: UserRatingPreviousValues
+}
+
+input UserRatingSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserRatingSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserRatingSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserRatingSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserRatingWhereInput
+}
+
+input UserRatingUpdateInput {
+  rating: Int
+  user: UserUpdateOneRequiredInput
+  gameContent: GameContentUpdateOneRequiredInput
+}
+
+input UserRatingUpdateManyMutationInput {
+  rating: Int
+}
+
+input UserRatingWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserRatingWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserRatingWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserRatingWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  rating: Int
+
+  """All values that are not equal to given value."""
+  rating_not: Int
+
+  """All values that are contained in given list."""
+  rating_in: [Int!]
+
+  """All values that are not contained in given list."""
+  rating_not_in: [Int!]
+
+  """All values less than the given value."""
+  rating_lt: Int
+
+  """All values less than or equal the given value."""
+  rating_lte: Int
+
+  """All values greater than the given value."""
+  rating_gt: Int
+
+  """All values greater than or equal the given value."""
+  rating_gte: Int
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  user: UserWhereInput
+  gameContent: GameContentWhereInput
+}
+
+input UserRatingWhereUniqueInput {
+  id: ID
 }
 
 type UserSubscriptionPayload {
@@ -1928,6 +2208,13 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  username: String
+  email: String
+  hash: String
+  salt: String
+}
+
 input UserUpdateInput {
   username: String
   email: String
@@ -1940,6 +2227,18 @@ input UserUpdateManyMutationInput {
   email: String
   hash: String
   salt: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -2264,6 +2563,15 @@ export type UserOrderByInput =   'id_ASC' |
   'updatedAt_ASC' |
   'updatedAt_DESC'
 
+export type UserRatingOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'rating_ASC' |
+  'rating_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC'
+
 export interface FileCreateInput {
   id?: ID_Input | null
   filename: String
@@ -2415,6 +2723,11 @@ export interface GameContentCreateManyWithoutProductionNationInput {
   connect?: GameContentWhereUniqueInput[] | GameContentWhereUniqueInput | null
 }
 
+export interface GameContentCreateOneInput {
+  create?: GameContentCreateInput | null
+  connect?: GameContentWhereUniqueInput | null
+}
+
 export interface GameContentCreateWithoutGenresInput {
   id?: ID_Input | null
   title: String
@@ -2530,6 +2843,16 @@ export interface GameContentSubscriptionWhereInput {
   node?: GameContentWhereInput | null
 }
 
+export interface GameContentUpdateDataInput {
+  title?: String | null
+  content?: String | null
+  productionYear?: Int | null
+  mainImage?: String | null
+  subImage?: String | null
+  genres?: GenreUpdateManyWithoutGameContentsInput | null
+  ProductionNation?: NationUpdateOneWithoutGameContentInput | null
+}
+
 export interface GameContentUpdateInput {
   title?: String | null
   content?: String | null
@@ -2585,6 +2908,13 @@ export interface GameContentUpdateManyWithWhereNestedInput {
   data: GameContentUpdateManyDataInput
 }
 
+export interface GameContentUpdateOneRequiredInput {
+  create?: GameContentCreateInput | null
+  connect?: GameContentWhereUniqueInput | null
+  update?: GameContentUpdateDataInput | null
+  upsert?: GameContentUpsertNestedInput | null
+}
+
 export interface GameContentUpdateWithoutGenresDataInput {
   title?: String | null
   content?: String | null
@@ -2611,6 +2941,11 @@ export interface GameContentUpdateWithWhereUniqueWithoutGenresInput {
 export interface GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
   where: GameContentWhereUniqueInput
   data: GameContentUpdateWithoutProductionNationDataInput
+}
+
+export interface GameContentUpsertNestedInput {
+  update: GameContentUpdateDataInput
+  create: GameContentCreateInput
 }
 
 export interface GameContentUpsertWithWhereUniqueWithoutGenresInput {
@@ -2967,6 +3302,89 @@ export interface UserCreateInput {
   salt: String
 }
 
+export interface UserCreateOneInput {
+  create?: UserCreateInput | null
+  connect?: UserWhereUniqueInput | null
+}
+
+export interface UserRatingCreateInput {
+  id?: ID_Input | null
+  rating: Int
+  user: UserCreateOneInput
+  gameContent: GameContentCreateOneInput
+}
+
+export interface UserRatingSubscriptionWhereInput {
+  AND?: UserRatingSubscriptionWhereInput[] | UserRatingSubscriptionWhereInput | null
+  OR?: UserRatingSubscriptionWhereInput[] | UserRatingSubscriptionWhereInput | null
+  NOT?: UserRatingSubscriptionWhereInput[] | UserRatingSubscriptionWhereInput | null
+  mutation_in?: MutationType[] | MutationType | null
+  updatedFields_contains?: String | null
+  updatedFields_contains_every?: String[] | String | null
+  updatedFields_contains_some?: String[] | String | null
+  node?: UserRatingWhereInput | null
+}
+
+export interface UserRatingUpdateInput {
+  rating?: Int | null
+  user?: UserUpdateOneRequiredInput | null
+  gameContent?: GameContentUpdateOneRequiredInput | null
+}
+
+export interface UserRatingUpdateManyMutationInput {
+  rating?: Int | null
+}
+
+export interface UserRatingWhereInput {
+  AND?: UserRatingWhereInput[] | UserRatingWhereInput | null
+  OR?: UserRatingWhereInput[] | UserRatingWhereInput | null
+  NOT?: UserRatingWhereInput[] | UserRatingWhereInput | null
+  id?: ID_Input | null
+  id_not?: ID_Input | null
+  id_in?: ID_Output[] | ID_Output | null
+  id_not_in?: ID_Output[] | ID_Output | null
+  id_lt?: ID_Input | null
+  id_lte?: ID_Input | null
+  id_gt?: ID_Input | null
+  id_gte?: ID_Input | null
+  id_contains?: ID_Input | null
+  id_not_contains?: ID_Input | null
+  id_starts_with?: ID_Input | null
+  id_not_starts_with?: ID_Input | null
+  id_ends_with?: ID_Input | null
+  id_not_ends_with?: ID_Input | null
+  rating?: Int | null
+  rating_not?: Int | null
+  rating_in?: Int[] | Int | null
+  rating_not_in?: Int[] | Int | null
+  rating_lt?: Int | null
+  rating_lte?: Int | null
+  rating_gt?: Int | null
+  rating_gte?: Int | null
+  createdAt?: DateTime | null
+  createdAt_not?: DateTime | null
+  createdAt_in?: DateTime[] | DateTime | null
+  createdAt_not_in?: DateTime[] | DateTime | null
+  createdAt_lt?: DateTime | null
+  createdAt_lte?: DateTime | null
+  createdAt_gt?: DateTime | null
+  createdAt_gte?: DateTime | null
+  updatedAt?: DateTime | null
+  updatedAt_not?: DateTime | null
+  updatedAt_in?: DateTime[] | DateTime | null
+  updatedAt_not_in?: DateTime[] | DateTime | null
+  updatedAt_lt?: DateTime | null
+  updatedAt_lte?: DateTime | null
+  updatedAt_gt?: DateTime | null
+  updatedAt_gte?: DateTime | null
+  user?: UserWhereInput | null
+  gameContent?: GameContentWhereInput | null
+}
+
+export interface UserRatingWhereUniqueInput {
+  id?: ID_Input | null
+}
+
 export interface UserSubscriptionWhereInput {
   AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput | null
   OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput | null
@@ -2976,6 +3394,13 @@ export interface UserSubscriptionWhereInput {
   updatedFields_contains_every?: String[] | String | null
   updatedFields_contains_some?: String[] | String | null
   node?: UserWhereInput | null
+}
+
+export interface UserUpdateDataInput {
+  username?: String | null
+  email?: String | null
+  hash?: String | null
+  salt?: String | null
 }
 
 export interface UserUpdateInput {
@@ -2990,6 +3415,18 @@ export interface UserUpdateManyMutationInput {
   email?: String | null
   hash?: String | null
   salt?: String | null
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: UserCreateInput | null
+  connect?: UserWhereUniqueInput | null
+  update?: UserUpdateDataInput | null
+  upsert?: UserUpsertNestedInput | null
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput
+  create: UserCreateInput
 }
 
 export interface UserWhereInput {
@@ -3114,6 +3551,10 @@ export interface AggregateNation {
 }
 
 export interface AggregateUser {
+  count: Int
+}
+
+export interface AggregateUserRating {
   count: Int
 }
 
@@ -3333,6 +3774,48 @@ export interface UserPreviousValues {
   salt: String
   createdAt: DateTime
   updatedAt: DateTime
+}
+
+export interface UserRating extends Node {
+  id: ID_Output
+  user: User
+  gameContent: GameContent
+  rating: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+/*
+ * A connection to a list of items.
+
+ */
+export interface UserRatingConnection {
+  pageInfo: PageInfo
+  edges: Array<UserRatingEdge | null>
+  aggregate: AggregateUserRating
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface UserRatingEdge {
+  node: UserRating
+  cursor: String
+}
+
+export interface UserRatingPreviousValues {
+  id: ID_Output
+  rating: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+export interface UserRatingSubscriptionPayload {
+  mutation: MutationType
+  node?: UserRating | null
+  updatedFields?: Array<String> | null
+  previousValues?: UserRatingPreviousValues | null
 }
 
 export interface UserSubscriptionPayload {

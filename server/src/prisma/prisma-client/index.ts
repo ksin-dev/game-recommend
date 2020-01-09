@@ -21,6 +21,7 @@ export interface Exists {
   genre: (where?: GenreWhereInput) => Promise<boolean>;
   nation: (where?: NationWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
+  userRating: (where?: UserRatingWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -139,6 +140,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => UserConnectionPromise;
+  userRating: (where: UserRatingWhereUniqueInput) => UserRatingNullablePromise;
+  userRatings: (args?: {
+    where?: UserRatingWhereInput;
+    orderBy?: UserRatingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<UserRating>;
+  userRatingsConnection: (args?: {
+    where?: UserRatingWhereInput;
+    orderBy?: UserRatingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => UserRatingConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -227,6 +247,22 @@ export interface Prisma {
   }) => UserPromise;
   deleteUser: (where: UserWhereUniqueInput) => UserPromise;
   deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
+  createUserRating: (data: UserRatingCreateInput) => UserRatingPromise;
+  updateUserRating: (args: {
+    data: UserRatingUpdateInput;
+    where: UserRatingWhereUniqueInput;
+  }) => UserRatingPromise;
+  updateManyUserRatings: (args: {
+    data: UserRatingUpdateManyMutationInput;
+    where?: UserRatingWhereInput;
+  }) => BatchPayloadPromise;
+  upsertUserRating: (args: {
+    where: UserRatingWhereUniqueInput;
+    create: UserRatingCreateInput;
+    update: UserRatingUpdateInput;
+  }) => UserRatingPromise;
+  deleteUserRating: (where: UserRatingWhereUniqueInput) => UserRatingPromise;
+  deleteManyUserRatings: (where?: UserRatingWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -251,6 +287,9 @@ export interface Subscription {
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
+  userRating: (
+    where?: UserRatingSubscriptionWhereInput
+  ) => UserRatingSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -277,6 +316,12 @@ export type GameContentOrderByInput =
   | "subImage_ASC"
   | "subImage_DESC";
 
+export type NationOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC";
+
 export type FileOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -290,12 +335,6 @@ export type FileOrderByInput =
   | "originalFilename_DESC"
   | "path_ASC"
   | "path_DESC";
-
-export type NationOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -313,339 +352,25 @@ export type UserOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type UserRatingOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "rating_ASC"
+  | "rating_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface GameContentUpdateInput {
-  genres?: Maybe<GenreUpdateManyWithoutGameContentsInput>;
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
+export interface GenreUpdateWithoutGameContentsDataInput {
+  name?: Maybe<String>;
 }
 
 export type FileWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
-
-export interface GameContentUpdateManyWithWhereNestedInput {
-  where: GameContentScalarWhereInput;
-  data: GameContentUpdateManyDataInput;
-}
-
-export interface GameContentCreateWithoutGenresInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  content: String;
-  productionYear: Int;
-  ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
-
-export interface GameContentScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  content?: Maybe<String>;
-  content_not?: Maybe<String>;
-  content_in?: Maybe<String[] | String>;
-  content_not_in?: Maybe<String[] | String>;
-  content_lt?: Maybe<String>;
-  content_lte?: Maybe<String>;
-  content_gt?: Maybe<String>;
-  content_gte?: Maybe<String>;
-  content_contains?: Maybe<String>;
-  content_not_contains?: Maybe<String>;
-  content_starts_with?: Maybe<String>;
-  content_not_starts_with?: Maybe<String>;
-  content_ends_with?: Maybe<String>;
-  content_not_ends_with?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  productionYear_not?: Maybe<Int>;
-  productionYear_in?: Maybe<Int[] | Int>;
-  productionYear_not_in?: Maybe<Int[] | Int>;
-  productionYear_lt?: Maybe<Int>;
-  productionYear_lte?: Maybe<Int>;
-  productionYear_gt?: Maybe<Int>;
-  productionYear_gte?: Maybe<Int>;
-  mainImage?: Maybe<String>;
-  mainImage_not?: Maybe<String>;
-  mainImage_in?: Maybe<String[] | String>;
-  mainImage_not_in?: Maybe<String[] | String>;
-  mainImage_lt?: Maybe<String>;
-  mainImage_lte?: Maybe<String>;
-  mainImage_gt?: Maybe<String>;
-  mainImage_gte?: Maybe<String>;
-  mainImage_contains?: Maybe<String>;
-  mainImage_not_contains?: Maybe<String>;
-  mainImage_starts_with?: Maybe<String>;
-  mainImage_not_starts_with?: Maybe<String>;
-  mainImage_ends_with?: Maybe<String>;
-  mainImage_not_ends_with?: Maybe<String>;
-  subImage?: Maybe<String>;
-  subImage_not?: Maybe<String>;
-  subImage_in?: Maybe<String[] | String>;
-  subImage_not_in?: Maybe<String[] | String>;
-  subImage_lt?: Maybe<String>;
-  subImage_lte?: Maybe<String>;
-  subImage_gt?: Maybe<String>;
-  subImage_gte?: Maybe<String>;
-  subImage_contains?: Maybe<String>;
-  subImage_not_contains?: Maybe<String>;
-  subImage_starts_with?: Maybe<String>;
-  subImage_not_starts_with?: Maybe<String>;
-  subImage_ends_with?: Maybe<String>;
-  subImage_not_ends_with?: Maybe<String>;
-  AND?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
-  OR?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
-  NOT?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
-}
-
-export interface GenreUpsertWithWhereUniqueWithoutGameContentsInput {
-  where: GenreWhereUniqueInput;
-  update: GenreUpdateWithoutGameContentsDataInput;
-  create: GenreCreateWithoutGameContentsInput;
-}
-
-export interface GameContentUpsertWithWhereUniqueWithoutGenresInput {
-  where: GameContentWhereUniqueInput;
-  update: GameContentUpdateWithoutGenresDataInput;
-  create: GameContentCreateWithoutGenresInput;
-}
-
-export interface NationSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<NationWhereInput>;
-  AND?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
-  OR?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
-  NOT?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
-}
-
-export interface GenreSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<GenreWhereInput>;
-  AND?: Maybe<GenreSubscriptionWhereInput[] | GenreSubscriptionWhereInput>;
-  OR?: Maybe<GenreSubscriptionWhereInput[] | GenreSubscriptionWhereInput>;
-  NOT?: Maybe<GenreSubscriptionWhereInput[] | GenreSubscriptionWhereInput>;
-}
-
-export interface GameContentWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  genres_every?: Maybe<GenreWhereInput>;
-  genres_some?: Maybe<GenreWhereInput>;
-  genres_none?: Maybe<GenreWhereInput>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  content?: Maybe<String>;
-  content_not?: Maybe<String>;
-  content_in?: Maybe<String[] | String>;
-  content_not_in?: Maybe<String[] | String>;
-  content_lt?: Maybe<String>;
-  content_lte?: Maybe<String>;
-  content_gt?: Maybe<String>;
-  content_gte?: Maybe<String>;
-  content_contains?: Maybe<String>;
-  content_not_contains?: Maybe<String>;
-  content_starts_with?: Maybe<String>;
-  content_not_starts_with?: Maybe<String>;
-  content_ends_with?: Maybe<String>;
-  content_not_ends_with?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  productionYear_not?: Maybe<Int>;
-  productionYear_in?: Maybe<Int[] | Int>;
-  productionYear_not_in?: Maybe<Int[] | Int>;
-  productionYear_lt?: Maybe<Int>;
-  productionYear_lte?: Maybe<Int>;
-  productionYear_gt?: Maybe<Int>;
-  productionYear_gte?: Maybe<Int>;
-  ProductionNation?: Maybe<NationWhereInput>;
-  mainImage?: Maybe<String>;
-  mainImage_not?: Maybe<String>;
-  mainImage_in?: Maybe<String[] | String>;
-  mainImage_not_in?: Maybe<String[] | String>;
-  mainImage_lt?: Maybe<String>;
-  mainImage_lte?: Maybe<String>;
-  mainImage_gt?: Maybe<String>;
-  mainImage_gte?: Maybe<String>;
-  mainImage_contains?: Maybe<String>;
-  mainImage_not_contains?: Maybe<String>;
-  mainImage_starts_with?: Maybe<String>;
-  mainImage_not_starts_with?: Maybe<String>;
-  mainImage_ends_with?: Maybe<String>;
-  mainImage_not_ends_with?: Maybe<String>;
-  subImage?: Maybe<String>;
-  subImage_not?: Maybe<String>;
-  subImage_in?: Maybe<String[] | String>;
-  subImage_not_in?: Maybe<String[] | String>;
-  subImage_lt?: Maybe<String>;
-  subImage_lte?: Maybe<String>;
-  subImage_gt?: Maybe<String>;
-  subImage_gte?: Maybe<String>;
-  subImage_contains?: Maybe<String>;
-  subImage_not_contains?: Maybe<String>;
-  subImage_starts_with?: Maybe<String>;
-  subImage_not_starts_with?: Maybe<String>;
-  subImage_ends_with?: Maybe<String>;
-  subImage_not_ends_with?: Maybe<String>;
-  AND?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
-  OR?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
-  NOT?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
-}
-
-export interface FileCreateInput {
-  id?: Maybe<ID_Input>;
-  filename: String;
-  mimetype: String;
-  encoding: String;
-  originalFilename: String;
-  path: String;
-}
-
-export interface GameContentSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<GameContentWhereInput>;
-  AND?: Maybe<
-    GameContentSubscriptionWhereInput[] | GameContentSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    GameContentSubscriptionWhereInput[] | GameContentSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    GameContentSubscriptionWhereInput[] | GameContentSubscriptionWhereInput
-  >;
-}
-
-export interface FileUpdateInput {
-  filename?: Maybe<String>;
-  mimetype?: Maybe<String>;
-  encoding?: Maybe<String>;
-  originalFilename?: Maybe<String>;
-  path?: Maybe<String>;
-}
-
-export interface UserUpdateManyMutationInput {
-  username?: Maybe<String>;
-  email?: Maybe<String>;
-  hash?: Maybe<String>;
-  salt?: Maybe<String>;
-}
-
-export interface FileUpdateManyMutationInput {
-  filename?: Maybe<String>;
-  mimetype?: Maybe<String>;
-  encoding?: Maybe<String>;
-  originalFilename?: Maybe<String>;
-  path?: Maybe<String>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  username: String;
-  email: String;
-  hash: String;
-  salt: String;
-}
-
-export interface GameContentUpdateWithoutGenresDataInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
-
-export interface GameContentUpsertWithWhereUniqueWithoutProductionNationInput {
-  where: GameContentWhereUniqueInput;
-  update: GameContentUpdateWithoutProductionNationDataInput;
-  create: GameContentCreateWithoutProductionNationInput;
-}
-
-export interface GameContentUpdateWithWhereUniqueWithoutGenresInput {
-  where: GameContentWhereUniqueInput;
-  data: GameContentUpdateWithoutGenresDataInput;
-}
-
-export interface GameContentUpdateWithoutProductionNationDataInput {
-  genres?: Maybe<GenreUpdateManyWithoutGameContentsInput>;
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
-
-export interface GameContentCreateInput {
-  id?: Maybe<ID_Input>;
-  genres?: Maybe<GenreCreateManyWithoutGameContentsInput>;
-  title: String;
-  content: String;
-  productionYear: Int;
-  ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
 
 export interface GameContentUpdateManyWithoutProductionNationInput {
   create?: Maybe<
@@ -675,14 +400,33 @@ export interface GameContentUpdateManyWithoutProductionNationInput {
   >;
 }
 
-export interface GenreCreateManyWithoutGameContentsInput {
-  create?: Maybe<
-    GenreCreateWithoutGameContentsInput[] | GenreCreateWithoutGameContentsInput
-  >;
-  connect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+export interface GameContentUpdateManyDataInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
 }
 
-export interface FileWhereInput {
+export interface NationUpdateInput {
+  name?: Maybe<String>;
+  gameContent?: Maybe<GameContentUpdateManyWithoutProductionNationInput>;
+}
+
+export interface NationUpdateOneWithoutGameContentInput {
+  create?: Maybe<NationCreateWithoutGameContentInput>;
+  update?: Maybe<NationUpdateWithoutGameContentDataInput>;
+  upsert?: Maybe<NationUpsertWithoutGameContentInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<NationWhereUniqueInput>;
+}
+
+export type GameContentWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface GenreWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -697,179 +441,35 @@ export interface FileWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  filename?: Maybe<String>;
-  filename_not?: Maybe<String>;
-  filename_in?: Maybe<String[] | String>;
-  filename_not_in?: Maybe<String[] | String>;
-  filename_lt?: Maybe<String>;
-  filename_lte?: Maybe<String>;
-  filename_gt?: Maybe<String>;
-  filename_gte?: Maybe<String>;
-  filename_contains?: Maybe<String>;
-  filename_not_contains?: Maybe<String>;
-  filename_starts_with?: Maybe<String>;
-  filename_not_starts_with?: Maybe<String>;
-  filename_ends_with?: Maybe<String>;
-  filename_not_ends_with?: Maybe<String>;
-  mimetype?: Maybe<String>;
-  mimetype_not?: Maybe<String>;
-  mimetype_in?: Maybe<String[] | String>;
-  mimetype_not_in?: Maybe<String[] | String>;
-  mimetype_lt?: Maybe<String>;
-  mimetype_lte?: Maybe<String>;
-  mimetype_gt?: Maybe<String>;
-  mimetype_gte?: Maybe<String>;
-  mimetype_contains?: Maybe<String>;
-  mimetype_not_contains?: Maybe<String>;
-  mimetype_starts_with?: Maybe<String>;
-  mimetype_not_starts_with?: Maybe<String>;
-  mimetype_ends_with?: Maybe<String>;
-  mimetype_not_ends_with?: Maybe<String>;
-  encoding?: Maybe<String>;
-  encoding_not?: Maybe<String>;
-  encoding_in?: Maybe<String[] | String>;
-  encoding_not_in?: Maybe<String[] | String>;
-  encoding_lt?: Maybe<String>;
-  encoding_lte?: Maybe<String>;
-  encoding_gt?: Maybe<String>;
-  encoding_gte?: Maybe<String>;
-  encoding_contains?: Maybe<String>;
-  encoding_not_contains?: Maybe<String>;
-  encoding_starts_with?: Maybe<String>;
-  encoding_not_starts_with?: Maybe<String>;
-  encoding_ends_with?: Maybe<String>;
-  encoding_not_ends_with?: Maybe<String>;
-  originalFilename?: Maybe<String>;
-  originalFilename_not?: Maybe<String>;
-  originalFilename_in?: Maybe<String[] | String>;
-  originalFilename_not_in?: Maybe<String[] | String>;
-  originalFilename_lt?: Maybe<String>;
-  originalFilename_lte?: Maybe<String>;
-  originalFilename_gt?: Maybe<String>;
-  originalFilename_gte?: Maybe<String>;
-  originalFilename_contains?: Maybe<String>;
-  originalFilename_not_contains?: Maybe<String>;
-  originalFilename_starts_with?: Maybe<String>;
-  originalFilename_not_starts_with?: Maybe<String>;
-  originalFilename_ends_with?: Maybe<String>;
-  originalFilename_not_ends_with?: Maybe<String>;
-  path?: Maybe<String>;
-  path_not?: Maybe<String>;
-  path_in?: Maybe<String[] | String>;
-  path_not_in?: Maybe<String[] | String>;
-  path_lt?: Maybe<String>;
-  path_lte?: Maybe<String>;
-  path_gt?: Maybe<String>;
-  path_gte?: Maybe<String>;
-  path_contains?: Maybe<String>;
-  path_not_contains?: Maybe<String>;
-  path_starts_with?: Maybe<String>;
-  path_not_starts_with?: Maybe<String>;
-  path_ends_with?: Maybe<String>;
-  path_not_ends_with?: Maybe<String>;
-  AND?: Maybe<FileWhereInput[] | FileWhereInput>;
-  OR?: Maybe<FileWhereInput[] | FileWhereInput>;
-  NOT?: Maybe<FileWhereInput[] | FileWhereInput>;
-}
-
-export interface GenreCreateWithoutGameContentsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-}
-
-export interface GameContentCreateWithoutProductionNationInput {
-  id?: Maybe<ID_Input>;
-  genres?: Maybe<GenreCreateManyWithoutGameContentsInput>;
-  title: String;
-  content: String;
-  productionYear: Int;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
-
-export interface NationCreateOneWithoutGameContentInput {
-  create?: Maybe<NationCreateWithoutGameContentInput>;
-  connect?: Maybe<NationWhereUniqueInput>;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
-
-export interface NationCreateWithoutGameContentInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-}
-
-export interface GenreUpdateManyMutationInput {
   name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  gameContents_every?: Maybe<GameContentWhereInput>;
+  gameContents_some?: Maybe<GameContentWhereInput>;
+  gameContents_none?: Maybe<GameContentWhereInput>;
+  AND?: Maybe<GenreWhereInput[] | GenreWhereInput>;
+  OR?: Maybe<GenreWhereInput[] | GenreWhereInput>;
+  NOT?: Maybe<GenreWhereInput[] | GenreWhereInput>;
 }
 
-export interface GameContentUpdateManyWithoutGenresInput {
-  create?: Maybe<
-    GameContentCreateWithoutGenresInput[] | GameContentCreateWithoutGenresInput
-  >;
-  delete?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
-  connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
-  set?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
-  disconnect?: Maybe<
-    GameContentWhereUniqueInput[] | GameContentWhereUniqueInput
-  >;
-  update?: Maybe<
-    | GameContentUpdateWithWhereUniqueWithoutGenresInput[]
-    | GameContentUpdateWithWhereUniqueWithoutGenresInput
-  >;
-  upsert?: Maybe<
-    | GameContentUpsertWithWhereUniqueWithoutGenresInput[]
-    | GameContentUpsertWithWhereUniqueWithoutGenresInput
-  >;
-  deleteMany?: Maybe<
-    GameContentScalarWhereInput[] | GameContentScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | GameContentUpdateManyWithWhereNestedInput[]
-    | GameContentUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface GameContentUpdateManyDataInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  productionYear?: Maybe<Int>;
-  mainImage?: Maybe<String>;
-  subImage?: Maybe<String>;
-}
-
-export interface GenreUpdateManyWithoutGameContentsInput {
-  create?: Maybe<
-    GenreCreateWithoutGameContentsInput[] | GenreCreateWithoutGameContentsInput
-  >;
-  delete?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-  connect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-  set?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-  disconnect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
-  update?: Maybe<
-    | GenreUpdateWithWhereUniqueWithoutGameContentsInput[]
-    | GenreUpdateWithWhereUniqueWithoutGameContentsInput
-  >;
-  upsert?: Maybe<
-    | GenreUpsertWithWhereUniqueWithoutGameContentsInput[]
-    | GenreUpsertWithWhereUniqueWithoutGameContentsInput
-  >;
-  deleteMany?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
-  updateMany?: Maybe<
-    GenreUpdateManyWithWhereNestedInput[] | GenreUpdateManyWithWhereNestedInput
-  >;
-}
-
-export type GameContentWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface GenreUpdateWithWhereUniqueWithoutGameContentsInput {
-  where: GenreWhereUniqueInput;
-  data: GenreUpdateWithoutGameContentsDataInput;
+export interface FileCreateInput {
+  id?: Maybe<ID_Input>;
+  filename: String;
+  mimetype: String;
+  encoding: String;
+  originalFilename: String;
+  path: String;
 }
 
 export interface NationWhereInput {
@@ -909,67 +509,57 @@ export interface NationWhereInput {
   NOT?: Maybe<NationWhereInput[] | NationWhereInput>;
 }
 
-export interface GenreUpdateWithoutGameContentsDataInput {
-  name?: Maybe<String>;
+export interface FileUpdateInput {
+  filename?: Maybe<String>;
+  mimetype?: Maybe<String>;
+  encoding?: Maybe<String>;
+  originalFilename?: Maybe<String>;
+  path?: Maybe<String>;
 }
 
-export interface UserUpdateInput {
-  username?: Maybe<String>;
-  email?: Maybe<String>;
-  hash?: Maybe<String>;
-  salt?: Maybe<String>;
+export interface GenreSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<GenreWhereInput>;
+  AND?: Maybe<GenreSubscriptionWhereInput[] | GenreSubscriptionWhereInput>;
+  OR?: Maybe<GenreSubscriptionWhereInput[] | GenreSubscriptionWhereInput>;
+  NOT?: Maybe<GenreSubscriptionWhereInput[] | GenreSubscriptionWhereInput>;
 }
 
-export interface GenreUpdateInput {
-  name?: Maybe<String>;
-  gameContents?: Maybe<GameContentUpdateManyWithoutGenresInput>;
+export interface FileUpdateManyMutationInput {
+  filename?: Maybe<String>;
+  mimetype?: Maybe<String>;
+  encoding?: Maybe<String>;
+  originalFilename?: Maybe<String>;
+  path?: Maybe<String>;
 }
 
-export type GenreWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface FileSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<FileWhereInput>;
+  AND?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
+  OR?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
+  NOT?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
+}
 
-export interface GenreScalarWhereInput {
+export interface GameContentCreateWithoutProductionNationInput {
   id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
-  OR?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
-  NOT?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
+  genres?: Maybe<GenreCreateManyWithoutGameContentsInput>;
+  title: String;
+  content: String;
+  productionYear: Int;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
 }
 
-export type NationWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface GenreUpdateManyWithWhereNestedInput {
-  where: GenreScalarWhereInput;
-  data: GenreUpdateManyDataInput;
+export interface GameContentUpsertNestedInput {
+  update: GameContentUpdateDataInput;
+  create: GameContentCreateInput;
 }
 
 export interface GameContentCreateManyWithoutProductionNationInput {
@@ -980,8 +570,78 @@ export interface GameContentCreateManyWithoutProductionNationInput {
   connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
 }
 
-export interface GenreUpdateManyDataInput {
-  name?: Maybe<String>;
+export type GenreWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface GameContentCreateInput {
+  id?: Maybe<ID_Input>;
+  genres?: Maybe<GenreCreateManyWithoutGameContentsInput>;
+  title: String;
+  content: String;
+  productionYear: Int;
+  ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface GenreCreateManyWithoutGameContentsInput {
+  create?: Maybe<
+    GenreCreateWithoutGameContentsInput[] | GenreCreateWithoutGameContentsInput
+  >;
+  connect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+}
+
+export type NationWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface GenreCreateWithoutGameContentsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+}
+
+export interface UserRatingUpdateInput {
+  user?: Maybe<UserUpdateOneRequiredInput>;
+  gameContent?: Maybe<GameContentUpdateOneRequiredInput>;
+  rating?: Maybe<Int>;
+}
+
+export interface NationCreateOneWithoutGameContentInput {
+  create?: Maybe<NationCreateWithoutGameContentInput>;
+  connect?: Maybe<NationWhereUniqueInput>;
+}
+
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface NationCreateWithoutGameContentInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+}
+
+export interface UserRatingCreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneInput;
+  gameContent: GameContentCreateOneInput;
+  rating: Int;
+}
+
+export interface GameContentUpdateInput {
+  genres?: Maybe<GenreUpdateManyWithoutGameContentsInput>;
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
 }
 
 export interface UserWhereInput {
@@ -1076,16 +736,72 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface NationUpdateOneWithoutGameContentInput {
-  create?: Maybe<NationCreateWithoutGameContentInput>;
-  update?: Maybe<NationUpdateWithoutGameContentDataInput>;
-  upsert?: Maybe<NationUpsertWithoutGameContentInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<NationWhereUniqueInput>;
+export interface GenreUpdateManyWithoutGameContentsInput {
+  create?: Maybe<
+    GenreCreateWithoutGameContentsInput[] | GenreCreateWithoutGameContentsInput
+  >;
+  delete?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+  connect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+  set?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+  disconnect?: Maybe<GenreWhereUniqueInput[] | GenreWhereUniqueInput>;
+  update?: Maybe<
+    | GenreUpdateWithWhereUniqueWithoutGameContentsInput[]
+    | GenreUpdateWithWhereUniqueWithoutGameContentsInput
+  >;
+  upsert?: Maybe<
+    | GenreUpsertWithWhereUniqueWithoutGameContentsInput[]
+    | GenreUpsertWithWhereUniqueWithoutGameContentsInput
+  >;
+  deleteMany?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
+  updateMany?: Maybe<
+    GenreUpdateManyWithWhereNestedInput[] | GenreUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface GenreWhereInput {
+export interface UserUpdateInput {
+  username?: Maybe<String>;
+  email?: Maybe<String>;
+  hash?: Maybe<String>;
+  salt?: Maybe<String>;
+}
+
+export interface GenreUpdateWithWhereUniqueWithoutGameContentsInput {
+  where: GenreWhereUniqueInput;
+  data: GenreUpdateWithoutGameContentsDataInput;
+}
+
+export interface NationUpdateManyMutationInput {
+  name?: Maybe<String>;
+}
+
+export interface NationCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  gameContent?: Maybe<GameContentCreateManyWithoutProductionNationInput>;
+}
+
+export interface GameContentUpsertWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput;
+  update: GameContentUpdateWithoutProductionNationDataInput;
+  create: GameContentCreateWithoutProductionNationInput;
+}
+
+export interface GenreUpsertWithWhereUniqueWithoutGameContentsInput {
+  where: GenreWhereUniqueInput;
+  update: GenreUpdateWithoutGameContentsDataInput;
+  create: GenreCreateWithoutGameContentsInput;
+}
+
+export interface GameContentUpdateWithoutProductionNationDataInput {
+  genres?: Maybe<GenreUpdateManyWithoutGameContentsInput>;
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
+}
+
+export interface GenreScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1114,33 +830,175 @@ export interface GenreWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  gameContents_every?: Maybe<GameContentWhereInput>;
-  gameContents_some?: Maybe<GameContentWhereInput>;
-  gameContents_none?: Maybe<GameContentWhereInput>;
-  AND?: Maybe<GenreWhereInput[] | GenreWhereInput>;
-  OR?: Maybe<GenreWhereInput[] | GenreWhereInput>;
-  NOT?: Maybe<GenreWhereInput[] | GenreWhereInput>;
+  AND?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
+  OR?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
+  NOT?: Maybe<GenreScalarWhereInput[] | GenreScalarWhereInput>;
+}
+
+export interface UserRatingSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserRatingWhereInput>;
+  AND?: Maybe<
+    UserRatingSubscriptionWhereInput[] | UserRatingSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    UserRatingSubscriptionWhereInput[] | UserRatingSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    UserRatingSubscriptionWhereInput[] | UserRatingSubscriptionWhereInput
+  >;
+}
+
+export interface GenreUpdateManyWithWhereNestedInput {
+  where: GenreScalarWhereInput;
+  data: GenreUpdateManyDataInput;
+}
+
+export interface GameContentWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  genres_every?: Maybe<GenreWhereInput>;
+  genres_some?: Maybe<GenreWhereInput>;
+  genres_none?: Maybe<GenreWhereInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  content?: Maybe<String>;
+  content_not?: Maybe<String>;
+  content_in?: Maybe<String[] | String>;
+  content_not_in?: Maybe<String[] | String>;
+  content_lt?: Maybe<String>;
+  content_lte?: Maybe<String>;
+  content_gt?: Maybe<String>;
+  content_gte?: Maybe<String>;
+  content_contains?: Maybe<String>;
+  content_not_contains?: Maybe<String>;
+  content_starts_with?: Maybe<String>;
+  content_not_starts_with?: Maybe<String>;
+  content_ends_with?: Maybe<String>;
+  content_not_ends_with?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  productionYear_not?: Maybe<Int>;
+  productionYear_in?: Maybe<Int[] | Int>;
+  productionYear_not_in?: Maybe<Int[] | Int>;
+  productionYear_lt?: Maybe<Int>;
+  productionYear_lte?: Maybe<Int>;
+  productionYear_gt?: Maybe<Int>;
+  productionYear_gte?: Maybe<Int>;
+  ProductionNation?: Maybe<NationWhereInput>;
+  mainImage?: Maybe<String>;
+  mainImage_not?: Maybe<String>;
+  mainImage_in?: Maybe<String[] | String>;
+  mainImage_not_in?: Maybe<String[] | String>;
+  mainImage_lt?: Maybe<String>;
+  mainImage_lte?: Maybe<String>;
+  mainImage_gt?: Maybe<String>;
+  mainImage_gte?: Maybe<String>;
+  mainImage_contains?: Maybe<String>;
+  mainImage_not_contains?: Maybe<String>;
+  mainImage_starts_with?: Maybe<String>;
+  mainImage_not_starts_with?: Maybe<String>;
+  mainImage_ends_with?: Maybe<String>;
+  mainImage_not_ends_with?: Maybe<String>;
+  subImage?: Maybe<String>;
+  subImage_not?: Maybe<String>;
+  subImage_in?: Maybe<String[] | String>;
+  subImage_not_in?: Maybe<String[] | String>;
+  subImage_lt?: Maybe<String>;
+  subImage_lte?: Maybe<String>;
+  subImage_gt?: Maybe<String>;
+  subImage_gte?: Maybe<String>;
+  subImage_contains?: Maybe<String>;
+  subImage_not_contains?: Maybe<String>;
+  subImage_starts_with?: Maybe<String>;
+  subImage_not_starts_with?: Maybe<String>;
+  subImage_ends_with?: Maybe<String>;
+  subImage_not_ends_with?: Maybe<String>;
+  AND?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
+  OR?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
+  NOT?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
+}
+
+export interface GenreUpdateManyDataInput {
+  name?: Maybe<String>;
+}
+
+export interface GameContentSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<GameContentWhereInput>;
+  AND?: Maybe<
+    GameContentSubscriptionWhereInput[] | GameContentSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    GameContentSubscriptionWhereInput[] | GameContentSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    GameContentSubscriptionWhereInput[] | GameContentSubscriptionWhereInput
+  >;
+}
+
+export interface GenreUpdateManyMutationInput {
+  name?: Maybe<String>;
+}
+
+export interface GameContentUpdateDataInput {
+  genres?: Maybe<GenreUpdateManyWithoutGameContentsInput>;
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
 }
 
 export interface NationUpdateWithoutGameContentDataInput {
   name?: Maybe<String>;
 }
 
-export interface NationUpdateManyMutationInput {
-  name?: Maybe<String>;
+export interface UserUpdateDataInput {
+  username?: Maybe<String>;
+  email?: Maybe<String>;
+  hash?: Maybe<String>;
+  salt?: Maybe<String>;
 }
 
-export interface GameContentCreateManyWithoutGenresInput {
-  create?: Maybe<
-    GameContentCreateWithoutGenresInput[] | GameContentCreateWithoutGenresInput
-  >;
-  connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+export interface NationUpsertWithoutGameContentInput {
+  update: NationUpdateWithoutGameContentDataInput;
+  create: NationCreateWithoutGameContentInput;
 }
 
-export interface GenreCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  gameContents?: Maybe<GameContentCreateManyWithoutGenresInput>;
+export interface GameContentCreateOneInput {
+  create?: Maybe<GameContentCreateInput>;
+  connect?: Maybe<GameContentWhereUniqueInput>;
 }
 
 export interface GameContentUpdateManyMutationInput {
@@ -1151,25 +1009,88 @@ export interface GameContentUpdateManyMutationInput {
   subImage?: Maybe<String>;
 }
 
-export interface NationUpsertWithoutGameContentInput {
-  update: NationUpdateWithoutGameContentDataInput;
-  create: NationCreateWithoutGameContentInput;
+export interface UserUpdateManyMutationInput {
+  username?: Maybe<String>;
+  email?: Maybe<String>;
+  hash?: Maybe<String>;
+  salt?: Maybe<String>;
 }
 
-export interface GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
-  where: GameContentWhereUniqueInput;
-  data: GameContentUpdateWithoutProductionNationDataInput;
+export interface GenreCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  gameContents?: Maybe<GameContentCreateManyWithoutGenresInput>;
 }
 
-export interface FileSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<FileWhereInput>;
-  AND?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
-  OR?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
-  NOT?: Maybe<FileSubscriptionWhereInput[] | FileSubscriptionWhereInput>;
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  username: String;
+  email: String;
+  hash: String;
+  salt: String;
+}
+
+export interface GameContentCreateManyWithoutGenresInput {
+  create?: Maybe<
+    GameContentCreateWithoutGenresInput[] | GameContentCreateWithoutGenresInput
+  >;
+  connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+}
+
+export interface UserRatingWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  user?: Maybe<UserWhereInput>;
+  gameContent?: Maybe<GameContentWhereInput>;
+  rating?: Maybe<Int>;
+  rating_not?: Maybe<Int>;
+  rating_in?: Maybe<Int[] | Int>;
+  rating_not_in?: Maybe<Int[] | Int>;
+  rating_lt?: Maybe<Int>;
+  rating_lte?: Maybe<Int>;
+  rating_gt?: Maybe<Int>;
+  rating_gte?: Maybe<Int>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<UserRatingWhereInput[] | UserRatingWhereInput>;
+  OR?: Maybe<UserRatingWhereInput[] | UserRatingWhereInput>;
+  NOT?: Maybe<UserRatingWhereInput[] | UserRatingWhereInput>;
+}
+
+export interface GameContentCreateWithoutGenresInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  content: String;
+  productionYear: Int;
+  ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -1183,509 +1104,340 @@ export interface UserSubscriptionWhereInput {
   NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface NationCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  gameContent?: Maybe<GameContentCreateManyWithoutProductionNationInput>;
+export interface GenreUpdateInput {
+  name?: Maybe<String>;
+  gameContents?: Maybe<GameContentUpdateManyWithoutGenresInput>;
 }
 
-export interface NationUpdateInput {
-  name?: Maybe<String>;
-  gameContent?: Maybe<GameContentUpdateManyWithoutProductionNationInput>;
+export interface UserRatingUpdateManyMutationInput {
+  rating?: Maybe<Int>;
+}
+
+export interface GameContentUpdateManyWithoutGenresInput {
+  create?: Maybe<
+    GameContentCreateWithoutGenresInput[] | GameContentCreateWithoutGenresInput
+  >;
+  delete?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+  connect?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+  set?: Maybe<GameContentWhereUniqueInput[] | GameContentWhereUniqueInput>;
+  disconnect?: Maybe<
+    GameContentWhereUniqueInput[] | GameContentWhereUniqueInput
+  >;
+  update?: Maybe<
+    | GameContentUpdateWithWhereUniqueWithoutGenresInput[]
+    | GameContentUpdateWithWhereUniqueWithoutGenresInput
+  >;
+  upsert?: Maybe<
+    | GameContentUpsertWithWhereUniqueWithoutGenresInput[]
+    | GameContentUpsertWithWhereUniqueWithoutGenresInput
+  >;
+  deleteMany?: Maybe<
+    GameContentScalarWhereInput[] | GameContentScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | GameContentUpdateManyWithWhereNestedInput[]
+    | GameContentUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface GameContentUpdateWithWhereUniqueWithoutGenresInput {
+  where: GameContentWhereUniqueInput;
+  data: GameContentUpdateWithoutGenresDataInput;
+}
+
+export interface FileWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  filename?: Maybe<String>;
+  filename_not?: Maybe<String>;
+  filename_in?: Maybe<String[] | String>;
+  filename_not_in?: Maybe<String[] | String>;
+  filename_lt?: Maybe<String>;
+  filename_lte?: Maybe<String>;
+  filename_gt?: Maybe<String>;
+  filename_gte?: Maybe<String>;
+  filename_contains?: Maybe<String>;
+  filename_not_contains?: Maybe<String>;
+  filename_starts_with?: Maybe<String>;
+  filename_not_starts_with?: Maybe<String>;
+  filename_ends_with?: Maybe<String>;
+  filename_not_ends_with?: Maybe<String>;
+  mimetype?: Maybe<String>;
+  mimetype_not?: Maybe<String>;
+  mimetype_in?: Maybe<String[] | String>;
+  mimetype_not_in?: Maybe<String[] | String>;
+  mimetype_lt?: Maybe<String>;
+  mimetype_lte?: Maybe<String>;
+  mimetype_gt?: Maybe<String>;
+  mimetype_gte?: Maybe<String>;
+  mimetype_contains?: Maybe<String>;
+  mimetype_not_contains?: Maybe<String>;
+  mimetype_starts_with?: Maybe<String>;
+  mimetype_not_starts_with?: Maybe<String>;
+  mimetype_ends_with?: Maybe<String>;
+  mimetype_not_ends_with?: Maybe<String>;
+  encoding?: Maybe<String>;
+  encoding_not?: Maybe<String>;
+  encoding_in?: Maybe<String[] | String>;
+  encoding_not_in?: Maybe<String[] | String>;
+  encoding_lt?: Maybe<String>;
+  encoding_lte?: Maybe<String>;
+  encoding_gt?: Maybe<String>;
+  encoding_gte?: Maybe<String>;
+  encoding_contains?: Maybe<String>;
+  encoding_not_contains?: Maybe<String>;
+  encoding_starts_with?: Maybe<String>;
+  encoding_not_starts_with?: Maybe<String>;
+  encoding_ends_with?: Maybe<String>;
+  encoding_not_ends_with?: Maybe<String>;
+  originalFilename?: Maybe<String>;
+  originalFilename_not?: Maybe<String>;
+  originalFilename_in?: Maybe<String[] | String>;
+  originalFilename_not_in?: Maybe<String[] | String>;
+  originalFilename_lt?: Maybe<String>;
+  originalFilename_lte?: Maybe<String>;
+  originalFilename_gt?: Maybe<String>;
+  originalFilename_gte?: Maybe<String>;
+  originalFilename_contains?: Maybe<String>;
+  originalFilename_not_contains?: Maybe<String>;
+  originalFilename_starts_with?: Maybe<String>;
+  originalFilename_not_starts_with?: Maybe<String>;
+  originalFilename_ends_with?: Maybe<String>;
+  originalFilename_not_ends_with?: Maybe<String>;
+  path?: Maybe<String>;
+  path_not?: Maybe<String>;
+  path_in?: Maybe<String[] | String>;
+  path_not_in?: Maybe<String[] | String>;
+  path_lt?: Maybe<String>;
+  path_lte?: Maybe<String>;
+  path_gt?: Maybe<String>;
+  path_gte?: Maybe<String>;
+  path_contains?: Maybe<String>;
+  path_not_contains?: Maybe<String>;
+  path_starts_with?: Maybe<String>;
+  path_not_starts_with?: Maybe<String>;
+  path_ends_with?: Maybe<String>;
+  path_not_ends_with?: Maybe<String>;
+  AND?: Maybe<FileWhereInput[] | FileWhereInput>;
+  OR?: Maybe<FileWhereInput[] | FileWhereInput>;
+  NOT?: Maybe<FileWhereInput[] | FileWhereInput>;
+}
+
+export interface GameContentUpdateManyWithWhereNestedInput {
+  where: GameContentScalarWhereInput;
+  data: GameContentUpdateManyDataInput;
+}
+
+export interface GameContentScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  content?: Maybe<String>;
+  content_not?: Maybe<String>;
+  content_in?: Maybe<String[] | String>;
+  content_not_in?: Maybe<String[] | String>;
+  content_lt?: Maybe<String>;
+  content_lte?: Maybe<String>;
+  content_gt?: Maybe<String>;
+  content_gte?: Maybe<String>;
+  content_contains?: Maybe<String>;
+  content_not_contains?: Maybe<String>;
+  content_starts_with?: Maybe<String>;
+  content_not_starts_with?: Maybe<String>;
+  content_ends_with?: Maybe<String>;
+  content_not_ends_with?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  productionYear_not?: Maybe<Int>;
+  productionYear_in?: Maybe<Int[] | Int>;
+  productionYear_not_in?: Maybe<Int[] | Int>;
+  productionYear_lt?: Maybe<Int>;
+  productionYear_lte?: Maybe<Int>;
+  productionYear_gt?: Maybe<Int>;
+  productionYear_gte?: Maybe<Int>;
+  mainImage?: Maybe<String>;
+  mainImage_not?: Maybe<String>;
+  mainImage_in?: Maybe<String[] | String>;
+  mainImage_not_in?: Maybe<String[] | String>;
+  mainImage_lt?: Maybe<String>;
+  mainImage_lte?: Maybe<String>;
+  mainImage_gt?: Maybe<String>;
+  mainImage_gte?: Maybe<String>;
+  mainImage_contains?: Maybe<String>;
+  mainImage_not_contains?: Maybe<String>;
+  mainImage_starts_with?: Maybe<String>;
+  mainImage_not_starts_with?: Maybe<String>;
+  mainImage_ends_with?: Maybe<String>;
+  mainImage_not_ends_with?: Maybe<String>;
+  subImage?: Maybe<String>;
+  subImage_not?: Maybe<String>;
+  subImage_in?: Maybe<String[] | String>;
+  subImage_not_in?: Maybe<String[] | String>;
+  subImage_lt?: Maybe<String>;
+  subImage_lte?: Maybe<String>;
+  subImage_gt?: Maybe<String>;
+  subImage_gte?: Maybe<String>;
+  subImage_contains?: Maybe<String>;
+  subImage_not_contains?: Maybe<String>;
+  subImage_starts_with?: Maybe<String>;
+  subImage_not_starts_with?: Maybe<String>;
+  subImage_ends_with?: Maybe<String>;
+  subImage_not_ends_with?: Maybe<String>;
+  AND?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
+  OR?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
+  NOT?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
+}
+
+export interface GameContentUpsertWithWhereUniqueWithoutGenresInput {
+  where: GameContentWhereUniqueInput;
+  update: GameContentUpdateWithoutGenresDataInput;
+  create: GameContentCreateWithoutGenresInput;
+}
+
+export interface GameContentUpdateWithoutGenresDataInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  productionYear?: Maybe<Int>;
+  ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
+  mainImage?: Maybe<String>;
+  subImage?: Maybe<String>;
+}
+
+export type UserRatingWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
+export interface GameContentUpdateOneRequiredInput {
+  create?: Maybe<GameContentCreateInput>;
+  update?: Maybe<GameContentUpdateDataInput>;
+  upsert?: Maybe<GameContentUpsertNestedInput>;
+  connect?: Maybe<GameContentWhereUniqueInput>;
+}
+
+export interface NationSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<NationWhereInput>;
+  AND?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
+  OR?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
+  NOT?: Maybe<NationSubscriptionWhereInput[] | NationSubscriptionWhereInput>;
+}
+
+export interface GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
+  where: GameContentWhereUniqueInput;
+  data: GameContentUpdateWithoutProductionNationDataInput;
 }
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface UserPreviousValues {
+export interface UserRatingPreviousValues {
   id: ID_Output;
-  username: String;
-  email: String;
-  hash: String;
-  salt: String;
+  rating: Int;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
 
-export interface UserPreviousValuesPromise
-  extends Promise<UserPreviousValues>,
+export interface UserRatingPreviousValuesPromise
+  extends Promise<UserRatingPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  username: () => Promise<String>;
-  email: () => Promise<String>;
-  hash: () => Promise<String>;
-  salt: () => Promise<String>;
+  rating: () => Promise<Int>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface UserPreviousValuesSubscription
-  extends Promise<AsyncIterator<UserPreviousValues>>,
+export interface UserRatingPreviousValuesSubscription
+  extends Promise<AsyncIterator<UserRatingPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  username: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  hash: () => Promise<AsyncIterator<String>>;
-  salt: () => Promise<AsyncIterator<String>>;
+  rating: () => Promise<AsyncIterator<Int>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface GameContentConnection {
-  pageInfo: PageInfo;
-  edges: GameContentEdge[];
-}
-
-export interface GameContentConnectionPromise
-  extends Promise<GameContentConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<GameContentEdge>>() => T;
-  aggregate: <T = AggregateGameContentPromise>() => T;
-}
-
-export interface GameContentConnectionSubscription
-  extends Promise<AsyncIterator<GameContentConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<GameContentEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateGameContentSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface GameContentEdge {
-  node: GameContent;
-  cursor: String;
-}
-
-export interface GameContentEdgePromise
-  extends Promise<GameContentEdge>,
-    Fragmentable {
-  node: <T = GameContentPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface GameContentEdgeSubscription
-  extends Promise<AsyncIterator<GameContentEdge>>,
-    Fragmentable {
-  node: <T = GameContentSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateFile {
+export interface AggregateGameContent {
   count: Int;
 }
 
-export interface AggregateFilePromise
-  extends Promise<AggregateFile>,
+export interface AggregateGameContentPromise
+  extends Promise<AggregateGameContent>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateFileSubscription
-  extends Promise<AsyncIterator<AggregateFile>>,
+export interface AggregateGameContentSubscription
+  extends Promise<AsyncIterator<AggregateGameContent>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface NationPreviousValues {
-  id: ID_Output;
-  name: String;
-}
-
-export interface NationPreviousValuesPromise
-  extends Promise<NationPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface NationPreviousValuesSubscription
-  extends Promise<AsyncIterator<NationPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Nation {
-  id: ID_Output;
-  name: String;
-}
-
-export interface NationPromise extends Promise<Nation>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  gameContent: <T = FragmentableArray<GameContent>>(args?: {
-    where?: GameContentWhereInput;
-    orderBy?: GameContentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface NationSubscription
-  extends Promise<AsyncIterator<Nation>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  gameContent: <T = Promise<AsyncIterator<GameContentSubscription>>>(args?: {
-    where?: GameContentWhereInput;
-    orderBy?: GameContentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface NationNullablePromise
-  extends Promise<Nation | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  gameContent: <T = FragmentableArray<GameContent>>(args?: {
-    where?: GameContentWhereInput;
-    orderBy?: GameContentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface NationSubscriptionPayload {
-  mutation: MutationType;
-  node: Nation;
-  updatedFields: String[];
-  previousValues: NationPreviousValues;
-}
-
-export interface NationSubscriptionPayloadPromise
-  extends Promise<NationSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = NationPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = NationPreviousValuesPromise>() => T;
-}
-
-export interface NationSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<NationSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = NationSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = NationPreviousValuesSubscription>() => T;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface Genre {
-  id: ID_Output;
-  name: String;
-}
-
-export interface GenrePromise extends Promise<Genre>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  gameContents: <T = FragmentableArray<GameContent>>(args?: {
-    where?: GameContentWhereInput;
-    orderBy?: GameContentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface GenreSubscription
-  extends Promise<AsyncIterator<Genre>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  gameContents: <T = Promise<AsyncIterator<GameContentSubscription>>>(args?: {
-    where?: GameContentWhereInput;
-    orderBy?: GameContentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface GenreNullablePromise
-  extends Promise<Genre | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  gameContents: <T = FragmentableArray<GameContent>>(args?: {
-    where?: GameContentWhereInput;
-    orderBy?: GameContentOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface User {
-  id: ID_Output;
-  username: String;
-  email: String;
-  hash: String;
-  salt: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  username: () => Promise<String>;
-  email: () => Promise<String>;
-  hash: () => Promise<String>;
-  salt: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  username: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  hash: () => Promise<AsyncIterator<String>>;
-  salt: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  username: () => Promise<String>;
-  email: () => Promise<String>;
-  hash: () => Promise<String>;
-  salt: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface File {
-  id: ID_Output;
-  filename: String;
-  mimetype: String;
-  encoding: String;
-  originalFilename: String;
-  path: String;
-}
-
-export interface FilePromise extends Promise<File>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  filename: () => Promise<String>;
-  mimetype: () => Promise<String>;
-  encoding: () => Promise<String>;
-  originalFilename: () => Promise<String>;
-  path: () => Promise<String>;
-}
-
-export interface FileSubscription
-  extends Promise<AsyncIterator<File>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  filename: () => Promise<AsyncIterator<String>>;
-  mimetype: () => Promise<AsyncIterator<String>>;
-  encoding: () => Promise<AsyncIterator<String>>;
-  originalFilename: () => Promise<AsyncIterator<String>>;
-  path: () => Promise<AsyncIterator<String>>;
-}
-
-export interface FileNullablePromise
-  extends Promise<File | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  filename: () => Promise<String>;
-  mimetype: () => Promise<String>;
-  encoding: () => Promise<String>;
-  originalFilename: () => Promise<String>;
-  path: () => Promise<String>;
-}
-
-export interface NationEdge {
-  node: Nation;
-  cursor: String;
-}
-
-export interface NationEdgePromise extends Promise<NationEdge>, Fragmentable {
-  node: <T = NationPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface NationEdgeSubscription
-  extends Promise<AsyncIterator<NationEdge>>,
-    Fragmentable {
-  node: <T = NationSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface FileSubscriptionPayload {
-  mutation: MutationType;
+export interface FileEdge {
   node: File;
-  updatedFields: String[];
-  previousValues: FilePreviousValues;
+  cursor: String;
 }
 
-export interface FileSubscriptionPayloadPromise
-  extends Promise<FileSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
+export interface FileEdgePromise extends Promise<FileEdge>, Fragmentable {
   node: <T = FilePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = FilePreviousValuesPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface FileSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<FileSubscriptionPayload>>,
+export interface FileEdgeSubscription
+  extends Promise<AsyncIterator<FileEdge>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
   node: <T = FileSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = FilePreviousValuesSubscription>() => T;
-}
-
-export interface AggregateGenre {
-  count: Int;
-}
-
-export interface AggregateGenrePromise
-  extends Promise<AggregateGenre>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateGenreSubscription
-  extends Promise<AsyncIterator<AggregateGenre>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface FilePreviousValues {
-  id: ID_Output;
-  filename: String;
-  mimetype: String;
-  encoding: String;
-  originalFilename: String;
-  path: String;
-}
-
-export interface FilePreviousValuesPromise
-  extends Promise<FilePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  filename: () => Promise<String>;
-  mimetype: () => Promise<String>;
-  encoding: () => Promise<String>;
-  originalFilename: () => Promise<String>;
-  path: () => Promise<String>;
-}
-
-export interface FilePreviousValuesSubscription
-  extends Promise<AsyncIterator<FilePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  filename: () => Promise<AsyncIterator<String>>;
-  mimetype: () => Promise<AsyncIterator<String>>;
-  encoding: () => Promise<AsyncIterator<String>>;
-  originalFilename: () => Promise<AsyncIterator<String>>;
-  path: () => Promise<AsyncIterator<String>>;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface GenreConnection {
@@ -1707,150 +1459,6 @@ export interface GenreConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<GenreEdgeSubscription>>>() => T;
   aggregate: <T = AggregateGenreSubscription>() => T;
-}
-
-export interface FileConnection {
-  pageInfo: PageInfo;
-  edges: FileEdge[];
-}
-
-export interface FileConnectionPromise
-  extends Promise<FileConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<FileEdge>>() => T;
-  aggregate: <T = AggregateFilePromise>() => T;
-}
-
-export interface FileConnectionSubscription
-  extends Promise<AsyncIterator<FileConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<FileEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateFileSubscription>() => T;
-}
-
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface GameContentSubscriptionPayload {
-  mutation: MutationType;
-  node: GameContent;
-  updatedFields: String[];
-  previousValues: GameContentPreviousValues;
-}
-
-export interface GameContentSubscriptionPayloadPromise
-  extends Promise<GameContentSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = GameContentPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = GameContentPreviousValuesPromise>() => T;
-}
-
-export interface GameContentSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<GameContentSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = GameContentSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = GameContentPreviousValuesSubscription>() => T;
-}
-
-export interface FileEdge {
-  node: File;
-  cursor: String;
-}
-
-export interface FileEdgePromise extends Promise<FileEdge>, Fragmentable {
-  node: <T = FilePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface FileEdgeSubscription
-  extends Promise<AsyncIterator<FileEdge>>,
-    Fragmentable {
-  node: <T = FileSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface NationConnection {
-  pageInfo: PageInfo;
-  edges: NationEdge[];
-}
-
-export interface NationConnectionPromise
-  extends Promise<NationConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<NationEdge>>() => T;
-  aggregate: <T = AggregateNationPromise>() => T;
-}
-
-export interface NationConnectionSubscription
-  extends Promise<AsyncIterator<NationConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<NationEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateNationSubscription>() => T;
-}
-
-export interface GenrePreviousValues {
-  id: ID_Output;
-  name: String;
-}
-
-export interface GenrePreviousValuesPromise
-  extends Promise<GenrePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface GenrePreviousValuesSubscription
-  extends Promise<AsyncIterator<GenrePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface GenreSubscriptionPayload {
-  mutation: MutationType;
-  node: Genre;
-  updatedFields: String[];
-  previousValues: GenrePreviousValues;
-}
-
-export interface GenreSubscriptionPayloadPromise
-  extends Promise<GenreSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = GenrePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = GenrePreviousValuesPromise>() => T;
-}
-
-export interface GenreSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<GenreSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = GenreSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = GenrePreviousValuesSubscription>() => T;
 }
 
 export interface GameContent {
@@ -1923,6 +1531,473 @@ export interface GameContentNullablePromise
   subImage: () => Promise<String>;
 }
 
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface GameContentEdge {
+  node: GameContent;
+  cursor: String;
+}
+
+export interface GameContentEdgePromise
+  extends Promise<GameContentEdge>,
+    Fragmentable {
+  node: <T = GameContentPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface GameContentEdgeSubscription
+  extends Promise<AsyncIterator<GameContentEdge>>,
+    Fragmentable {
+  node: <T = GameContentSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface UserRatingEdge {
+  node: UserRating;
+  cursor: String;
+}
+
+export interface UserRatingEdgePromise
+  extends Promise<UserRatingEdge>,
+    Fragmentable {
+  node: <T = UserRatingPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserRatingEdgeSubscription
+  extends Promise<AsyncIterator<UserRatingEdge>>,
+    Fragmentable {
+  node: <T = UserRatingSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface GameContentConnection {
+  pageInfo: PageInfo;
+  edges: GameContentEdge[];
+}
+
+export interface GameContentConnectionPromise
+  extends Promise<GameContentConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<GameContentEdge>>() => T;
+  aggregate: <T = AggregateGameContentPromise>() => T;
+}
+
+export interface GameContentConnectionSubscription
+  extends Promise<AsyncIterator<GameContentConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<GameContentEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateGameContentSubscription>() => T;
+}
+
+export interface UserRatingSubscriptionPayload {
+  mutation: MutationType;
+  node: UserRating;
+  updatedFields: String[];
+  previousValues: UserRatingPreviousValues;
+}
+
+export interface UserRatingSubscriptionPayloadPromise
+  extends Promise<UserRatingSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserRatingPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserRatingPreviousValuesPromise>() => T;
+}
+
+export interface UserRatingSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserRatingSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserRatingSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserRatingPreviousValuesSubscription>() => T;
+}
+
+export interface Nation {
+  id: ID_Output;
+  name: String;
+}
+
+export interface NationPromise extends Promise<Nation>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  gameContent: <T = FragmentableArray<GameContent>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface NationSubscription
+  extends Promise<AsyncIterator<Nation>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  gameContent: <T = Promise<AsyncIterator<GameContentSubscription>>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface NationNullablePromise
+  extends Promise<Nation | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  gameContent: <T = FragmentableArray<GameContent>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface File {
+  id: ID_Output;
+  filename: String;
+  mimetype: String;
+  encoding: String;
+  originalFilename: String;
+  path: String;
+}
+
+export interface FilePromise extends Promise<File>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  filename: () => Promise<String>;
+  mimetype: () => Promise<String>;
+  encoding: () => Promise<String>;
+  originalFilename: () => Promise<String>;
+  path: () => Promise<String>;
+}
+
+export interface FileSubscription
+  extends Promise<AsyncIterator<File>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  filename: () => Promise<AsyncIterator<String>>;
+  mimetype: () => Promise<AsyncIterator<String>>;
+  encoding: () => Promise<AsyncIterator<String>>;
+  originalFilename: () => Promise<AsyncIterator<String>>;
+  path: () => Promise<AsyncIterator<String>>;
+}
+
+export interface FileNullablePromise
+  extends Promise<File | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  filename: () => Promise<String>;
+  mimetype: () => Promise<String>;
+  encoding: () => Promise<String>;
+  originalFilename: () => Promise<String>;
+  path: () => Promise<String>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface FileSubscriptionPayload {
+  mutation: MutationType;
+  node: File;
+  updatedFields: String[];
+  previousValues: FilePreviousValues;
+}
+
+export interface FileSubscriptionPayloadPromise
+  extends Promise<FileSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = FilePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = FilePreviousValuesPromise>() => T;
+}
+
+export interface FileSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<FileSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = FileSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = FilePreviousValuesSubscription>() => T;
+}
+
+export interface User {
+  id: ID_Output;
+  username: String;
+  email: String;
+  hash: String;
+  salt: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  username: () => Promise<String>;
+  email: () => Promise<String>;
+  hash: () => Promise<String>;
+  salt: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  username: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  hash: () => Promise<AsyncIterator<String>>;
+  salt: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  username: () => Promise<String>;
+  email: () => Promise<String>;
+  hash: () => Promise<String>;
+  salt: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface FilePreviousValues {
+  id: ID_Output;
+  filename: String;
+  mimetype: String;
+  encoding: String;
+  originalFilename: String;
+  path: String;
+}
+
+export interface FilePreviousValuesPromise
+  extends Promise<FilePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  filename: () => Promise<String>;
+  mimetype: () => Promise<String>;
+  encoding: () => Promise<String>;
+  originalFilename: () => Promise<String>;
+  path: () => Promise<String>;
+}
+
+export interface FilePreviousValuesSubscription
+  extends Promise<AsyncIterator<FilePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  filename: () => Promise<AsyncIterator<String>>;
+  mimetype: () => Promise<AsyncIterator<String>>;
+  encoding: () => Promise<AsyncIterator<String>>;
+  originalFilename: () => Promise<AsyncIterator<String>>;
+  path: () => Promise<AsyncIterator<String>>;
+}
+
+export interface NationEdge {
+  node: Nation;
+  cursor: String;
+}
+
+export interface NationEdgePromise extends Promise<NationEdge>, Fragmentable {
+  node: <T = NationPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface NationEdgeSubscription
+  extends Promise<AsyncIterator<NationEdge>>,
+    Fragmentable {
+  node: <T = NationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface FileConnection {
+  pageInfo: PageInfo;
+  edges: FileEdge[];
+}
+
+export interface FileConnectionPromise
+  extends Promise<FileConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<FileEdge>>() => T;
+  aggregate: <T = AggregateFilePromise>() => T;
+}
+
+export interface FileConnectionSubscription
+  extends Promise<AsyncIterator<FileConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<FileEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateFileSubscription>() => T;
+}
+
+export interface UserPreviousValues {
+  id: ID_Output;
+  username: String;
+  email: String;
+  hash: String;
+  salt: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface UserPreviousValuesPromise
+  extends Promise<UserPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  username: () => Promise<String>;
+  email: () => Promise<String>;
+  hash: () => Promise<String>;
+  salt: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserPreviousValuesSubscription
+  extends Promise<AsyncIterator<UserPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  username: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  hash: () => Promise<AsyncIterator<String>>;
+  salt: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface GameContentSubscriptionPayload {
+  mutation: MutationType;
+  node: GameContent;
+  updatedFields: String[];
+  previousValues: GameContentPreviousValues;
+}
+
+export interface GameContentSubscriptionPayloadPromise
+  extends Promise<GameContentSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = GameContentPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = GameContentPreviousValuesPromise>() => T;
+}
+
+export interface GameContentSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<GameContentSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = GameContentSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = GameContentPreviousValuesSubscription>() => T;
+}
+
+export interface GenreEdge {
+  node: Genre;
+  cursor: String;
+}
+
+export interface GenreEdgePromise extends Promise<GenreEdge>, Fragmentable {
+  node: <T = GenrePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface GenreEdgeSubscription
+  extends Promise<AsyncIterator<GenreEdge>>,
+    Fragmentable {
+  node: <T = GenreSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
 export interface GameContentPreviousValues {
   id: ID_Output;
   title: String;
@@ -1954,21 +2029,118 @@ export interface GameContentPreviousValuesSubscription
   subImage: () => Promise<AsyncIterator<String>>;
 }
 
-export interface GenreEdge {
-  node: Genre;
+export interface UserRatingConnection {
+  pageInfo: PageInfo;
+  edges: UserRatingEdge[];
+}
+
+export interface UserRatingConnectionPromise
+  extends Promise<UserRatingConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserRatingEdge>>() => T;
+  aggregate: <T = AggregateUserRatingPromise>() => T;
+}
+
+export interface UserRatingConnectionSubscription
+  extends Promise<AsyncIterator<UserRatingConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserRatingEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserRatingSubscription>() => T;
+}
+
+export interface Genre {
+  id: ID_Output;
+  name: String;
+}
+
+export interface GenrePromise extends Promise<Genre>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  gameContents: <T = FragmentableArray<GameContent>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface GenreSubscription
+  extends Promise<AsyncIterator<Genre>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  gameContents: <T = Promise<AsyncIterator<GameContentSubscription>>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface GenreNullablePromise
+  extends Promise<Genre | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  gameContents: <T = FragmentableArray<GameContent>>(args?: {
+    where?: GameContentWhereInput;
+    orderBy?: GameContentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserEdge {
+  node: User;
   cursor: String;
 }
 
-export interface GenreEdgePromise extends Promise<GenreEdge>, Fragmentable {
-  node: <T = GenrePromise>() => T;
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface GenreEdgeSubscription
-  extends Promise<AsyncIterator<GenreEdge>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
     Fragmentable {
-  node: <T = GenreSubscription>() => T;
+  node: <T = UserSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface GenreSubscriptionPayload {
+  mutation: MutationType;
+  node: Genre;
+  updatedFields: String[];
+  previousValues: GenrePreviousValues;
+}
+
+export interface GenreSubscriptionPayloadPromise
+  extends Promise<GenreSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = GenrePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = GenrePreviousValuesPromise>() => T;
+}
+
+export interface GenreSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<GenreSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = GenreSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = GenrePreviousValuesSubscription>() => T;
 }
 
 export interface AggregateNation {
@@ -1987,41 +2159,197 @@ export interface AggregateNationSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
-}
-
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
-}
-
-export interface AggregateGameContent {
+export interface AggregateGenre {
   count: Int;
 }
 
-export interface AggregateGameContentPromise
-  extends Promise<AggregateGameContent>,
+export interface AggregateGenrePromise
+  extends Promise<AggregateGenre>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateGameContentSubscription
-  extends Promise<AsyncIterator<AggregateGameContent>>,
+export interface AggregateGenreSubscription
+  extends Promise<AsyncIterator<AggregateGenre>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface NationPreviousValues {
+  id: ID_Output;
+  name: String;
+}
+
+export interface NationPreviousValuesPromise
+  extends Promise<NationPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface NationPreviousValuesSubscription
+  extends Promise<AsyncIterator<NationPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface NationSubscriptionPayload {
+  mutation: MutationType;
+  node: Nation;
+  updatedFields: String[];
+  previousValues: NationPreviousValues;
+}
+
+export interface NationSubscriptionPayloadPromise
+  extends Promise<NationSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = NationPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = NationPreviousValuesPromise>() => T;
+}
+
+export interface NationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<NationSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = NationSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = NationPreviousValuesSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface GenrePreviousValues {
+  id: ID_Output;
+  name: String;
+}
+
+export interface GenrePreviousValuesPromise
+  extends Promise<GenrePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface GenrePreviousValuesSubscription
+  extends Promise<AsyncIterator<GenrePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateUserRating {
+  count: Int;
+}
+
+export interface AggregateUserRatingPromise
+  extends Promise<AggregateUserRating>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserRatingSubscription
+  extends Promise<AsyncIterator<AggregateUserRating>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface NationConnection {
+  pageInfo: PageInfo;
+  edges: NationEdge[];
+}
+
+export interface NationConnectionPromise
+  extends Promise<NationConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<NationEdge>>() => T;
+  aggregate: <T = AggregateNationPromise>() => T;
+}
+
+export interface NationConnectionSubscription
+  extends Promise<AsyncIterator<NationConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<NationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateNationSubscription>() => T;
+}
+
+export interface AggregateFile {
+  count: Int;
+}
+
+export interface AggregateFilePromise
+  extends Promise<AggregateFile>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateFileSubscription
+  extends Promise<AsyncIterator<AggregateFile>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserRating {
+  id: ID_Output;
+  rating: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface UserRatingPromise extends Promise<UserRating>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  gameContent: <T = GameContentPromise>() => T;
+  rating: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserRatingSubscription
+  extends Promise<AsyncIterator<UserRating>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  user: <T = UserSubscription>() => T;
+  gameContent: <T = GameContentSubscription>() => T;
+  rating: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserRatingNullablePromise
+  extends Promise<UserRating | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  gameContent: <T = GameContentPromise>() => T;
+  rating: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 /*
@@ -2047,15 +2375,15 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+/*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
 
 /**
  * Model Metadata
@@ -2080,6 +2408,10 @@ export const models: Model[] = [
   },
   {
     name: "GameContent",
+    embedded: false
+  },
+  {
+    name: "UserRating",
     embedded: false
   }
 ];

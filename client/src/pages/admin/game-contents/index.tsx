@@ -5,27 +5,8 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { useRouteMatch, Route, Switch } from 'react-router'
 import GameContent from './_id';
+import { GET_GAME_CONTENTS } from '~/constants';
 
-const GET_GAME_CONTENTS = gql`
-  query {
-  gameContents {
-    id
-		genres {
-      id
-      name
-    }
-    ProductionNation {
-      id
-      name
-    }
-    title
-    content
-    mainImage
-    subImage
-  }
-  
-}
-`
 const useStyles = makeStyles((theme: Theme) => createStyles({
 
 }))

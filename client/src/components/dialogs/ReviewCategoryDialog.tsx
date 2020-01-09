@@ -16,6 +16,7 @@ const useStyle = makeStyles({
 	}
 });
 
+
 export interface SimpleDialogProps {
 	open: boolean;
 	selectedValue: string;

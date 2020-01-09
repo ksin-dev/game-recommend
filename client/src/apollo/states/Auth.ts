@@ -26,6 +26,9 @@ const Mutation: IMutation = {
 }
 
 const Query: IQuery = {
+  login: (_root, args: any, context) => {
+    console.log("dd")
+  },
   isLogin: (_root, args: any, context) => {
     return localStorage.getItem("jwt");
   }

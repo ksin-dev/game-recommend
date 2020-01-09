@@ -48,6 +48,9 @@ export class AuthService {
       const user = await this.prisma.client.user({
         email: email
       });
+
+      if (!user) throw new ApolloError("이메일 혹은 비밀번호가 유효하지 않습니다.");
+
       if (! await this.validatePassword(user, password)) {
         throw new ApolloError("비밀번호가 유효하지 않습니다.", ERROR_CODE.INVALID);
       }
@@ -87,6 +90,7 @@ export class AuthService {
   }
 
   async validate({ id }): Promise<User> {
+    console.log(id)
     const user = await this.prisma.client.user({ id });
     if (!user) {
       throw Error("Authenticate validation error");

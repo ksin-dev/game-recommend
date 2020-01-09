@@ -8,7 +8,7 @@ import { FileModule } from './file/file.module';
 import { GenreModule } from './genre/genre.module';
 import { NationModule } from './nation/nation.module';
 import { GameContentModule } from './game-content/game-content.module';
-
+import { UserRatingModule } from './user-rating/user-rating.module'
 
 @Module({
   imports: [GraphQLModule.forRootAsync({
@@ -23,7 +23,8 @@ import { GameContentModule } from './game-content/game-content.module';
     FileModule,
     GenreModule,
     NationModule,
-    GameContentModule
+    GameContentModule,
+    UserRatingModule
   ],
 })
 export class AppModule { }

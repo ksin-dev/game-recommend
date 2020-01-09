@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Jan 07 2020 20:14:32 GMT+0000 (Coordinated Universal Time)
+# timestamp: Wed Jan 08 2020 14:20:05 GMT+0000 (Coordinated Universal Time)
 
 type AggregateFile {
   count: Int!
@@ -18,6 +18,10 @@ type AggregateNation {
 }
 
 type AggregateUser {
+  count: Int!
+}
+
+type AggregateUserRating {
   count: Int!
 }
 
@@ -439,6 +443,11 @@ input GameContentCreateManyWithoutProductionNationInput {
   connect: [GameContentWhereUniqueInput!]
 }
 
+input GameContentCreateOneInput {
+  create: GameContentCreateInput
+  connect: GameContentWhereUniqueInput
+}
+
 input GameContentCreateWithoutGenresInput {
   id: ID
   title: String!
@@ -762,6 +771,16 @@ input GameContentSubscriptionWhereInput {
   node: GameContentWhereInput
 }
 
+input GameContentUpdateDataInput {
+  title: String
+  content: String
+  productionYear: Int
+  mainImage: String
+  subImage: String
+  genres: GenreUpdateManyWithoutGameContentsInput
+  ProductionNation: NationUpdateOneWithoutGameContentInput
+}
+
 input GameContentUpdateInput {
   title: String
   content: String
@@ -817,6 +836,13 @@ input GameContentUpdateManyWithWhereNestedInput {
   data: GameContentUpdateManyDataInput!
 }
 
+input GameContentUpdateOneRequiredInput {
+  create: GameContentCreateInput
+  connect: GameContentWhereUniqueInput
+  update: GameContentUpdateDataInput
+  upsert: GameContentUpsertNestedInput
+}
+
 input GameContentUpdateWithoutGenresDataInput {
   title: String
   content: String
@@ -843,6 +869,11 @@ input GameContentUpdateWithWhereUniqueWithoutGenresInput {
 input GameContentUpdateWithWhereUniqueWithoutProductionNationInput {
   where: GameContentWhereUniqueInput!
   data: GameContentUpdateWithoutProductionNationDataInput!
+}
+
+input GameContentUpsertNestedInput {
+  update: GameContentUpdateDataInput!
+  create: GameContentCreateInput!
 }
 
 input GameContentUpsertWithWhereUniqueWithoutGenresInput {
@@ -1429,35 +1460,41 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createFile(data: FileCreateInput!): File!
   createGenre(data: GenreCreateInput!): Genre!
   createNation(data: NationCreateInput!): Nation!
+  createUserRating(data: UserRatingCreateInput!): UserRating!
+  createUser(data: UserCreateInput!): User!
   createGameContent(data: GameContentCreateInput!): GameContent!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
   updateGenre(data: GenreUpdateInput!, where: GenreWhereUniqueInput!): Genre
   updateNation(data: NationUpdateInput!, where: NationWhereUniqueInput!): Nation
+  updateUserRating(data: UserRatingUpdateInput!, where: UserRatingWhereUniqueInput!): UserRating
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateGameContent(data: GameContentUpdateInput!, where: GameContentWhereUniqueInput!): GameContent
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteFile(where: FileWhereUniqueInput!): File
   deleteGenre(where: GenreWhereUniqueInput!): Genre
   deleteNation(where: NationWhereUniqueInput!): Nation
+  deleteUserRating(where: UserRatingWhereUniqueInput!): UserRating
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteGameContent(where: GameContentWhereUniqueInput!): GameContent
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
   upsertGenre(where: GenreWhereUniqueInput!, create: GenreCreateInput!, update: GenreUpdateInput!): Genre!
   upsertNation(where: NationWhereUniqueInput!, create: NationCreateInput!, update: NationUpdateInput!): Nation!
+  upsertUserRating(where: UserRatingWhereUniqueInput!, create: UserRatingCreateInput!, update: UserRatingUpdateInput!): UserRating!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertGameContent(where: GameContentWhereUniqueInput!, create: GameContentCreateInput!, update: GameContentUpdateInput!): GameContent!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyFiles(data: FileUpdateManyMutationInput!, where: FileWhereInput): BatchPayload!
   updateManyGenres(data: GenreUpdateManyMutationInput!, where: GenreWhereInput): BatchPayload!
   updateManyNations(data: NationUpdateManyMutationInput!, where: NationWhereInput): BatchPayload!
+  updateManyUserRatings(data: UserRatingUpdateManyMutationInput!, where: UserRatingWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyGameContents(data: GameContentUpdateManyMutationInput!, where: GameContentWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyFiles(where: FileWhereInput): BatchPayload!
   deleteManyGenres(where: GenreWhereInput): BatchPayload!
   deleteManyNations(where: NationWhereInput): BatchPayload!
+  deleteManyUserRatings(where: UserRatingWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyGameContents(where: GameContentWhereInput): BatchPayload!
 }
 
@@ -1704,20 +1741,23 @@ type PageInfo {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
   genres(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Genre]!
   nations(where: NationWhereInput, orderBy: NationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Nation]!
+  userRatings(where: UserRatingWhereInput, orderBy: UserRatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserRating]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   gameContents(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [GameContent]!
-  user(where: UserWhereUniqueInput!): User
   file(where: FileWhereUniqueInput!): File
   genre(where: GenreWhereUniqueInput!): Genre
   nation(where: NationWhereUniqueInput!): Nation
+  userRating(where: UserRatingWhereUniqueInput!): UserRating
+  user(where: UserWhereUniqueInput!): User
   gameContent(where: GameContentWhereUniqueInput!): GameContent
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
   genresConnection(where: GenreWhereInput, orderBy: GenreOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GenreConnection!
   nationsConnection(where: NationWhereInput, orderBy: NationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NationConnection!
+  userRatingsConnection(where: UserRatingWhereInput, orderBy: UserRatingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserRatingConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   gameContentsConnection(where: GameContentWhereInput, orderBy: GameContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GameContentConnection!
 
   """Fetches an object given its ID"""
@@ -1728,10 +1768,11 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
   genre(where: GenreSubscriptionWhereInput): GenreSubscriptionPayload
   nation(where: NationSubscriptionWhereInput): NationSubscriptionPayload
+  userRating(where: UserRatingSubscriptionWhereInput): UserRatingSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   gameContent(where: GameContentSubscriptionWhereInput): GameContentSubscriptionPayload
 }
 
@@ -1761,6 +1802,11 @@ input UserCreateInput {
   email: String!
   hash: String!
   salt: String!
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -1797,6 +1843,229 @@ type UserPreviousValues {
   salt: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+type UserRating implements Node {
+  id: ID!
+  user: User!
+  gameContent: GameContent!
+  rating: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type UserRatingConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserRatingEdge]!
+  aggregate: AggregateUserRating!
+}
+
+input UserRatingCreateInput {
+  id: ID
+  rating: Int!
+  user: UserCreateOneInput!
+  gameContent: GameContentCreateOneInput!
+}
+
+"""An edge in a connection."""
+type UserRatingEdge {
+  """The item at the end of the edge."""
+  node: UserRating!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserRatingOrderByInput {
+  id_ASC
+  id_DESC
+  rating_ASC
+  rating_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type UserRatingPreviousValues {
+  id: ID!
+  rating: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type UserRatingSubscriptionPayload {
+  mutation: MutationType!
+  node: UserRating
+  updatedFields: [String!]
+  previousValues: UserRatingPreviousValues
+}
+
+input UserRatingSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserRatingSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserRatingSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserRatingSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserRatingWhereInput
+}
+
+input UserRatingUpdateInput {
+  rating: Int
+  user: UserUpdateOneRequiredInput
+  gameContent: GameContentUpdateOneRequiredInput
+}
+
+input UserRatingUpdateManyMutationInput {
+  rating: Int
+}
+
+input UserRatingWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserRatingWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserRatingWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserRatingWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  rating: Int
+
+  """All values that are not equal to given value."""
+  rating_not: Int
+
+  """All values that are contained in given list."""
+  rating_in: [Int!]
+
+  """All values that are not contained in given list."""
+  rating_not_in: [Int!]
+
+  """All values less than the given value."""
+  rating_lt: Int
+
+  """All values less than or equal the given value."""
+  rating_lte: Int
+
+  """All values greater than the given value."""
+  rating_gt: Int
+
+  """All values greater than or equal the given value."""
+  rating_gte: Int
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  user: UserWhereInput
+  gameContent: GameContentWhereInput
+}
+
+input UserRatingWhereUniqueInput {
+  id: ID
 }
 
 type UserSubscriptionPayload {
@@ -1836,6 +2105,13 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  username: String
+  email: String
+  hash: String
+  salt: String
+}
+
 input UserUpdateInput {
   username: String
   email: String
@@ -1848,6 +2124,18 @@ input UserUpdateManyMutationInput {
   email: String
   hash: String
   salt: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {

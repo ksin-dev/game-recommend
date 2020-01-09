@@ -5,11 +5,15 @@ import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { jwtConstants } from './auth.constants';
 const cookieExtractor = (req: Request): string | null => {
-  let token = null;
+  let jwt = null;
   if (req && req.headers) {
-    token = req.headers.authorization;
+    const arr = String(req.headers.authorization).split(" ");
+    if (arr[0] === "Bearer" && arr.length === 2) {
+      jwt = arr[1];
+    }
   }
-  return token;
+
+  return jwt;
 };
 
 @Injectable()

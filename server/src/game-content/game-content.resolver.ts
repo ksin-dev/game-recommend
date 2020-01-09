@@ -7,8 +7,10 @@ import {
   Resolver,
   Subscription,
 } from '@nestjs/graphql'; import { PrismaService } from '../prisma/prisma.service';
-import { BatchPayload, GameContentWhereInput, GameContentWhereUniqueInput } from '../prisma/prisma-client';
-
+import { BatchPayload, GameContentWhereInput, GameContentWhereUniqueInput, User } from '../prisma/prisma-client';
+import { GqlAuthGuard } from 'src/auth/graphql-auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { GqlUser } from '../decorators/decorators'
 
 const FRAGMENT = `
   fragment gameContents on GameContent{
@@ -49,8 +51,14 @@ export class GameContentResolver {
     return gameContents;
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query("gameContent")
-  async gameContent(@Args("where") where?: GameContentWhereUniqueInput) {
+  async gameContent(@GqlUser() user: User, @Args("where") where?: GameContentWhereUniqueInput) {
+    console.log(user);
     return this.prisma.client.gameContent(where).$fragment(FRAGMENT);
   }
+
+  // @Query("gameContentsByNotVote") 
+  // async gameContentsByNotVote(@Args("userId") userId, ) {
+
 }
