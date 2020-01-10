@@ -12,12 +12,19 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import _ from 'lodash'
 import Logo from '~/images/Logo.png'
 import { gql } from 'apollo-boost';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { UserLoginType, UserSignupType } from '~/classes/User';
 
 const LOGIN = gql`
   query login($email:String!,$password:String!) {
     login(email:$email,password:$password) {
+      jwt
+    }
+  }
+`
+const SIGNUP = gql`
+  mutation signup($signupInput: SignupInput!) {
+    signup(signupInput:$signupInput) {
       jwt
     }
   }
@@ -53,6 +60,7 @@ interface LoginDialogProps {
  */
 function LoginDialog(props: LoginDialogProps) {
   const [loginQuery, loginResult] = useLazyQuery(LOGIN);
+  const [signupMutate, signupResult] = useMutation(SIGNUP);
   const classes = useStyles();
   const [isLogin, setIsLogin] = useState(props.login);
   const [text, setText] = useState("");
@@ -63,10 +71,17 @@ function LoginDialog(props: LoginDialogProps) {
     username: ""
   })
 
-
   useEffect(() => {
     setText(isLogin ? '로그인' : '회원가입');
   }, [isLogin]);
+
+  useEffect(() => {
+    console.log(loginResult.data);
+  }, [loginResult.data])
+
+  useEffect(() => {
+    console.log(signupResult.data);
+  }, [signupResult.data]);
 
   function changeIsLogin(event?: React.MouseEvent<HTMLElement>) {
     setIsLogin(!isLogin);
@@ -94,8 +109,13 @@ function LoginDialog(props: LoginDialogProps) {
   }
 
   function signup() {
-
+    signupMutate({
+      variables: {
+        signupInput: user
+      }
+    })
   }
+
   return (
     <Dialog open={true} onClose={props.closeDialog} >
       <DialogTitle >
@@ -145,10 +165,7 @@ function LoginDialog(props: LoginDialogProps) {
             fullWidth
             variant="outlined"
             onChange={handleInputChange}
-
           />
-
-
 
           <Box mt={2}>
             <Button fullWidth color="primary" variant="contained" onClick={doAction} >
