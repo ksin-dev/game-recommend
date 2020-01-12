@@ -6,10 +6,10 @@ import grey from '@material-ui/core/colors/grey'
 import PlaystationIcon from '~/images/playstation-icon.png';
 import SteamIcon from '~/images/steam-icon.png';
 import XboxIcon from '~/images/Xbox-icon.png';
-import Toolbar from '~/components/toolbars/HomeToolbar';
+import Header from '~/components/Header';
 import SearchForm from '~/components/forms/SearchForm'
 import BackGroundImage from '~/images/background.jpg'
-
+import Footer from '~/components/Footer'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
   container: {
     backgroundColor: grey[100],
-    minHeight: "430px"
+    flex: 1
   },
   card: {
     backgroundColor: grey[100],
@@ -59,12 +59,13 @@ export default () => {
 
   return (
     <>
-      <Toolbar />
+      <Header visibleSearch={false} visibleTitle={false} opacitivility={true} />
       <Grid
         container
         direction="column"
         justify="center"
         alignItems="center"
+        style={{ height: "100%" }}
       >
         <Grid item className={classes.root} container
           justify="center"
@@ -96,6 +97,9 @@ export default () => {
               </CardContent>
             </Card>
           </Container>
+        </Grid>
+        <Grid item>
+          <Footer />
         </Grid>
       </Grid>
     </>

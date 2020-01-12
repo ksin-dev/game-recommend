@@ -513,6 +513,7 @@ type GameContent implements Node {
   ProductionNation: Nation
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 """A connection to a list of items."""
@@ -532,6 +533,7 @@ input GameContentCreateInput {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreCreateManyWithoutGameContentsInput
   ProductionNation: NationCreateOneWithoutGameContentInput
 }
@@ -558,6 +560,7 @@ input GameContentCreateWithoutGenresInput {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
   ProductionNation: NationCreateOneWithoutGameContentInput
 }
 
@@ -568,6 +571,7 @@ input GameContentCreateWithoutProductionNationInput {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreCreateManyWithoutGameContentsInput
 }
 
@@ -593,6 +597,8 @@ enum GameContentOrderByInput {
   mainImage_DESC
   subImage_ASC
   subImage_DESC
+  youtubeId_ASC
+  youtubeId_DESC
 }
 
 type GameContentPreviousValues {
@@ -602,6 +608,7 @@ type GameContentPreviousValues {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentScalarWhereInput {
@@ -835,6 +842,46 @@ input GameContentScalarWhereInput {
 
   """All values not ending with the given string."""
   subImage_not_ends_with: String
+  youtubeId: String
+
+  """All values that are not equal to given value."""
+  youtubeId_not: String
+
+  """All values that are contained in given list."""
+  youtubeId_in: [String!]
+
+  """All values that are not contained in given list."""
+  youtubeId_not_in: [String!]
+
+  """All values less than the given value."""
+  youtubeId_lt: String
+
+  """All values less than or equal the given value."""
+  youtubeId_lte: String
+
+  """All values greater than the given value."""
+  youtubeId_gt: String
+
+  """All values greater than or equal the given value."""
+  youtubeId_gte: String
+
+  """All values containing the given string."""
+  youtubeId_contains: String
+
+  """All values not containing the given string."""
+  youtubeId_not_contains: String
+
+  """All values starting with the given string."""
+  youtubeId_starts_with: String
+
+  """All values not starting with the given string."""
+  youtubeId_not_starts_with: String
+
+  """All values ending with the given string."""
+  youtubeId_ends_with: String
+
+  """All values not ending with the given string."""
+  youtubeId_not_ends_with: String
 }
 
 type GameContentSubscriptionPayload {
@@ -880,6 +927,7 @@ input GameContentUpdateDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreUpdateManyWithoutGameContentsInput
   ProductionNation: NationUpdateOneWithoutGameContentInput
 }
@@ -890,6 +938,7 @@ input GameContentUpdateInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreUpdateManyWithoutGameContentsInput
   ProductionNation: NationUpdateOneWithoutGameContentInput
 }
@@ -900,6 +949,7 @@ input GameContentUpdateManyDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateManyMutationInput {
@@ -908,6 +958,7 @@ input GameContentUpdateManyMutationInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateManyWithoutGenresInput {
@@ -952,6 +1003,7 @@ input GameContentUpdateWithoutGenresDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
   ProductionNation: NationUpdateOneWithoutGameContentInput
 }
 
@@ -961,6 +1013,7 @@ input GameContentUpdateWithoutProductionNationDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreUpdateManyWithoutGameContentsInput
 }
 
@@ -1222,6 +1275,46 @@ input GameContentWhereInput {
 
   """All values not ending with the given string."""
   subImage_not_ends_with: String
+  youtubeId: String
+
+  """All values that are not equal to given value."""
+  youtubeId_not: String
+
+  """All values that are contained in given list."""
+  youtubeId_in: [String!]
+
+  """All values that are not contained in given list."""
+  youtubeId_not_in: [String!]
+
+  """All values less than the given value."""
+  youtubeId_lt: String
+
+  """All values less than or equal the given value."""
+  youtubeId_lte: String
+
+  """All values greater than the given value."""
+  youtubeId_gt: String
+
+  """All values greater than or equal the given value."""
+  youtubeId_gte: String
+
+  """All values containing the given string."""
+  youtubeId_contains: String
+
+  """All values not containing the given string."""
+  youtubeId_not_contains: String
+
+  """All values starting with the given string."""
+  youtubeId_starts_with: String
+
+  """All values not starting with the given string."""
+  youtubeId_not_starts_with: String
+
+  """All values ending with the given string."""
+  youtubeId_ends_with: String
+
+  """All values not ending with the given string."""
+  youtubeId_not_ends_with: String
   genres_every: GenreWhereInput
   genres_some: GenreWhereInput
   genres_none: GenreWhereInput
@@ -2532,7 +2625,9 @@ export type GameContentOrderByInput =   'id_ASC' |
   'mainImage_ASC' |
   'mainImage_DESC' |
   'subImage_ASC' |
-  'subImage_DESC'
+  'subImage_DESC' |
+  'youtubeId_ASC' |
+  'youtubeId_DESC'
 
 export type GenreOrderByInput =   'id_ASC' |
   'id_DESC' |
@@ -2709,6 +2804,7 @@ export interface GameContentCreateInput {
   productionYear: Int
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
   genres?: GenreCreateManyWithoutGameContentsInput | null
   ProductionNation?: NationCreateOneWithoutGameContentInput | null
 }
@@ -2735,6 +2831,7 @@ export interface GameContentCreateWithoutGenresInput {
   productionYear: Int
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
   ProductionNation?: NationCreateOneWithoutGameContentInput | null
 }
 
@@ -2745,6 +2842,7 @@ export interface GameContentCreateWithoutProductionNationInput {
   productionYear: Int
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
   genres?: GenreCreateManyWithoutGameContentsInput | null
 }
 
@@ -2830,6 +2928,20 @@ export interface GameContentScalarWhereInput {
   subImage_not_starts_with?: String | null
   subImage_ends_with?: String | null
   subImage_not_ends_with?: String | null
+  youtubeId?: String | null
+  youtubeId_not?: String | null
+  youtubeId_in?: String[] | String | null
+  youtubeId_not_in?: String[] | String | null
+  youtubeId_lt?: String | null
+  youtubeId_lte?: String | null
+  youtubeId_gt?: String | null
+  youtubeId_gte?: String | null
+  youtubeId_contains?: String | null
+  youtubeId_not_contains?: String | null
+  youtubeId_starts_with?: String | null
+  youtubeId_not_starts_with?: String | null
+  youtubeId_ends_with?: String | null
+  youtubeId_not_ends_with?: String | null
 }
 
 export interface GameContentSubscriptionWhereInput {
@@ -2849,6 +2961,7 @@ export interface GameContentUpdateDataInput {
   productionYear?: Int | null
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
   genres?: GenreUpdateManyWithoutGameContentsInput | null
   ProductionNation?: NationUpdateOneWithoutGameContentInput | null
 }
@@ -2859,6 +2972,7 @@ export interface GameContentUpdateInput {
   productionYear?: Int | null
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
   genres?: GenreUpdateManyWithoutGameContentsInput | null
   ProductionNation?: NationUpdateOneWithoutGameContentInput | null
 }
@@ -2869,6 +2983,7 @@ export interface GameContentUpdateManyDataInput {
   productionYear?: Int | null
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
 }
 
 export interface GameContentUpdateManyMutationInput {
@@ -2877,6 +2992,7 @@ export interface GameContentUpdateManyMutationInput {
   productionYear?: Int | null
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
 }
 
 export interface GameContentUpdateManyWithoutGenresInput {
@@ -2921,6 +3037,7 @@ export interface GameContentUpdateWithoutGenresDataInput {
   productionYear?: Int | null
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
   ProductionNation?: NationUpdateOneWithoutGameContentInput | null
 }
 
@@ -2930,6 +3047,7 @@ export interface GameContentUpdateWithoutProductionNationDataInput {
   productionYear?: Int | null
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
   genres?: GenreUpdateManyWithoutGameContentsInput | null
 }
 
@@ -3042,6 +3160,20 @@ export interface GameContentWhereInput {
   subImage_not_starts_with?: String | null
   subImage_ends_with?: String | null
   subImage_not_ends_with?: String | null
+  youtubeId?: String | null
+  youtubeId_not?: String | null
+  youtubeId_in?: String[] | String | null
+  youtubeId_not_in?: String[] | String | null
+  youtubeId_lt?: String | null
+  youtubeId_lte?: String | null
+  youtubeId_gt?: String | null
+  youtubeId_gte?: String | null
+  youtubeId_contains?: String | null
+  youtubeId_not_contains?: String | null
+  youtubeId_starts_with?: String | null
+  youtubeId_not_starts_with?: String | null
+  youtubeId_ends_with?: String | null
+  youtubeId_not_ends_with?: String | null
   genres_every?: GenreWhereInput | null
   genres_some?: GenreWhereInput | null
   genres_none?: GenreWhereInput | null
@@ -3615,6 +3747,7 @@ export interface GameContent extends Node {
   ProductionNation?: Nation | null
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
 }
 
 /*
@@ -3643,6 +3776,7 @@ export interface GameContentPreviousValues {
   productionYear: Int
   mainImage?: String | null
   subImage?: String | null
+  youtubeId?: String | null
 }
 
 export interface GameContentSubscriptionPayload {

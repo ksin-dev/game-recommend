@@ -1,8 +1,17 @@
 import gql from "graphql-tag"
 
+export const GET_USER_RATING_BY_GAME_CONTENT = gql`
+ query userRatingByGameContent($gameContentId: ID!) {
+  userRatingByGameContent(gameContentId:$gameContentId) {
+    id
+    rating
+  }
+ }
+`
+
 export const GET_GAME_CONTENTS = gql`
-  query {
-  gameContents {
+  query gameContents($where: GameContentWhereInput){
+  gameContents(where:$where) {
     id
 		genres {
       id
@@ -21,6 +30,7 @@ export const GET_GAME_CONTENTS = gql`
   
 }
 `
+
 export const FILE_UPLOAD_MUTATION = gql`
   mutation($file:Upload!) {
     uploadFile(file:$file) {
@@ -61,6 +71,7 @@ export const GET_GAMECONTENT = gql`
       id
       name
     }
+    youtubeId
     mainImage
     subImage
     }
@@ -83,6 +94,41 @@ export const CREATE_GAME_CONTENT = gql`
       }
       mainImage
       subImage
+    }
+  }
+`
+
+export const GET_USER_RATINGS_BY_USER = gql`
+  query userRatingsByUser($userId:ID!) {
+    userRatingsByUser(userId:$userId) {
+      id
+      rating
+      user {
+        id
+      }
+      gameContent {
+        id
+        title
+        subImage
+        mainImage
+      }
+    }
+  }
+`
+export const EDIT_RATING_BY_GAME_CONTENT = gql`
+  mutation editUserRating($gameContentId: ID!, $rating: Int! ) {
+    editUserRating(gameContentId: $gameContentId, rating:$rating) {
+      id
+      rating
+      user {
+        id
+      }
+      gameContent {
+        id
+        title
+        subImage
+        mainImage
+      }
     }
   }
 `

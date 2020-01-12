@@ -17,7 +17,8 @@ import { yellow } from "@material-ui/core/colors";
 const useStyles = makeStyles({
 	card: {
 		display: "inline-block",
-		marginLeft: "10px"
+		marginLeft: "10px",
+		cursor: "pointer"
 	},
 	cover: {
 		width: "100%"
@@ -32,7 +33,14 @@ const useStyles = makeStyles({
 	}
 });
 
-export default forwardRef((props: IProps, ref) => {
+type Props = {
+	title: string,
+	image: string,
+	rating: Number,
+	onClick: (event: React.MouseEvent<HTMLElement>) => any
+};
+
+export default forwardRef((props: Props, ref) => {
 	const classes = useStyles();
 	const lg = useMediaQuery((theme: Theme) => theme.breakpoints.down("lg"));
 	const md = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
@@ -55,19 +63,19 @@ export default forwardRef((props: IProps, ref) => {
 	return (
 		<Card
 			className={classes.card}
-			onClick={() => {}}
+			onClick={(event) => { props.onClick(event); }}
 			style={{ width: getCardSize() }}
 			ref={ref}
 		>
 			<CardMedia
 				component="img"
 				className={classes.cover}
-				image="https://static.metacritic.com/images/products/games/6/2478450bf23c6bbe3c9b7aaeaab47571-98.jpg"
+				image={props.image}
 				title="Contemplative Reptile"
 			/>
 			<CardContent>
 				<Typography gutterBottom variant="body2" className={classes.title}>
-					레드데드 리뎀션2
+					{props.title}
 				</Typography>
 
 				<Box
@@ -77,7 +85,7 @@ export default forwardRef((props: IProps, ref) => {
 					className={classes.starText}
 				>
 					<StarIcon />
-					<Typography>2.5</Typography>
+					<Typography>{props.rating}</Typography>
 				</Box>
 			</CardContent>
 		</Card>

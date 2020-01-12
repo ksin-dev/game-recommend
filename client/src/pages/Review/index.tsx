@@ -57,7 +57,7 @@ export default function Review() {
 	if (loading) return <div>Loading...</div>
 	return (
 		<div>
-			<Header />
+			<Header visibleSearch={true} visibleTitle={true} />
 			<ReviewCategoryDialog open={dialog} onClose={() => setDialog(false)} />
 			<Container maxWidth="sm" className={classes.container}>
 				<Card className={classes.card}>

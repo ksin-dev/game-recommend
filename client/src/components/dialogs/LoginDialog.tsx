@@ -12,7 +12,7 @@ import { makeStyles, createStyles } from '@material-ui/styles'
 import _ from 'lodash'
 import Logo from '~/images/Logo.png'
 import { gql } from 'apollo-boost';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
 import { UserLoginType, UserSignupType } from '~/classes/User';
 
 const LOGIN = gql`
@@ -29,11 +29,12 @@ const SIGNUP = gql`
     }
   }
 `
+const LOCAL_LOGIN = gql`
+  mutation localLogin($jwt: String) {
+    localLogin(jwt:$jwt) @client
+  }
+`
 
-type IProps = {
-
-  onSubmit: (userInfo: UserSignupType | UserLoginType, type: string) => any;
-}
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   title: {
@@ -47,10 +48,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }
 }))
 
+
 interface LoginDialogProps {
   onDialog: (event: React.MouseEvent<HTMLElement>) => void,
-  closeDialog: (event: React.MouseEvent<HTMLElement>) => void,
-  login: boolean
+  closeDialog: () => void,
+  loginType: string
 }
 
 /**
@@ -59,10 +61,9 @@ interface LoginDialogProps {
  * @param props 
  */
 function LoginDialog(props: LoginDialogProps) {
-  const [loginQuery, loginResult] = useLazyQuery(LOGIN);
-  const [signupMutate, signupResult] = useMutation(SIGNUP);
+  const client = useApolloClient();
   const classes = useStyles();
-  const [isLogin, setIsLogin] = useState(props.login);
+  const [loginType, setLoginType] = useState(props.loginType);
   const [text, setText] = useState("");
 
   const [user, setUser] = useState({
@@ -72,19 +73,12 @@ function LoginDialog(props: LoginDialogProps) {
   })
 
   useEffect(() => {
-    setText(isLogin ? '로그인' : '회원가입');
-  }, [isLogin]);
+    setText(loginType === "LOGIN" ? '로그인' : '회원가입');
+  }, [loginType]);
 
-  useEffect(() => {
-    console.log(loginResult.data);
-  }, [loginResult.data])
-
-  useEffect(() => {
-    console.log(signupResult.data);
-  }, [signupResult.data]);
 
   function changeIsLogin(event?: React.MouseEvent<HTMLElement>) {
-    setIsLogin(!isLogin);
+    setLoginType(loginType === "LOGIN" ? "SIGNUP" : "LOGIN");
   }
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -96,24 +90,47 @@ function LoginDialog(props: LoginDialogProps) {
     setUser({ ...user, ...obj });
   }
 
-  function doAction(event: React.MouseEvent<HTMLElement, MouseEvent>) {
-    if (isLogin) {
-      login();
-    } else {
-      signup();
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    let data = null;
+    try {
+      if (loginType === "LOGIN") {
+        data = await login();
+      } else {
+        data = await signup();
+      }
+      const res = await client.mutate({
+        mutation: LOCAL_LOGIN,
+        variables: {
+          jwt: data.jwt
+        }
+      });
+      props.closeDialog();
+    } catch (err) {
+      window.alert(err.message.split(":")[1])
     }
+
+
   }
 
-  function login() {
-    loginQuery({ variables: _.omit(user, ["username"]) })
+  async function login() {
+    const { data: { login }, } = await client.query({
+      query: LOGIN,
+      variables: _.omit(user, ["username"])
+    })
+
+    return login;
   }
 
-  function signup() {
-    signupMutate({
+  async function signup() {
+    const { data: { signup } } = await client.mutate({
+      mutation: SIGNUP,
       variables: {
         signupInput: user
       }
     })
+
+    return signup;
   }
 
   return (
@@ -129,50 +146,53 @@ function LoginDialog(props: LoginDialogProps) {
 
       <DialogContent>
         <Container>
-          {!isLogin &&
+          <form onSubmit={submit}>
+
+            {loginType === 'SIGNUP' &&
+              <TextField
+                autoFocus
+                color="secondary"
+                margin="dense"
+                id="username"
+                label="Username"
+                type="text"
+                fullWidth
+                variant="outlined"
+                onChange={handleInputChange}
+              />
+            }
             <TextField
               autoFocus
               color="secondary"
               margin="dense"
-              id="username"
-              label="Username"
-              type="text"
+              id="email"
+              label="Email Address"
+              type="email"
+              fullWidth
+              variant="outlined"
+              onChange={handleInputChange}
+
+            />
+            <TextField
+              autoFocus
+              color="secondary"
+
+              margin="dense"
+              id="password"
+              label="Password"
+              type="password"
               fullWidth
               variant="outlined"
               onChange={handleInputChange}
             />
-          }
-          <TextField
-            autoFocus
-            color="secondary"
-            margin="dense"
-            id="email"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="outlined"
-            onChange={handleInputChange}
 
-          />
-          <TextField
-            autoFocus
-            color="secondary"
-
-            margin="dense"
-            id="password"
-            label="Password"
-            type="password"
-            fullWidth
-            variant="outlined"
-            onChange={handleInputChange}
-          />
-
-          <Box mt={2}>
-            <Button fullWidth color="primary" variant="contained" onClick={doAction} >
-              {text}
-            </Button>
-          </Box>
-          {isLogin ?
+            <Box mt={2}>
+              <Button type="submit" fullWidth color="primary" variant="contained" >
+                {text}
+              </Button>
+            </Box>
+          </form>
+          {loginType === "LOGIN" ?
             <>
               <Box mt={0.5}>
                 <Link component="button" variant="subtitle1" color="primary" className={classes.link}  >

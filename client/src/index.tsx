@@ -10,6 +10,7 @@ import { setContext } from 'apollo-link-context';
 import Router from "./Router";
 import State from './apollo/states';
 import "./index.scss";
+import { responsiveFontSizes } from '@material-ui/core/styles';
 
 import {
 	blue,
@@ -21,7 +22,7 @@ import {
 	deepOrange
 } from "@material-ui/core/colors";
 
-const theme = createMuiTheme({
+let theme = createMuiTheme({
 	palette: {
 		secondary: {
 			main: grey[900],
@@ -40,6 +41,8 @@ const theme = createMuiTheme({
 	}
 });
 
+theme = responsiveFontSizes(theme);
+
 const authLink = setContext((_, { headers }) => {
 	const jwt = localStorage.getItem("jwt");
 	return {
@@ -52,7 +55,7 @@ const authLink = setContext((_, { headers }) => {
 const link = createUploadLink({ uri: "http://52.231.65.42/graphql" });
 const client = new ApolloClient({
 	cache: State.cache,
-	link: from([State.stateLink, link])
+	link: from([State.stateLink, authLink.concat(link)])
 });
 
 class App extends React.Component {

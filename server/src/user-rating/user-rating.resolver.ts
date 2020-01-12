@@ -23,6 +23,8 @@ const FRAGMENT = `
     gameContent {
       id
       title
+      subImage
+      mainImage
     }
   }
 `
@@ -40,6 +42,8 @@ export class UserRatingResolver {
     return this.prisma.client.updateUserRating({ data, where }).$fragment(FRAGMENT);
   }
 
+
+
   @Query("userRatingsByUser")
   async userRatingsByUser(@Args("userId") userId) {
     return this.prisma.client.userRatings({
@@ -51,15 +55,27 @@ export class UserRatingResolver {
     }).$fragment(FRAGMENT);
   }
 
-  @Query("userRatingsByGameContent")
-  async userRatingByGameContent(@Args("gameContentId") gameContentId) {
-    return this.prisma.client.userRatings({
+  @UseGuards(GqlAuthGuard)
+  @Query("userRatingByGameContent")
+  async userRatingByGameContent(@GqlUser() user: User, @Args("gameContentId") gameContentId): Promise<UserRating | undefined> {
+    const userId = user.id;
+
+    const userRatings = await this.prisma.client.userRatings({
       where: {
         gameContent: {
           id: gameContentId
+        },
+        user: {
+          id: userId
         }
       }
-    })
+    }).$fragment(FRAGMENT) as [any];
+
+    if (userRatings.length > 0) {
+      return userRatings[0];
+    } else {
+      return undefined;
+    }
   }
 
 
@@ -86,7 +102,7 @@ export class UserRatingResolver {
         where: {
           id: userRatings[0].id
         }
-      })
+      }).$fragment(FRAGMENT);
     } else {
       return this.prisma.client.createUserRating({
         user: {
@@ -100,7 +116,7 @@ export class UserRatingResolver {
           }
         },
         rating: rating
-      })
+      }).$fragment(FRAGMENT);
     }
   }
 

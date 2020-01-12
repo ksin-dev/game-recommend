@@ -1,6 +1,6 @@
 type Query {
 	userRatingsByUser(userId: ID!): [UserRating]
-	userRatingsByGameContent(gameContentId: ID!): [UserRating]
+	userRatingByGameContent(gameContentId: ID!): UserRating
 }
 
 type Mutation {

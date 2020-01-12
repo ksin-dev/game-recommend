@@ -1,7 +1,7 @@
 import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Theme, Hidden } from "@material-ui/core";
 import DefaultToolbar from "~/components/toolbars/DefaultToolbar";
-
+import MobileToolbar from "~/components/toolbars/MobileToolbar";
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		toolbar: theme.mixins.toolbar
@@ -9,7 +9,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type IProps = {
-	opacitivility?: boolean
+	opacitivility?: boolean;
+	visibleTitle?: boolean;
+	visibleSearch?: boolean;
 
 }
 
@@ -17,10 +19,15 @@ export default function Header(props: IProps) {
 	const classes = useStyles();
 	return (
 		<>
-			<DefaultToolbar opacitivility={props.opacitivility} />
-			{!props.opacitivility &&
-				<div className={classes.toolbar} />
-			}
+			<Hidden xsDown>
+				<DefaultToolbar {...props} />
+				{!props.opacitivility &&
+					<div className={classes.toolbar} />
+				}
+			</Hidden>
+			<Hidden xsUp>
+				<MobileToolbar {...props} />
+			</Hidden>
 		</>
 	);
 }

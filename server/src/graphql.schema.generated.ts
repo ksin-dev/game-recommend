@@ -32,7 +32,9 @@ export enum GameContentOrderByInput {
     mainImage_ASC = "mainImage_ASC",
     mainImage_DESC = "mainImage_DESC",
     subImage_ASC = "subImage_ASC",
-    subImage_DESC = "subImage_DESC"
+    subImage_DESC = "subImage_DESC",
+    youtubeId_ASC = "youtubeId_ASC",
+    youtubeId_DESC = "youtubeId_DESC"
 }
 
 export enum GenreOrderByInput {
@@ -220,6 +222,7 @@ export class GameContentCreateInput {
     productionYear: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
     genres?: GenreCreateManyWithoutGameContentsInput;
     ProductionNation?: NationCreateOneWithoutGameContentInput;
 }
@@ -246,6 +249,7 @@ export class GameContentCreateWithoutGenresInput {
     productionYear: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
     ProductionNation?: NationCreateOneWithoutGameContentInput;
 }
 
@@ -256,6 +260,7 @@ export class GameContentCreateWithoutProductionNationInput {
     productionYear: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
     genres?: GenreCreateManyWithoutGameContentsInput;
 }
 
@@ -341,6 +346,20 @@ export class GameContentScalarWhereInput {
     subImage_not_starts_with?: string;
     subImage_ends_with?: string;
     subImage_not_ends_with?: string;
+    youtubeId?: string;
+    youtubeId_not?: string;
+    youtubeId_in?: string[];
+    youtubeId_not_in?: string[];
+    youtubeId_lt?: string;
+    youtubeId_lte?: string;
+    youtubeId_gt?: string;
+    youtubeId_gte?: string;
+    youtubeId_contains?: string;
+    youtubeId_not_contains?: string;
+    youtubeId_starts_with?: string;
+    youtubeId_not_starts_with?: string;
+    youtubeId_ends_with?: string;
+    youtubeId_not_ends_with?: string;
 }
 
 export class GameContentSubscriptionWhereInput {
@@ -360,6 +379,7 @@ export class GameContentUpdateDataInput {
     productionYear?: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
     genres?: GenreUpdateManyWithoutGameContentsInput;
     ProductionNation?: NationUpdateOneWithoutGameContentInput;
 }
@@ -370,6 +390,7 @@ export class GameContentUpdateInput {
     productionYear?: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
     genres?: GenreUpdateManyWithoutGameContentsInput;
     ProductionNation?: NationUpdateOneWithoutGameContentInput;
 }
@@ -380,6 +401,7 @@ export class GameContentUpdateManyDataInput {
     productionYear?: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
 }
 
 export class GameContentUpdateManyMutationInput {
@@ -388,6 +410,7 @@ export class GameContentUpdateManyMutationInput {
     productionYear?: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
 }
 
 export class GameContentUpdateManyWithoutGenresInput {
@@ -432,6 +455,7 @@ export class GameContentUpdateWithoutGenresDataInput {
     productionYear?: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
     ProductionNation?: NationUpdateOneWithoutGameContentInput;
 }
 
@@ -441,6 +465,7 @@ export class GameContentUpdateWithoutProductionNationDataInput {
     productionYear?: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
     genres?: GenreUpdateManyWithoutGameContentsInput;
 }
 
@@ -553,6 +578,20 @@ export class GameContentWhereInput {
     subImage_not_starts_with?: string;
     subImage_ends_with?: string;
     subImage_not_ends_with?: string;
+    youtubeId?: string;
+    youtubeId_not?: string;
+    youtubeId_in?: string[];
+    youtubeId_not_in?: string[];
+    youtubeId_lt?: string;
+    youtubeId_lte?: string;
+    youtubeId_gt?: string;
+    youtubeId_gte?: string;
+    youtubeId_contains?: string;
+    youtubeId_not_contains?: string;
+    youtubeId_starts_with?: string;
+    youtubeId_not_starts_with?: string;
+    youtubeId_ends_with?: string;
+    youtubeId_not_ends_with?: string;
     genres_every?: GenreWhereInput;
     genres_some?: GenreWhereInput;
     genres_none?: GenreWhereInput;
@@ -1120,6 +1159,7 @@ export class GameContent implements Node {
     ProductionNation?: Nation;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
 }
 
 export class GameContentConnection {
@@ -1140,6 +1180,7 @@ export class GameContentPreviousValues {
     productionYear: number;
     mainImage?: string;
     subImage?: string;
+    youtubeId?: string;
 }
 
 export class GameContentSubscriptionPayload {
@@ -1337,7 +1378,7 @@ export abstract class IQuery {
 
     abstract userRatingsByUser(userId: string): UserRating[] | Promise<UserRating[]>;
 
-    abstract userRatingsByGameContent(gameContentId: string): UserRating[] | Promise<UserRating[]>;
+    abstract userRatingByGameContent(gameContentId: string): UserRating | Promise<UserRating>;
 }
 
 export abstract class ISubscription {

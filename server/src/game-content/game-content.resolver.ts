@@ -7,7 +7,7 @@ import {
   Resolver,
   Subscription,
 } from '@nestjs/graphql'; import { PrismaService } from '../prisma/prisma.service';
-import { BatchPayload, GameContentWhereInput, GameContentWhereUniqueInput, User } from '../prisma/prisma-client';
+import { BatchPayload, GameContentWhereInput, GameContentWhereUniqueInput, GameContentUpdateInput, User, AtLeastOne } from '../prisma/prisma-client';
 import { GqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { GqlUser } from '../decorators/decorators'
@@ -19,6 +19,7 @@ const FRAGMENT = `
     content
     mainImage
     subImage
+    youtubeId
     productionYear
 		genres {
       id
@@ -41,7 +42,15 @@ export class GameContentResolver {
   }
 
   @Mutation("updateGameContent")
-  async updateGameContent(@Args("data") data, @Args("where") where) {
+  async updateGameContent(@Args("data") data: GameContentUpdateInput, @Args("where") where: AtLeastOne<{ id: string }>) {
+    const genres = await this.prisma.client.gameContent({ id: where.id }).genres();
+
+    if (data.genres?.connect) {
+      const connect = data.genres.connect as [{ id: string }];
+      const disConnect = genres.filter((genre) => !connect.find((o) => o.id === genre.id)).map(o => ({ id: o.id }));
+      data.genres.disconnect = disConnect;
+    }
+
     return this.prisma.client.updateGameContent({ data, where });
   }
 
@@ -51,10 +60,8 @@ export class GameContentResolver {
     return gameContents;
   }
 
-  @UseGuards(GqlAuthGuard)
   @Query("gameContent")
-  async gameContent(@GqlUser() user: User, @Args("where") where?: GameContentWhereUniqueInput) {
-    console.log(user);
+  async gameContent(@Args("where") where?: GameContentWhereUniqueInput) {
     return this.prisma.client.gameContent(where).$fragment(FRAGMENT);
   }
 

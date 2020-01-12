@@ -1625,6 +1625,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/jwt-decode@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@types/jwt-decode/-/jwt-decode-2.2.1.tgz#afdf5c527fcfccbd4009b5fd02d1e18241f2d2f2"
+  integrity sha512-aWw2YTtAdT7CskFyxEX2K21/zSDStuf/ikI3yBqmwpwJF0pS+/IX5DWv+1UFffZIbruP6cnT9/LAJV1gFwAT1A==
+
 "@types/keygrip@*":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/keygrip/-/keygrip-1.0.1.tgz#ff540462d2fb4d0a88441ceaf27d287b01c3d878"
@@ -4946,7 +4951,7 @@ deasync@^0.1.14:
     bindings "^1.5.0"
     node-addon-api "^1.7.1"
 
-debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8:
+debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.6, debug@^2.6.8:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
@@ -8491,6 +8496,11 @@ jws@^3.1.5, jws@^3.2.2:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
 
+jwt-decode@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
+  integrity sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=
+
 keyv@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-3.1.0.tgz#ecc228486f69991e49e9476485a5be1e8fc5c4d9"
@@ -8606,6 +8616,11 @@ load-json-file@^4.0.0:
     parse-json "^4.0.0"
     pify "^3.0.0"
     strip-bom "^3.0.0"
+
+load-script@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
+  integrity sha1-BJGTngvuVkPuSUp+PaPSuscMbKQ=
 
 loader-runner@^2.4.0:
   version "2.4.0"
@@ -11146,7 +11161,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.3"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.3, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -11399,6 +11414,15 @@ react-transition-group@^4.3.0:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-youtube@^7.9.0:
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/react-youtube/-/react-youtube-7.9.0.tgz#cf513c253581e1e45aa412a77d03420dfd7f7ba7"
+  integrity sha512-2+nBF4qP8nStYEILIO1/SylKOCnnJUxuZm+qCeWA0eeZxnWZIIixfAeAqbzblwx5L1n/26ACocy3epm9Glox8w==
+  dependencies:
+    fast-deep-equal "^2.0.1"
+    prop-types "^15.5.3"
+    youtube-player "^5.5.1"
 
 react@^16.12.0:
   version "16.12.0"
@@ -12183,6 +12207,11 @@ simple-swizzle@^0.2.2:
   integrity sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=
   dependencies:
     is-arrayish "^0.3.1"
+
+sister@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/sister/-/sister-3.0.2.tgz#bb3e39f07b1f75bbe1945f29a27ff1e5a2f26be4"
+  integrity sha512-p19rtTs+NksBRKW9qn0UhZ8/TUI9BPw9lmtHny+Y3TinWlOa9jWh9xB0AtPSdmOy49NJJJSSe0Ey4C7h0TrcYA==
 
 sisteransi@^1.0.3:
   version "1.0.4"
@@ -14121,6 +14150,15 @@ yn@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
+
+youtube-player@^5.5.1:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/youtube-player/-/youtube-player-5.5.2.tgz#052b86b1eabe21ff331095ffffeae285fa7f7cb5"
+  integrity sha512-ZGtsemSpXnDky2AUYWgxjaopgB+shFHgXVpiJFeNB5nWEugpW1KWYDaHKuLqh2b67r24GtP6HoSW5swvf0fFIQ==
+  dependencies:
+    debug "^2.6.6"
+    load-script "^1.0.0"
+    sister "^3.0.0"
 
 z-schema@^3.18.2:
   version "3.25.1"

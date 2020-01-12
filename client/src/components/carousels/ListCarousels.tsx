@@ -10,6 +10,8 @@ import GameCard from "~/components/cards/GameCard";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import { grey } from "@material-ui/core/colors";
+import _ from 'lodash';
+
 const useStyels = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
@@ -41,9 +43,11 @@ type IProps = {
 	onClick: (target: React.MouseEvent<HTMLElement>) => void;
 	onPrev: (target: React.MouseEvent<HTMLElement>) => void;
 	onNext: (target: React.MouseEvent<HTMLElement>) => void;
+	contents: [];
+	contentKey: string;
 };
 
-export default function ListCarousels(props) {
+export default function ListCarousels(props: IProps) {
 	const classes = useStyels();
 	const divRef = useRef<HTMLDivElement>(null);
 	const cardRef = createRef<HTMLDivElement>();
@@ -77,6 +81,10 @@ export default function ListCarousels(props) {
 		setTranslateX(translateX - (carouselsWidth / cardWidth) * cardWidth);
 	}
 
+	function handleContentClick(event: React.MouseEvent<HTMLElement>) {
+		props.onClick(this);
+	}
+
 	return (
 		<div className={classes.root} ref={divRef}>
 			<div
@@ -85,8 +93,8 @@ export default function ListCarousels(props) {
 					transition: "500ms"
 				}}
 			>
-				{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 1, 1, 1, 1].map(() => {
-					return <GameCard ref={cardRef} />;
+				{props.contents.map((content: any) => {
+					return <GameCard ref={cardRef} {...content} onClick={handleContentClick.bind(_.result(content, props.contentKey))} />;
 				})}
 			</div>
 

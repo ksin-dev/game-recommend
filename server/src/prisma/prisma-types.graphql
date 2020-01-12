@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Jan 08 2020 14:20:05 GMT+0000 (Coordinated Universal Time)
+# timestamp: Sun Jan 12 2020 16:58:38 GMT+0000 (Coordinated Universal Time)
 
 type AggregateFile {
   count: Int!
@@ -410,6 +410,7 @@ type GameContent implements Node {
   ProductionNation: Nation
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 """A connection to a list of items."""
@@ -429,6 +430,7 @@ input GameContentCreateInput {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreCreateManyWithoutGameContentsInput
   ProductionNation: NationCreateOneWithoutGameContentInput
 }
@@ -455,6 +457,7 @@ input GameContentCreateWithoutGenresInput {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
   ProductionNation: NationCreateOneWithoutGameContentInput
 }
 
@@ -465,6 +468,7 @@ input GameContentCreateWithoutProductionNationInput {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreCreateManyWithoutGameContentsInput
 }
 
@@ -490,6 +494,8 @@ enum GameContentOrderByInput {
   mainImage_DESC
   subImage_ASC
   subImage_DESC
+  youtubeId_ASC
+  youtubeId_DESC
 }
 
 type GameContentPreviousValues {
@@ -499,6 +505,7 @@ type GameContentPreviousValues {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentScalarWhereInput {
@@ -732,6 +739,46 @@ input GameContentScalarWhereInput {
 
   """All values not ending with the given string."""
   subImage_not_ends_with: String
+  youtubeId: String
+
+  """All values that are not equal to given value."""
+  youtubeId_not: String
+
+  """All values that are contained in given list."""
+  youtubeId_in: [String!]
+
+  """All values that are not contained in given list."""
+  youtubeId_not_in: [String!]
+
+  """All values less than the given value."""
+  youtubeId_lt: String
+
+  """All values less than or equal the given value."""
+  youtubeId_lte: String
+
+  """All values greater than the given value."""
+  youtubeId_gt: String
+
+  """All values greater than or equal the given value."""
+  youtubeId_gte: String
+
+  """All values containing the given string."""
+  youtubeId_contains: String
+
+  """All values not containing the given string."""
+  youtubeId_not_contains: String
+
+  """All values starting with the given string."""
+  youtubeId_starts_with: String
+
+  """All values not starting with the given string."""
+  youtubeId_not_starts_with: String
+
+  """All values ending with the given string."""
+  youtubeId_ends_with: String
+
+  """All values not ending with the given string."""
+  youtubeId_not_ends_with: String
 }
 
 type GameContentSubscriptionPayload {
@@ -777,6 +824,7 @@ input GameContentUpdateDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreUpdateManyWithoutGameContentsInput
   ProductionNation: NationUpdateOneWithoutGameContentInput
 }
@@ -787,6 +835,7 @@ input GameContentUpdateInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreUpdateManyWithoutGameContentsInput
   ProductionNation: NationUpdateOneWithoutGameContentInput
 }
@@ -797,6 +846,7 @@ input GameContentUpdateManyDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateManyMutationInput {
@@ -805,6 +855,7 @@ input GameContentUpdateManyMutationInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateManyWithoutGenresInput {
@@ -849,6 +900,7 @@ input GameContentUpdateWithoutGenresDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
   ProductionNation: NationUpdateOneWithoutGameContentInput
 }
 
@@ -858,6 +910,7 @@ input GameContentUpdateWithoutProductionNationDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
   genres: GenreUpdateManyWithoutGameContentsInput
 }
 
@@ -1119,6 +1172,46 @@ input GameContentWhereInput {
 
   """All values not ending with the given string."""
   subImage_not_ends_with: String
+  youtubeId: String
+
+  """All values that are not equal to given value."""
+  youtubeId_not: String
+
+  """All values that are contained in given list."""
+  youtubeId_in: [String!]
+
+  """All values that are not contained in given list."""
+  youtubeId_not_in: [String!]
+
+  """All values less than the given value."""
+  youtubeId_lt: String
+
+  """All values less than or equal the given value."""
+  youtubeId_lte: String
+
+  """All values greater than the given value."""
+  youtubeId_gt: String
+
+  """All values greater than or equal the given value."""
+  youtubeId_gte: String
+
+  """All values containing the given string."""
+  youtubeId_contains: String
+
+  """All values not containing the given string."""
+  youtubeId_not_contains: String
+
+  """All values starting with the given string."""
+  youtubeId_starts_with: String
+
+  """All values not starting with the given string."""
+  youtubeId_not_starts_with: String
+
+  """All values ending with the given string."""
+  youtubeId_ends_with: String
+
+  """All values not ending with the given string."""
+  youtubeId_not_ends_with: String
   genres_every: GenreWhereInput
   genres_some: GenreWhereInput
   genres_none: GenreWhereInput

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Container,
 	Typography,
@@ -12,6 +12,9 @@ import { makeStyles, createStyles } from "@material-ui/core";
 import Header from "~/components/Header";
 import { mergeClasses } from "@material-ui/styles";
 import ListCarousels from "~/components/carousels/ListCarousels";
+import { useParams, useHistory } from "react-router";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_USER_RATINGS_BY_USER } from "~/constants";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -30,11 +33,31 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-export default function UserMypage() {
+export default function UserMyPage() {
+	const param = useParams();
+	const history = useHistory();
+	const { data, loading, error } = useQuery(GET_USER_RATINGS_BY_USER, {
+		variables: {
+			userId: param.id
+		}
+	});
+	const [userRatings, setUserRatings] = useState([]);
 	const classes = useStyles();
+
+	useEffect(() => {
+		setUserRatings(data?.userRatingsByUser.map(r => ({
+			id: r.id,
+			rating: r.rating,
+			gameContent: r.gameContent,
+			image: r.gameContent.subImage,
+			title: r.gameContent.title
+		})) || []);
+	}, [data])
+
+	if (loading) return <></>;
 	return (
 		<>
-			<Header />
+			<Header visibleTitle={true} visibleSearch={true} />
 			<div className={classes.root}>
 				<Box className={classes.space}>
 					<Typography variant="h5">게임</Typography>
@@ -42,11 +65,11 @@ export default function UserMypage() {
 				<Divider className={classes.divider} />
 				<Box className={classes.space}>
 					<Typography variant="body1">
-						게임 <span>303</span>
+						게임 <span>{userRatings.length}</span>
 					</Typography>
 				</Box>
 				<Box className={classes.space}>
-					<ListCarousels />
+					<ListCarousels onClick={id => history.push("/contents/" + id)} contentKey="gameContent.id" contents={userRatings} />
 				</Box>
 				<Divider className={classes.divider} />
 

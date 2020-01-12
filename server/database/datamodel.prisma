@@ -40,6 +40,7 @@ type GameContent {
   ProductionNation: Nation @relation(link:INLINE)
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 type UserRating {

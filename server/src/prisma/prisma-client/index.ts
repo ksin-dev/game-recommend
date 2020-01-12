@@ -314,7 +314,9 @@ export type GameContentOrderByInput =
   | "mainImage_ASC"
   | "mainImage_DESC"
   | "subImage_ASC"
-  | "subImage_DESC";
+  | "subImage_DESC"
+  | "youtubeId_ASC"
+  | "youtubeId_DESC";
 
 export type NationOrderByInput =
   | "id_ASC"
@@ -406,6 +408,7 @@ export interface GameContentUpdateManyDataInput {
   productionYear?: Maybe<Int>;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export interface NationUpdateInput {
@@ -555,6 +558,7 @@ export interface GameContentCreateWithoutProductionNationInput {
   productionYear: Int;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export interface GameContentUpsertNestedInput {
@@ -583,6 +587,7 @@ export interface GameContentCreateInput {
   ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export interface UserUpsertNestedInput {
@@ -642,6 +647,7 @@ export interface GameContentUpdateInput {
   ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export interface UserWhereInput {
@@ -799,6 +805,7 @@ export interface GameContentUpdateWithoutProductionNationDataInput {
   productionYear?: Maybe<Int>;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export interface GenreScalarWhereInput {
@@ -940,6 +947,20 @@ export interface GameContentWhereInput {
   subImage_not_starts_with?: Maybe<String>;
   subImage_ends_with?: Maybe<String>;
   subImage_not_ends_with?: Maybe<String>;
+  youtubeId?: Maybe<String>;
+  youtubeId_not?: Maybe<String>;
+  youtubeId_in?: Maybe<String[] | String>;
+  youtubeId_not_in?: Maybe<String[] | String>;
+  youtubeId_lt?: Maybe<String>;
+  youtubeId_lte?: Maybe<String>;
+  youtubeId_gt?: Maybe<String>;
+  youtubeId_gte?: Maybe<String>;
+  youtubeId_contains?: Maybe<String>;
+  youtubeId_not_contains?: Maybe<String>;
+  youtubeId_starts_with?: Maybe<String>;
+  youtubeId_not_starts_with?: Maybe<String>;
+  youtubeId_ends_with?: Maybe<String>;
+  youtubeId_not_ends_with?: Maybe<String>;
   AND?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
   OR?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
   NOT?: Maybe<GameContentWhereInput[] | GameContentWhereInput>;
@@ -978,6 +999,7 @@ export interface GameContentUpdateDataInput {
   ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export interface NationUpdateWithoutGameContentDataInput {
@@ -1007,6 +1029,7 @@ export interface GameContentUpdateManyMutationInput {
   productionYear?: Maybe<Int>;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1091,6 +1114,7 @@ export interface GameContentCreateWithoutGenresInput {
   ProductionNation?: Maybe<NationCreateOneWithoutGameContentInput>;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -1326,6 +1350,20 @@ export interface GameContentScalarWhereInput {
   subImage_not_starts_with?: Maybe<String>;
   subImage_ends_with?: Maybe<String>;
   subImage_not_ends_with?: Maybe<String>;
+  youtubeId?: Maybe<String>;
+  youtubeId_not?: Maybe<String>;
+  youtubeId_in?: Maybe<String[] | String>;
+  youtubeId_not_in?: Maybe<String[] | String>;
+  youtubeId_lt?: Maybe<String>;
+  youtubeId_lte?: Maybe<String>;
+  youtubeId_gt?: Maybe<String>;
+  youtubeId_gte?: Maybe<String>;
+  youtubeId_contains?: Maybe<String>;
+  youtubeId_not_contains?: Maybe<String>;
+  youtubeId_starts_with?: Maybe<String>;
+  youtubeId_not_starts_with?: Maybe<String>;
+  youtubeId_ends_with?: Maybe<String>;
+  youtubeId_not_ends_with?: Maybe<String>;
   AND?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
   OR?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
   NOT?: Maybe<GameContentScalarWhereInput[] | GameContentScalarWhereInput>;
@@ -1344,6 +1382,7 @@ export interface GameContentUpdateWithoutGenresDataInput {
   ProductionNation?: Maybe<NationUpdateOneWithoutGameContentInput>;
   mainImage?: Maybe<String>;
   subImage?: Maybe<String>;
+  youtubeId?: Maybe<String>;
 }
 
 export type UserRatingWhereUniqueInput = AtLeastOne<{
@@ -1468,6 +1507,7 @@ export interface GameContent {
   productionYear: Int;
   mainImage?: String;
   subImage?: String;
+  youtubeId?: String;
 }
 
 export interface GameContentPromise extends Promise<GameContent>, Fragmentable {
@@ -1487,6 +1527,7 @@ export interface GameContentPromise extends Promise<GameContent>, Fragmentable {
   ProductionNation: <T = NationPromise>() => T;
   mainImage: () => Promise<String>;
   subImage: () => Promise<String>;
+  youtubeId: () => Promise<String>;
 }
 
 export interface GameContentSubscription
@@ -1508,6 +1549,7 @@ export interface GameContentSubscription
   ProductionNation: <T = NationSubscription>() => T;
   mainImage: () => Promise<AsyncIterator<String>>;
   subImage: () => Promise<AsyncIterator<String>>;
+  youtubeId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface GameContentNullablePromise
@@ -1529,6 +1571,7 @@ export interface GameContentNullablePromise
   ProductionNation: <T = NationPromise>() => T;
   mainImage: () => Promise<String>;
   subImage: () => Promise<String>;
+  youtubeId: () => Promise<String>;
 }
 
 export interface UserSubscriptionPayload {
@@ -2005,6 +2048,7 @@ export interface GameContentPreviousValues {
   productionYear: Int;
   mainImage?: String;
   subImage?: String;
+  youtubeId?: String;
 }
 
 export interface GameContentPreviousValuesPromise
@@ -2016,6 +2060,7 @@ export interface GameContentPreviousValuesPromise
   productionYear: () => Promise<Int>;
   mainImage: () => Promise<String>;
   subImage: () => Promise<String>;
+  youtubeId: () => Promise<String>;
 }
 
 export interface GameContentPreviousValuesSubscription
@@ -2027,6 +2072,7 @@ export interface GameContentPreviousValuesSubscription
   productionYear: () => Promise<AsyncIterator<Int>>;
   mainImage: () => Promise<AsyncIterator<String>>;
   subImage: () => Promise<AsyncIterator<String>>;
+  youtubeId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserRatingConnection {

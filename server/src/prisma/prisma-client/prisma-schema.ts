@@ -222,6 +222,7 @@ type GameContent {
   ProductionNation: Nation
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 type GameContentConnection {
@@ -239,6 +240,7 @@ input GameContentCreateInput {
   ProductionNation: NationCreateOneWithoutGameContentInput
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentCreateManyWithoutGenresInput {
@@ -264,6 +266,7 @@ input GameContentCreateWithoutGenresInput {
   ProductionNation: NationCreateOneWithoutGameContentInput
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentCreateWithoutProductionNationInput {
@@ -274,6 +277,7 @@ input GameContentCreateWithoutProductionNationInput {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 type GameContentEdge {
@@ -294,6 +298,8 @@ enum GameContentOrderByInput {
   mainImage_DESC
   subImage_ASC
   subImage_DESC
+  youtubeId_ASC
+  youtubeId_DESC
 }
 
 type GameContentPreviousValues {
@@ -303,6 +309,7 @@ type GameContentPreviousValues {
   productionYear: Int!
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentScalarWhereInput {
@@ -384,6 +391,20 @@ input GameContentScalarWhereInput {
   subImage_not_starts_with: String
   subImage_ends_with: String
   subImage_not_ends_with: String
+  youtubeId: String
+  youtubeId_not: String
+  youtubeId_in: [String!]
+  youtubeId_not_in: [String!]
+  youtubeId_lt: String
+  youtubeId_lte: String
+  youtubeId_gt: String
+  youtubeId_gte: String
+  youtubeId_contains: String
+  youtubeId_not_contains: String
+  youtubeId_starts_with: String
+  youtubeId_not_starts_with: String
+  youtubeId_ends_with: String
+  youtubeId_not_ends_with: String
   AND: [GameContentScalarWhereInput!]
   OR: [GameContentScalarWhereInput!]
   NOT: [GameContentScalarWhereInput!]
@@ -415,6 +436,7 @@ input GameContentUpdateDataInput {
   ProductionNation: NationUpdateOneWithoutGameContentInput
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateInput {
@@ -425,6 +447,7 @@ input GameContentUpdateInput {
   ProductionNation: NationUpdateOneWithoutGameContentInput
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateManyDataInput {
@@ -433,6 +456,7 @@ input GameContentUpdateManyDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateManyMutationInput {
@@ -441,6 +465,7 @@ input GameContentUpdateManyMutationInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateManyWithoutGenresInput {
@@ -486,6 +511,7 @@ input GameContentUpdateWithoutGenresDataInput {
   ProductionNation: NationUpdateOneWithoutGameContentInput
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateWithoutProductionNationDataInput {
@@ -495,6 +521,7 @@ input GameContentUpdateWithoutProductionNationDataInput {
   productionYear: Int
   mainImage: String
   subImage: String
+  youtubeId: String
 }
 
 input GameContentUpdateWithWhereUniqueWithoutGenresInput {
@@ -607,6 +634,20 @@ input GameContentWhereInput {
   subImage_not_starts_with: String
   subImage_ends_with: String
   subImage_not_ends_with: String
+  youtubeId: String
+  youtubeId_not: String
+  youtubeId_in: [String!]
+  youtubeId_not_in: [String!]
+  youtubeId_lt: String
+  youtubeId_lte: String
+  youtubeId_gt: String
+  youtubeId_gte: String
+  youtubeId_contains: String
+  youtubeId_not_contains: String
+  youtubeId_starts_with: String
+  youtubeId_not_starts_with: String
+  youtubeId_ends_with: String
+  youtubeId_not_ends_with: String
   AND: [GameContentWhereInput!]
   OR: [GameContentWhereInput!]
   NOT: [GameContentWhereInput!]

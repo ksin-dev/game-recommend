@@ -16,7 +16,7 @@ export interface IContext<stateType = any> {
 
 
 export type IMutation = {
-  [funcname: string]: Resolver<any, null>
+  [funcName: string]: Resolver<any, any>
 }
 
 export type IQuery = {

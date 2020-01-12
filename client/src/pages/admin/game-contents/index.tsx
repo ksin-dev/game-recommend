@@ -12,7 +12,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }))
 
 export default function index() {
-  const { data, loading, error } = useQuery(GET_GAME_CONTENTS);
+  const { data, loading, error } = useQuery(GET_GAME_CONTENTS, {
+    fetchPolicy: "no-cache"
+  });
   const match = useRouteMatch();
   const classes = useStyles();
   if (loading) return <div>Loading...</div>

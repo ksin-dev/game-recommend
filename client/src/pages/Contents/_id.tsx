@@ -1,14 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, createStyles, Container, Grid, Typography, Divider, Box, Button, Paper } from "@material-ui/core";
 import { Theme } from '@material-ui/core'
 import Header from '~/components/Header'
 import { mergeClasses } from "@material-ui/styles";
 import { Rating } from "@material-ui/lab";
 import { grey } from "@material-ui/core/colors";
+import { useQuery, useApolloClient } from "@apollo/react-hooks";
+import { useRouteMatch, useParams } from "react-router";
+import gql from "graphql-tag";
+import { EDIT_RATING_BY_GAME_CONTENT } from '~/constants'
+import YouTube from 'react-youtube'
+
+export const GET_GAME_CONTENT = gql`
+ query userRatingByGameContent($gameContentId: ID!) {
+  userRatingByGameContent(gameContentId:$gameContentId) {
+    id
+    rating
+  }
+	gameContent(where:{id:$gameContentId}) {
+		id
+    genres {
+      id
+      name
+    }
+    title
+    content
+    productionYear
+    ProductionNation {
+      id
+      name
+    }
+    mainImage
+    subImage
+		youtubeId
+	}
+ }
+`
+
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		imgBox: {
-			height: "720px",
+			height: "270px",
 		},
 		img: {
 			objectFit: "cover",
@@ -44,16 +76,44 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function GameDetail() {
+	const param = useParams<{ id: string }>();
+	const [contents, setContents] = useState([]);
+	const [rating, setRating] = useState(0);
+	const client = useApolloClient();
 	const classes = useStyles();
+	const { data, loading, error } = useQuery(GET_GAME_CONTENT, {
+		fetchPolicy: "no-cache",
+		variables: {
+			gameContentId: param.id
+		}
+	})
+
+	useEffect(() => {
+		setRating(data?.userRatingByGameContent?.rating);
+		setContents(data?.gameContent?.content?.split("\n"));
+	}, [data])
+
+	const handleRatingChange = async (event: any, value: Number) => {
+		const result = await client.mutate({
+			mutation: EDIT_RATING_BY_GAME_CONTENT,
+			variables: {
+				gameContentId: param.id,
+				rating: value
+			}
+		})
+		setRating(result.data.editUserRating?.rating);
+	}
+
+	if (loading) return <></>;
 	return <>
-		<Header opacitivility={true} />
+		<Header opacitivility={false} visibleSearch={true} visibleTitle={true} />
 		<div>
 			<Box className={classes.imgBox} >
-				<img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_720,q_80,w_1280/v1557713998/hx6qmo73pub0rskwpu01.jpg" className={classes.img} />
+				<img src={data?.gameContent?.mainImage} className={classes.img} />
 				<Container maxWidth="md">
 					<Box position="relative">
 						<Box position="absolute" className={classes.subImgBox}>
-							<img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_400,q_80,w_280/v1574753777/fm140ltxyboxbmjj13zz.jpg" className={classes.subImg} />
+							<img src={data?.gameContent?.subImage} className={classes.subImg} />
 						</Box>
 					</Box>
 				</Container>
@@ -62,8 +122,8 @@ export default function GameDetail() {
 			<Container maxWidth="md" style={{ paddingBottom: "20px" }}>
 				<Grid container direction="column" spacing={3} className={classes.imgTextbox}>
 					<Grid item>
-						<Typography variant="h4">정글번치:최강 악당의 등장</Typography>
-						<Typography variant="subtitle2" style={{ paddingTop: "3px" }} >2017 애니메이션 프랑스</Typography>
+						<Typography variant="h4">{data?.gameContent?.title}</Typography>
+						<Typography variant="subtitle2" style={{ paddingTop: "3px" }} >{data?.gameContent?.productionYear}  {data?.gameContent?.ProductionNation.name}</Typography>
 					</Grid>
 					<Divider />
 					<Grid item>
@@ -72,14 +132,15 @@ export default function GameDetail() {
 					<Divider />
 					<Grid item container direction="row" alignItems="flex-end" justify="center" style={{ flexGrow: 1, paddingBottom: "0px" }}>
 						<Grid item xs={6}>
-							<Button color="primary" fullWidth variant="contained" >보고싶어요</Button>
+							<Button color="primary" fullWidth variant="contained" >하고싶어요</Button>
 						</Grid>
 						<Grid item xs={6}>
 							<Box borderColor="transparent" paddingLeft={4}>
 								<Typography component="legend" variant="caption">평가하기</Typography>
 								<Rating
-									name="simple-controlled"
 									size="large"
+									value={rating}
+									onChange={handleRatingChange}
 								/>
 							</Box>
 						</Grid>
@@ -89,7 +150,7 @@ export default function GameDetail() {
 			<div className={classes.main}>
 				<Container maxWidth="md">
 					<Grid container spacing={2}>
-						<Grid item xs={9}>
+						<Grid item xs={8}>
 
 							<Paper className={classes.paper}>
 								<Typography variant="h5">내 예상별점</Typography>
@@ -97,19 +158,43 @@ export default function GameDetail() {
 								<Divider className={classes.paperContent} />
 								<Box className={classes.paperContent}>
 									<Typography variant="h5">기본 정보</Typography>
-									<Typography>
-										Les as de la jungle
-		2017 · 프랑스 · 애니메이션
-		1시간 37분
-		버섯폭탄으로 정글을 폭파하려는 최강 악당 코알라가 돌아오자, 평화롭던 정글은 위기에 처한다. 동물 친구들에게 희망은 정글수호대 ‘정글번치’ 뿐. 최강의 악당에 맞서기 위해 더 업그레이드된 ‘정글번치’가 출동한다.
-							</Typography>
+									<br />
+									{contents &&
+										contents.map((content, idx) => {
+											return (
+												<>
+													{content ?
+														<Typography key={idx} >{content}</Typography>
+														:
+														<br />
+													}
+												</>)
+										})
+									}
 								</Box>
 								<Divider className={classes.paperContent} />
 							</Paper>
 
 
 						</Grid>
+						<Grid item xs={4} >
+							<Paper className={classes.paper}>
+								<Typography variant="h5">게임 트레일러</Typography>
+								<Divider className={classes.paperContent} />
+
+								<YouTube
+									className={classes.paperContent}
+									videoId={data?.gameContent?.youtubeId}
+									opts={
+										{
+											height: '100%',
+											width: "100%",
+										}
+									} />
+							</Paper>
+						</Grid>
 					</Grid>
+
 				</Container>
 			</div>
 		</div>

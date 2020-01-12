@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserWhereInput, User, UserCreateInput } from '../prisma/prisma.binding';
 import { UserSignupType, GeneratedHash, UserInfo } from './auth.type';
-import { ApolloError } from 'apollo-server-core';
+import { ApolloError, AuthenticationError, UserInputError } from 'apollo-server-core';
 import { ERROR_CODE } from '../constants';
 import { pbkdf2, randomBytes } from "crypto";
 import * as _ from 'lodash';
@@ -49,10 +49,10 @@ export class AuthService {
         email: email
       });
 
-      if (!user) throw new ApolloError("이메일 혹은 비밀번호가 유효하지 않습니다.");
+      if (!user) throw new UserInputError("이메일 혹은 비밀번호가 유효하지 않습니다.");
 
       if (! await this.validatePassword(user, password)) {
-        throw new ApolloError("비밀번호가 유효하지 않습니다.", ERROR_CODE.INVALID);
+        throw new UserInputError("비밀번호가 유효하지 않습니다.");
       }
 
       return this.jwtService.signAsync(getSecureUser(user));
