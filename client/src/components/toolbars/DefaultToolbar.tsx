@@ -5,6 +5,7 @@ import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { queries } from '~/apollo/states/Auth'
 import StarIcon from '@material-ui/icons/Star';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import clsx from 'clsx';
 import SearchForm from '~/components/forms/SearchForm';
 import { useRouteMatch, useHistory } from 'react-router';
@@ -89,6 +90,19 @@ export default function DefaultToobar(props: IProps) {
 		onLoginDialog();
 	}
 
+	async function handleLogout(event: any) {
+		try {
+			if (!window.confirm("로그아웃 하시겠습니까?")) return;
+
+			const res = await client.mutate({
+				mutation: queries.LOCAL_LOGOUT
+			});
+			history.push("/");
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	function startColor() {
 		if (match.path === "/review") {
 			return "primary"
@@ -117,7 +131,7 @@ export default function DefaultToobar(props: IProps) {
 
 
 	return (
-		<AppBar position="fixed" style={{ backgroundColor: "transparent", boxShadow: props.visibleSearch ? undefined : "none" }} >
+		<AppBar position="fixed" style={{ backgroundColor: props.visibleSearch ? "white" : "transparent", boxShadow: props.visibleSearch ? undefined : "none" }} >
 			{props.visibleSearch &&
 				<Toolbar className={classes.searchToolbar} style={{ backgroundColor: "transparent" }}>
 					<Container maxWidth="sm" className={classes.container}>
@@ -164,6 +178,11 @@ export default function DefaultToobar(props: IProps) {
 							<Grid item>
 								<IconButton className={classes.button} color={accountColor()} onClick={() => history.push("/users/" + me.id)}>
 									<AccountCircleIcon fontSize="large" />
+								</IconButton>
+							</Grid>
+							<Grid item>
+								<IconButton className={classes.button} color={accountColor()} onClick={handleLogout}>
+									<ExitToAppIcon fontSize="large" />
 								</IconButton>
 							</Grid>
 						</>

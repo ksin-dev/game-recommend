@@ -25,8 +25,9 @@ export default function Header(props: IProps) {
 					<div className={classes.toolbar} />
 				}
 			</Hidden>
-			<Hidden xsUp>
+			<Hidden smUp>
 				<MobileToolbar {...props} />
+
 			</Hidden>
 		</>
 	);

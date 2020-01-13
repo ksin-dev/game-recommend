@@ -44,6 +44,7 @@ const Query: IQuery = {
 }
 
 
+
 export const queries = {
   IS_LOCAL_LOGIN: gql`
   {
@@ -52,15 +53,21 @@ export const queries = {
       id
     } 
   }
+  `,
+  LOCAL_LOGOUT: gql`
+    mutation {
+      localLogout @client
+    }
   `
 }
+
 
 
 export default {
   Mutation,
   Query,
   defaults: {
-    isLogin: false,
+    isLogin: !!localStorage.getItem("jwt"),
     me: new Me()
   }
 }

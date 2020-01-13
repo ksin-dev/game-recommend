@@ -55,9 +55,9 @@ export class UserRatingResolver {
     }).$fragment(FRAGMENT);
   }
 
-  @UseGuards(GqlAuthGuard)
   @Query("userRatingByGameContent")
   async userRatingByGameContent(@GqlUser() user: User, @Args("gameContentId") gameContentId): Promise<UserRating | undefined> {
+    if (!user) return undefined;
     const userId = user.id;
 
     const userRatings = await this.prisma.client.userRatings({

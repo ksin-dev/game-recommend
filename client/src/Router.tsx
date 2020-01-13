@@ -5,9 +5,10 @@ import Home from "./pages/Home";
 import Review from "~/pages/Review";
 import UserMyPage from "~/pages/Users/_id";
 import ContentPage from '~/pages/Contents/_id';
+import ContentsPage from "~/pages/Contents";
 import Admin from '~/pages/admin'
-import Sample from "~/pages/sample"
-import Footer from '~/components/Footer'
+import Login from '~/pages/Login'
+import Signup from '~/pages/Signup'
 
 export default class Router extends React.Component {
 	render() {
@@ -15,11 +16,17 @@ export default class Router extends React.Component {
 			<BrowserRouter>
 				<Switch>
 					<Route exact path="/" component={Home} />
+					<Route path="/login" >
+						<Login loginType="LOGIN" />
+					</Route>
+					<Route path="/signup">
+						<Login loginType="SIGNUP" />
+					</Route>
 					<Route path="/review" component={Review} />
 					<Route path="/users/:id" component={UserMyPage} />
+					<Route exact path="/contents" component={ContentsPage} />
 					<Route path="/contents/:id" component={ContentPage} />
 					<Route path="/admin" component={Admin} />
-					<Route path="/sample" component={Sample} />
 				</Switch>
 
 			</BrowserRouter>

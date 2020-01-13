@@ -5,7 +5,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useApolloClient, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { GET_GAME_CONTENTS } from '~/constants';
 import { Autocomplete } from '@material-ui/lab';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
+import queryString from "query-string"
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -54,11 +55,16 @@ type Props = {
 export default function SearchForm(props: Props) {
   let classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
+  const query = queryString.parse(location.search);
   const inputRef = useRef<HTMLElement>();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(query.q || "");
+  const placeholder = query.q || "게임을 검색해 보세요";
   const { data, loading } = useQuery(GET_GAME_CONTENTS);
   const [anchorEl, setAnchorEl] = useState<undefined | HTMLElement>();
   const [open, setOpen] = useState(false);
+
+
 
   const rootStyle = props.half ? {
     marginTop: "-24px"
@@ -73,6 +79,14 @@ export default function SearchForm(props: Props) {
     event.preventDefault();
   }
 
+  const handleAutoComplete = (event: any, v: any) => {
+    if (typeof v === "object") {
+      history.push("/contents/" + v.id);
+    } else {
+      history.push("/contents?q=" + v);
+    }
+
+  }
   if (loading) return <></>
 
   return (
@@ -81,14 +95,16 @@ export default function SearchForm(props: Props) {
       options={data.gameContents}
       getOptionLabel={(option) => option.title}
       className={classes.input}
-      onChange={(event, v) => { history.push("/contents/" + v.id); }}
+      onChange={handleAutoComplete}
+      defaultValue={search}
       renderInput={params => (
         <Paper component="form" onSubmit={handleSubmit} className={classes.root} style={rootStyle}>
           <CssTextField
             {...params}
             fullWidth
             variant="outlined"
-            placeholder="게임을 검색 해 보세요"
+            placeholder={placeholder}
+            value={search}
             onChange={handleChange}
           />
         </Paper>
