@@ -19,13 +19,13 @@ export default function Header(props: IProps) {
 	const classes = useStyles();
 	return (
 		<>
-			<Hidden xsDown>
+			<Hidden smDown>
 				<DefaultToolbar {...props} />
 				{!props.opacitivility &&
 					<div className={classes.toolbar} />
 				}
 			</Hidden>
-			<Hidden smUp>
+			<Hidden mdUp>
 				<MobileToolbar {...props} />
 
 			</Hidden>

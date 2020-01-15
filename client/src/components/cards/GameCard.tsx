@@ -9,22 +9,42 @@ import {
 	Box,
 	useMediaQuery,
 	Theme,
-	Tooltip
+	Tooltip,
+	CardHeader
 } from "@material-ui/core";
 
 import StarIcon from "@material-ui/icons/Star";
 import { yellow } from "@material-ui/core/colors";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
 	card: {
-		display: "inline-block",
-		marginLeft: "10px",
 		cursor: "pointer",
-		maxHeight: "323px"
+		display: "inline-block",
+		marginRight: theme.spacing(1),
+		width: 108,
+		[theme.breakpoints.up("sm")]: {
+			width: 144,
+		},
+		[theme.breakpoints.up("md")]: {
+			width: 192
+		},
+		[theme.breakpoints.up("lg")]: {
+			width: 240
+		}
 	},
 	cover: {
-		width: "166px",
-		height: "238px"
+		height: 144,
+
+		[theme.breakpoints.up("sm")]: {
+			height: 196,
+
+		},
+		[theme.breakpoints.up("md")]: {
+			height: 256
+		},
+		[theme.breakpoints.up("lg")]: {
+			width: 320
+		}
 	},
 	starText: {
 		color: yellow[600]
@@ -33,6 +53,9 @@ const useStyles = makeStyles({
 		textOverflow: "ellipsis",
 		whiteSpace: "nowrap",
 		overflow: "hidden"
+	},
+	content: {
+		height: "47px"
 	}
 });
 
@@ -81,7 +104,7 @@ export default forwardRef((props: Props, ref) => {
 					image={props.image}
 					title="Contemplative Reptile"
 				/>
-				<CardContent>
+				<CardContent className={classes.content}>
 					<Typography gutterBottom variant="body2" className={classes.title}>
 						{props.title}
 					</Typography>

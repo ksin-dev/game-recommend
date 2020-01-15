@@ -12,7 +12,7 @@ import Logo from '~/images/Logo.png'
 import { gql } from 'apollo-boost';
 import { useQuery, useLazyQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
 import { UserLoginType, UserSignupType } from '~/classes/User';
-import { useParams, useHistory } from 'react-router';
+import { useParams, useHistory, useRouteMatch } from 'react-router';
 import { queries } from '~/apollo/states/Auth';
 
 const LOGIN = gql`
@@ -63,11 +63,13 @@ function Login(props: Props) {
   const client = useApolloClient();
   const classes = useStyles();
   const history = useHistory();
+  const match = useRouteMatch();
   const [loginType, setLoginType] = useState(props.loginType);
   const [text, setText] = useState("");
 
 
   useEffect(() => {
+
     (async () => {
       client.watchQuery({
         query: queries.IS_LOCAL_LOGIN
@@ -76,6 +78,14 @@ function Login(props: Props) {
       })
     })();
   }, [])
+
+  useEffect(() => {
+    if (match.path.includes("login")) {
+      setLoginType("LOGIN");
+    } else {
+      setLoginType("SIGNUP");
+    }
+  }, [match.path])
 
   const [user, setUser] = useState({
     email: "",

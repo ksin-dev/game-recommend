@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   card: {
     backgroundColor: grey[100],
     maxWidth: "640px",
-    widht: "640px",
     marginTop: "20px"
   },
 
@@ -65,7 +64,6 @@ export default () => {
         direction="column"
         justify="center"
         alignItems="center"
-        style={{ height: "100%" }}
       >
         <Grid item className={classes.root} container
           justify="center"

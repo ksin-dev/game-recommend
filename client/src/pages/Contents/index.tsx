@@ -71,10 +71,10 @@ export default function GameContents() {
           <Typography variant="h5">검색 결과 <span>{gameContents.length}</span></Typography>
         </Box>
         <Divider className={classes.divider} />
-        <Grid container className={classes.container} >
+        <Grid container className={classes.container} spacing={2} >
 
           {gameContents.map(content => {
-            return <Grid xs={3}>
+            return <Grid item xs={4} sm={3} >
               <GameCard onClick={() => history.push("/contents/" + content.id)} responsive={false} key={content.id} image={content.subImage} title={content.title} description={`${content.productionYear} ${content.ProductionNation.name}`} />
             </Grid>
           })}

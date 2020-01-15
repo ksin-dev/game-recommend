@@ -41,26 +41,58 @@ const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		imgBox: {
 			height: "270px",
+			[theme.breakpoints.down("sm")]: {
+				height: "248px",
+				backgroundColor: "black",
+				backgroundImage: `linear-gradient(-180deg, rgba(20, 20, 20, 0.3) 1 %, rgba(20, 20, 20, 0.5) 67 %, #141414 98 % )`,
+				position: "relative"
+			}
 		},
 		img: {
 			objectFit: "cover",
 			width: "100%",
-			height: "100%"
+			height: "100%",
+			[theme.breakpoints.down("sm")]: {
+				filter: "blur(15px)"
+			}
+		},
+		subImageBoxContainer: {
+			position: "relative",
+			[theme.breakpoints.down("sm")]: {
+				position: "absolute",
+				height: "100%",
+				top: "0"
+			},
 		},
 		subImgBox: {
 			top: "-24px",
 			left: "0",
 			borderWidth: "2px",
-			boxShadow: "0 0 2px rgba(0,0,0,0.3)"
+			position: "absolute",
+			[theme.breakpoints.down("sm")]: {
+				textAlign: "center",
+				bottom: "20px",
+				width: "100%",
+				top: "auto"
+			},
 		},
 		subImg: {
 			width: "166px",
-			height: "238px"
+			height: "238px",
+			boxShadow: "0 0 2px rgba(0,0,0,0.3)",
+			[theme.breakpoints.down("sm")]: {
+				height: "184px",
+				width: "128px",
+			},
+
 		},
 		imgTextbox: {
 			paddingLeft: "180px",
 			height: "218px",
-			margin: 0
+			margin: 0,
+			[theme.breakpoints.down("sm")]: {
+				paddingLeft: "0px"
+			}
 		},
 		main: {
 			backgroundColor: grey[200],
@@ -71,6 +103,21 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 		paperContent: {
 			margin: theme.spacing(2, 0, 0, 0)
+		},
+		rating: {
+			paddingLeft: '0',
+			[theme.breakpoints.up("sm")]: {
+				paddingLeft: theme.spacing(4)
+
+			}
+		},
+		mainContainer: {
+			flexDirection: "column-reverse",
+			alignItems: "stretch",
+			[theme.breakpoints.up("sm")]: {
+				flexDirection: "row"
+
+			}
 		}
 	})
 );
@@ -110,17 +157,15 @@ export default function GameDetail() {
 		<div>
 			<Box className={classes.imgBox} >
 				<img src={data?.gameContent?.mainImage} className={classes.img} />
-				<Container maxWidth="md">
-					<Box position="relative">
-						<Box position="absolute" className={classes.subImgBox}>
-							<img src={data?.gameContent?.subImage} className={classes.subImg} />
-						</Box>
+				<Container maxWidth="md" className={classes.subImageBoxContainer}>
+					<Box className={classes.subImgBox}>
+						<img src={data?.gameContent?.subImage} className={classes.subImg} />
 					</Box>
 				</Container>
 
 			</Box>
 			<Container maxWidth="md" style={{ paddingBottom: "20px" }}>
-				<Grid container direction="column" spacing={3} className={classes.imgTextbox}>
+				<Grid container direction="column" spacing={2} className={classes.imgTextbox}>
 					<Grid item>
 						<Typography variant="h4">{data?.gameContent?.title}</Typography>
 						<Typography variant="subtitle2" style={{ paddingTop: "3px" }} >{data?.gameContent?.productionYear}  {data?.gameContent?.ProductionNation.name}</Typography>
@@ -130,12 +175,12 @@ export default function GameDetail() {
 						<Typography variant="h6">평점 3.0(19명)</Typography>
 					</Grid>
 					<Divider />
-					<Grid item container direction="row" alignItems="flex-end" justify="center" style={{ flexGrow: 1, paddingBottom: "0px" }}>
-						<Grid item xs={6}>
+					<Grid item container direction="row" alignItems="flex-end" style={{ paddingBottom: "0px" }}>
+						<Grid item xs={12} sm={6}>
 							<Button color="primary" fullWidth variant="contained" >하고싶어요</Button>
 						</Grid>
-						<Grid item xs={6}>
-							<Box borderColor="transparent" paddingLeft={4}>
+						<Grid item xs={12} sm={6}>
+							<Box borderColor="transparent" className={classes.rating}>
 								<Typography component="legend" variant="caption">평가하기</Typography>
 								<Rating
 									size="large"
@@ -149,8 +194,8 @@ export default function GameDetail() {
 			</Container>
 			<div className={classes.main}>
 				<Container maxWidth="md">
-					<Grid container spacing={2}>
-						<Grid item xs={8}>
+					<Grid container spacing={2} className={classes.mainContainer}>
+						<Grid item xs={12} md={8}>
 
 							<Paper className={classes.paper}>
 								<Typography variant="h5">내 예상별점</Typography>
@@ -177,7 +222,7 @@ export default function GameDetail() {
 
 
 						</Grid>
-						<Grid item xs={4} >
+						<Grid item xs={12} md={4}>
 							<Paper className={classes.paper}>
 								<Typography variant="h5">게임 트레일러</Typography>
 								<Divider className={classes.paperContent} />

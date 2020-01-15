@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import LoginDialog from '~/components/dialogs/LoginDialog'
-import { Theme, Grid, Typography, Toolbar, Button, makeStyles, createStyles, IconButton, Container, AppBar, Link, useTheme } from '@material-ui/core'
+import { Theme, Grid, Typography, Toolbar, Button, makeStyles, createStyles, IconButton, Container, AppBar, Link, useTheme, useMediaQuery } from '@material-ui/core'
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { queries } from '~/apollo/states/Auth'
 import StarIcon from '@material-ui/icons/Star';
@@ -31,7 +31,13 @@ const useStyles = makeStyles((theme: Theme) =>
 			padding: "0"
 		},
 		container: {
-			zIndex: 999
+			zIndex: 999,
+			[theme.breakpoints.down("md")]: {
+				maxWidth: "500px"
+			},
+			[theme.breakpoints.down("sm")]: {
+				maxWidth: "300px"
+			}
 		},
 		text: {
 			color: "#ffffff"
@@ -134,7 +140,7 @@ export default function DefaultToobar(props: IProps) {
 		<AppBar position="fixed" style={{ backgroundColor: props.visibleSearch ? "white" : "transparent", boxShadow: props.visibleSearch ? undefined : "none" }} >
 			{props.visibleSearch &&
 				<Toolbar className={classes.searchToolbar} style={{ backgroundColor: "transparent" }}>
-					<Container maxWidth="sm" className={classes.container}>
+					<Container maxWidth="md" className={classes.container}>
 						<SearchForm />
 					</Container>
 				</Toolbar>
