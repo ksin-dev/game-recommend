@@ -4,13 +4,13 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { gql, from } from "apollo-boost";
-import { ApolloClient } from 'apollo-client'
-import { createUploadLink } from "apollo-upload-client"
-import { setContext } from 'apollo-link-context';
+import { ApolloClient } from "apollo-client";
+import { createUploadLink } from "apollo-upload-client";
+import { setContext } from "apollo-link-context";
 import Router from "./Router";
-import State from './apollo/states';
+import State from "./apollo/states";
 import "./index.scss";
-import { responsiveFontSizes } from '@material-ui/core/styles';
+import { responsiveFontSizes } from "@material-ui/core/styles";
 
 import {
 	blue,
@@ -48,10 +48,10 @@ const authLink = setContext((_, { headers }) => {
 	return {
 		headers: {
 			...headers,
-			authorization: jwt ? `Bearer ${jwt}` : ''
+			authorization: jwt ? `Bearer ${jwt}` : ""
 		}
-	}
-})
+	};
+});
 const link = createUploadLink({ uri: "http://52.231.65.42/graphql" });
 const client = new ApolloClient({
 	cache: State.cache,

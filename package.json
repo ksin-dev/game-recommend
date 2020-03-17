@@ -1,28 +1,30 @@
 {
-  "name": "game-recommend",
-  "version": "1.0.0",
-  "description": "게임 추천 사이트 데모",
-  "main": "index.js",
-  "repository": "git@github.com:KGodSin/game-recommend.git",
-  "author": "kimhyuk",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "express": "^4.17.1",
-    "http-proxy-middleware": "^0.20.0",
-    "mysql": "^2.17.1"
-  },
-  "scripts": {
-    "start": "yarn server:start & node index.js &",
-    "start:dev": "yarn server:dev && node client:dev",
-    "client:build": "yarn workspace client build",
-    "server:build": "yarn workspace server build",
-    "server:start": "yarn workspace server start:prod",
-    "server:dev": "yarn workspace server start:dev",
-    "client:dev": "yarn workspace client start"
-  },
-  "workspaces": [
-    "server",
-    "client"
-  ]
+	"name": "game-recommend",
+	"version": "1.0.0",
+	"description": "게임 추천 사이트 데모",
+	"main": "index.js",
+	"repository": "git@github.com:KGodSin/game-recommend.git",
+	"author": "kimhyuk",
+	"license": "MIT",
+	"private": true,
+	"dependencies": {
+		"express": "^4.17.1",
+		"http-proxy-middleware": "^0.20.0",
+		"mysql": "^2.17.1"
+	},
+	"scripts": {
+		"start": "yarn server:start & node index.js &",
+		"start:dev": "yarn server:dev && node client:dev",
+		"client:build": "yarn workspace client build",
+		"server:build": "yarn workspace server build",
+		"server:start": "yarn workspace server start:prod",
+		"server:dev": "yarn workspace server start:dev",
+		"client:dev": "yarn workspace client start",
+		"build-storybook": "build-storybook"
+	},
+	"workspaces": [
+		"server",
+		"client"
+	],
+	"devDependencies": {}
 }
