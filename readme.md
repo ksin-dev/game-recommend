@@ -38,7 +38,7 @@ game-recommend는 최신 웹기반 트렌드를 공부하기 위한 프로젝트
 #### 회원가입 화면
 ![Alt text](/images/desktop_signup.bmp "회원가입 화면")
 #### 마이페이지 화면
-![Alt text](/images/desktop_user.bmp "마이페이지 화면")
+![Alt text](/images/desktop_user_detail.bmp "마이페이지 화면")
 #### 검색 화면
 ![Alt text](/images/desktop_search_result.bmp "검색 화면")
 #### 게임상세 화면
